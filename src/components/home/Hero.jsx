@@ -52,7 +52,7 @@ const Hero = () => {
   const statsOpacity = Math.max(1 - scrollY / 600, 0);
 
   return (
-    <section className="w-full min-h-[520px] md:h-175 md:min-h-175 relative overflow-hidden flex items-center py-0">
+    <section className="w-full min-h-[520px] md:h-175 md:min-h-175 relative overflow-hidden flex items-center px-3 lg:!p-0">
       <div className="container rounded-[14px] md:rounded-3xl h-155  md:h-175 relative overflow-hidden flex flex-col justify-start md:justify-center px-6 py-14 sm:!p-10 md:!p-14 lg:!p-16">
 
         {/* Layer 1: Background Image with Parallax Scrolling Effect */}
