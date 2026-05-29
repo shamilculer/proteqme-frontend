@@ -16,7 +16,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#130A1C] text-zinc-300 border-t border-[#1F112D]">
+    <footer className="bg-[#130A1C] text-zinc-300">
       <div className="container mx-auto px-4 py-16 md:py-20">
         
         {/* Main Content Area */}

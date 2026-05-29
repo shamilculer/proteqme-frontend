@@ -80,36 +80,21 @@ const Intro = () => {
                         {/* Stacking Buttons on Mobile */}
                         <StaggerItem className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-2">
                             <Button
-                                asChild
-                                className="rounded-full bg-white text-black hover:text-white h-13 pl-4 pr-1.5 py-1.5 flex items-center gap-3 border-0 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.02] group/cta cursor-pointer w-full sm:w-auto justify-center sm:justify-start"
+                                href="#"
+                                variant="white"
+                                glowingDot
+                                showArrow
+                                className="w-full sm:w-auto"
                             >
-                                <Link href="#" className="!text-base font-semibold flex items-center justify-between sm:justify-start w-full sm:w-auto">
-                                    <span className="flex items-center gap-2">
-                                        {/* Glowing green dot */}
-                                        <span className="relative flex h-2 w-2 shrink-0">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
-                                        </span>
-                                        Book A Free Demo
-                                    </span>
-                                    {/* Circular Arrow Badge */}
-                                    <span className="flex items-center justify-center w-7 h-7 rounded-full bg-zinc-800 text-zinc-100 transition-all duration-300 group-hover/cta:rotate-45 shrink-0">
-                                        <ArrowUpRight className="size-4" />
-                                    </span>
-                                </Link>
+                                Book A Free Demo
                             </Button>
- 
+
                             <Button
-                                asChild
-                                className="rounded-full bg-primary h-13 flex items-center gap-3 border-0 shadow-md hover:shadow-lg hover:scale-[1.02] group/cta w-full sm:w-auto justify-center sm:justify-start"
+                                href="#"
+                                showArrow
+                                className="w-full sm:w-auto"
                             >
-                                <Link href="#" className="!text-base font-semibold flex items-center justify-between sm:justify-start w-full sm:w-auto">
-                                    Explore Our Services
-                                    {/* Circular Arrow Badge */}
-                                    <span className="flex items-center justify-center w-7 h-7 rounded-full bg-zinc-800 text-zinc-100 transition-all duration-300 group-hover/cta:rotate-45 shrink-0">
-                                        <ArrowUpRight className="size-4" />
-                                    </span>
-                                </Link>
+                                Explore Our Services
                             </Button>
                         </StaggerItem>
                     </StaggerContainer>

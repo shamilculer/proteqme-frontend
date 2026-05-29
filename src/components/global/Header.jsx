@@ -3,7 +3,7 @@
 import { Menu, ArrowUpRight } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -91,13 +91,13 @@ const Header = ({
                     <NavigationMenuLink
                       asChild
                       className={cn(
-                        "group inline-flex h-12 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-all duration-200 font-semibold",
+                        "group inline-flex h-12 w-max items-center justify-center rounded-md px-4 py-2 text-sm transition-all duration-200 font-semibold",
                         isActive(item.url)
                           ? "bg-zinc-100 text-primary"
                           : "bg-transparent text-black hover:bg-zinc-50 hover:text-zinc-900"
                       )}
                     >
-                      <Link href={item.url}>{item.title}</Link>
+                      <Link className="font-medium!" href={item.url}>{item.title}</Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 ))}
@@ -108,26 +108,11 @@ const Header = ({
           {/* Right: CTA Button */}
           <div className="flex items-center shrink-0">
             <Button
-              asChild
-              className="rounded-full bg-zinc-950 text-zinc-50 h-13 pl-4 pr-1.5 py-1.5 flex items-center gap-3 border-0 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.02] group/cta cursor-pointer"
+              href={cta.url}
+              glowingDot
+              showArrow
             >
-              <Link href={cta.url}>
-                {/* Glowing green dot */}
-                <span className="relative flex h-2 w-2 shrink-0">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
-                </span>
-                
-                {/* Text */}
-                <span className="font-semibold text-sm tracking-wide">
-                  {cta.title}
-                </span>
-                
-                {/* Circular Arrow Badge */}
-                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-zinc-800 text-zinc-100 transition-all duration-300 group-hover/cta:rotate-45 shrink-0">
-                  <ArrowUpRight className="size-4" />
-                </span>
-              </Link>
+              {cta.title}
             </Button>
           </div>
         </nav>
@@ -184,28 +169,12 @@ const Header = ({
 
                   <div className="flex flex-col gap-3 mt-4">
                     <Button
-                      asChild
-                      className="w-full rounded-full bg-zinc-950 text-zinc-50 hover:bg-zinc-900 h-11 pl-5 pr-2 py-2 flex items-center justify-between border-0 shadow-md group/cta-mobile cursor-pointer"
+                      href={cta.url}
+                      glowingDot
+                      showArrow
+                      className="w-full"
                     >
-                      <Link href={cta.url}>
-                        <div className="flex items-center gap-2.5">
-                          {/* Glowing green dot */}
-                          <span className="relative flex h-2 w-2 shrink-0">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
-                          </span>
-                          
-                          {/* Text */}
-                          <span className="font-semibold text-sm tracking-wide">
-                            {cta.title}
-                          </span>
-                        </div>
-                        
-                        {/* Circular Arrow Badge */}
-                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-zinc-800 text-zinc-100 transition-all duration-300 group-hover/cta-mobile:rotate-45 shrink-0">
-                          <ArrowUpRight className="size-4" />
-                        </span>
-                      </Link>
+                      {cta.title}
                     </Button>
                   </div>
                 </div>

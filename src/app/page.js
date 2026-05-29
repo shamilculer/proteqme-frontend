@@ -4,18 +4,22 @@ import Intro from '@/components/home/Intro'
 import ServicePillars from '@/components/home/ServicePillars'
 import Partners from '@/components/home/Partners'
 import ValuePropositionStrip from '@/components/home/ValuePropositionStrip'
-import NewsletterSignup from '@/components/home/NewsletterSignup'
+import AurumFeature from '@/components/home/AurumFeature'
+import Testimonials from '@/components/home/Testimonials'
+import MainCTA from '@/components/global/MainCTA'
 
 const HomePage = () => {
   return (
-    <>
+    <main>
       <Hero />
       <Intro />
       <ServicePillars />
       <Partners />
       <ValuePropositionStrip />
-      {/* <NewsletterSignup /> */}
-    </>
+      <AurumFeature />
+      <Testimonials />
+      <MainCTA />
+    </main>
   )
 }
 
