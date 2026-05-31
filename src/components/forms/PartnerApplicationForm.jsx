@@ -6,13 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Check,
-  ChevronRight,
   ChevronLeft,
   User,
-  Building2,
-  Mail,
-  Phone,
-  Globe,
   Handshake,
   GraduationCap,
   Cpu,
@@ -479,7 +474,7 @@ export default function PartnerApplicationForm() {
   }
 
   return (
-    <div className="w-full">
+    <div className="p-6 sm:p-10 w-full rounded-3xl bg-primary/3 border border-zinc-200 border-t-4 border-t-[#E25C8F]">
       {/* Step indicator */}
       <StepIndicator step={step} category={category} />
 

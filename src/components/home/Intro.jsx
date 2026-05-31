@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "../ui/button";
-import Link from "next/link";
-import { ArrowUpRight, Shield, GraduationCap, Network } from "lucide-react";
+import { Shield, GraduationCap, Network } from "lucide-react";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
 
 const Intro = () => {

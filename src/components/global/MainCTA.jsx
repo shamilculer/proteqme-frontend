@@ -29,24 +29,24 @@ const MainCTA = ({
   buttons = defaultButtons,
 }) => {
   return (
-    <section className="w-full py-24 md:py-30 relative overflow-hidden flex flex-col items-center justify-center text-center">
+    <section className="w-full py-24 md:py-30 relative overflow-hidden flex flex-col items-center justify-center text-center bg-[#130A1C]">
       
       {/* Background */}
-      <div className="absolute inset-0 -z-10 w-full h-full pointer-events-none select-none">
+      <div className="absolute inset-0 z-0 w-full h-full pointer-events-none select-none">
         <Image
           src={bgImage || "/hero-3.webp"}
           alt="CTA background"
           fill
-          className="object-cover opacity-25"
+          className="object-cover opacity-45"
           sizes="100vw"
           priority
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-[#130A1C]/85 to-[#130A1C]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/58 via-[#130A1C]/70 to-[#130A1C]/94" />
       </div>
 
       {/* Glow */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-140 h-140 bg-[#E25C8F]/30 rounded-full blur-[140px] pointer-events-none -z-5" />
+      <div className="absolute left-1/2 top-1/2 z-[1] -translate-x-1/2 -translate-y-1/2 w-140 h-140 bg-[#E25C8F]/25 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10 max-w-4xl">
