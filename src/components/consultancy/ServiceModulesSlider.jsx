@@ -22,6 +22,7 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 const serviceModules = [
   {
@@ -110,34 +111,28 @@ const serviceModules = [
   },
 ];
 
-const btnClass =
+const navBtnClass =
   "static translate-y-0 size-11 shrink-0 rounded-full border border-zinc-200 bg-white text-[#061525] shadow-[0_12px_35px_rgba(6,21,37,0.12)] transition hover:-translate-y-0.5 hover:border-[#E25C8F]/45 disabled:translate-y-0 disabled:opacity-45";
+
+const desktopNavBtnClass =
+  "absolute top-1/2 z-10 hidden -translate-y-1/2 md:inline-flex";
 
 const ServiceModulesSlider = () => {
   return (
-    <div className="container">
-      <Carousel
-        opts={{ align: "start", dragFree: false }}
-        className="w-full"
-      >
-        {/* Track row: prev button — slides — next button */}
-        <div className="flex items-center gap-4">
-          <CarouselPrevious className={btnClass}>
-            <ArrowLeft className="size-5" />
-          </CarouselPrevious>
-
-          <CarouselContent className="-ml-6 items-stretch">
+    <div className="mt-8 w-full px-4.5 sm:container sm:mt-10 sm:px-4">
+      <Carousel opts={{ align: "start", dragFree: false }} className="w-full">
+        <div className="relative md:px-12 lg:px-14">
+          <CarouselContent className="-ml-3 items-stretch sm:-ml-4 md:-ml-6">
             {serviceModules.map((module) => {
               const Icon = module.icon;
 
               return (
                 <CarouselItem
                   key={module.number}
-                  className="pl-6 basis-full md:basis-1/2 xl:basis-1/3 h-auto"
+                  className="h-auto basis-full pl-3 sm:pl-4 md:basis-1/2 md:pl-6 xl:basis-1/3"
                 >
-                  <Card className="group h-full flex flex-col gap-0 overflow-hidden rounded-[18px] border border-zinc-200 bg-white p-4 shadow-[0_20px_65px_rgba(6,21,37,0.13)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(6,21,37,0.18)]">
-                    {/* Image area */}
-                    <div className="relative h-56 overflow-hidden rounded-[14px] bg-zinc-100">
+                  <Card className="group flex h-full flex-col gap-0 overflow-hidden rounded-[18px] border border-zinc-200 bg-white p-3 shadow-[0_20px_65px_rgba(6,21,37,0.13)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(6,21,37,0.18)] sm:p-4">
+                    <div className="relative h-48 overflow-hidden rounded-[14px] bg-zinc-100 sm:h-56">
                       <Image
                         src={module.image}
                         alt={module.title}
@@ -146,13 +141,12 @@ const ServiceModulesSlider = () => {
                         className="object-cover transition duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#061525]/40 via-transparent to-transparent" />
-                      <div className="absolute left-4 top-4 flex size-11 items-center justify-center rounded-full bg-white text-[#061525] shadow-md">
+                      <div className="absolute left-3 top-3 flex size-10 items-center justify-center rounded-full bg-white text-[#061525] shadow-md sm:left-4 sm:top-4 sm:size-11">
                         <Icon className="size-5" />
                       </div>
                     </div>
 
-                    {/* Meta row */}
-                    <CardHeader className="flex flex-row items-center justify-between gap-4 border-b border-zinc-200 px-1 py-3! space-y-0">
+                    <CardHeader className="flex flex-row items-center justify-between gap-3 space-y-0 border-b border-zinc-200 px-0 py-3! sm:gap-4">
                       <span className="text-sm text-zinc-500">
                         Module {module.number}
                       </span>
@@ -161,18 +155,17 @@ const ServiceModulesSlider = () => {
                       </span>
                     </CardHeader>
 
-                    {/* Body */}
-                    <CardContent className="flex flex-1 flex-col px-1 pt-4 pb-0">
-                      <h3 className="text-2xl leading-tight text-[#061525]">
+                    <CardContent className="flex flex-1 flex-col px-0 pt-3 pb-0 sm:pt-4">
+                      <h3 className="text-xl leading-snug text-[#061525] sm:text-2xl sm:leading-tight">
                         {module.title}
                       </h3>
-                      <p className="mt-4 text-sm leading-relaxed text-zinc-600">
+                      <p className="mt-3 text-sm leading-relaxed text-zinc-600 sm:mt-4">
                         {module.summary}
                       </p>
 
-                      <div className="mt-6 space-y-2.5">
+                      <div className="mt-5 space-y-2 sm:mt-6 sm:space-y-2.5">
                         {module.details.slice(0, 3).map((detail) => (
-                          <div key={detail} className="flex items-start gap-3">
+                          <div key={detail} className="flex items-start gap-2.5 sm:gap-3">
                             <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[#E25C8F]" />
                             <span className="text-sm leading-relaxed text-zinc-700">
                               {detail}
@@ -184,7 +177,7 @@ const ServiceModulesSlider = () => {
                       {module.href ? (
                         <Link
                           href={module.href}
-                          className="mt-auto inline-flex items-center gap-2 pt-7 pb-1 text-sm font-semibold text-[#061525]"
+                          className="mt-auto inline-flex items-center gap-2 pt-6 pb-1 text-sm font-semibold text-[#061525] sm:pt-7"
                         >
                           Explore Learning
                           <ArrowUpRight className="size-4" />
@@ -197,7 +190,32 @@ const ServiceModulesSlider = () => {
             })}
           </CarouselContent>
 
-          <CarouselNext className={btnClass}>
+          <CarouselPrevious
+            className={cn(
+              navBtnClass,
+              desktopNavBtnClass,
+              "left-0 -translate-x-1/2 lg:-left-2 lg:-translate-x-full"
+            )}
+          >
+            <ArrowLeft className="size-5" />
+          </CarouselPrevious>
+
+          <CarouselNext
+            className={cn(
+              navBtnClass,
+              desktopNavBtnClass,
+              "right-0 translate-x-1/2 lg:-right-2 lg:translate-x-full"
+            )}
+          >
+            <ArrowRight className="size-5" />
+          </CarouselNext>
+        </div>
+
+        <div className="mt-5 flex items-center justify-center gap-4 md:hidden">
+          <CarouselPrevious className={navBtnClass}>
+            <ArrowLeft className="size-5" />
+          </CarouselPrevious>
+          <CarouselNext className={navBtnClass}>
             <ArrowRight className="size-5" />
           </CarouselNext>
         </div>

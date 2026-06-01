@@ -1,5 +1,6 @@
 import MainCTA from "@/components/global/MainCTA";
 import MediumHero from "@/components/global/MediumHero";
+import SystemsBenefits from "@/components/systems/SystemsBenefits";
 import { Button } from "@/components/ui/button";
 import {
   Activity,
@@ -109,11 +110,11 @@ const SystemsPage = () => {
         bgImage="/systems-bg.webp"
       />
 
-      <section className="w-full overflow-hidden my-18 md:my-24">
+      <section className="my-18 w-full overflow-x-hidden md:my-24">
         <div className="container">
-          <div className="grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-16">
-            <div className="relative min-h-[560px]">
-              <div className="relative h-[520px] overflow-hidden rounded-[18px] bg-[#061525] shadow-[0_32px_90px_rgba(35,17,67,0.18)] md:h-[620px]">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-16">
+            <div className="relative min-w-0 w-full">
+              <div className="relative aspect-[5/4] w-full overflow-hidden rounded-[18px] bg-[#061525] shadow-[0_32px_90px_rgba(35,17,67,0.18)] sm:aspect-[16/10] lg:aspect-auto lg:h-[620px]">
                 <Image
                   src="/systems.webp"
                   alt="Compliance technology advisory and system evaluation"
@@ -122,18 +123,18 @@ const SystemsPage = () => {
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-[#061525]/86 via-[#061525]/22 to-transparent" />
-                <div className="absolute inset-x-8 top-8 flex items-center justify-between border-t border-white/35 pt-5 text-white">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-white/70">
+                <div className="absolute inset-x-4 top-6 flex items-center justify-between border-t border-white/35 pt-4 text-white sm:inset-x-8 sm:top-8 sm:pt-5">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70 sm:text-xs">
                     System Fit Review
                   </p>
-                  <p className="text-xs text-white/55">Vendor Neutral</p>
+                  <p className="text-[10px] text-white/55 sm:text-xs">Vendor Neutral</p>
                 </div>
               </div>
             </div>
 
-            <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-1.5">
-                <span className="relative flex h-2 w-2">
+            <div className="min-w-0 max-w-full">
+              <div className="mb-4 inline-flex max-w-full items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-1.5">
+                <span className="relative flex h-2 w-2 shrink-0">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E25C8F] opacity-75"></span>
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-[#E25C8F]"></span>
                 </span>
@@ -146,66 +147,67 @@ const SystemsPage = () => {
                 Systems Built for Modern Compliance Operations
               </h2>
 
-              <div className="mt-4 space-y-5 text-sm sm:text-base leading-relaxed text-zinc-700">
-                <p>
-                  We help organisations evaluate, implement, and optimise
-                  compliance technology tailored to their regulatory obligations
-                  and operational needs. From AML screening and transaction
-                  monitoring to KYC onboarding and regulatory reporting, our
-                  advisory approach focuses on scalable systems that reduce
-                  risk, improve efficiency, and support long term compliance
-                  readiness.
-                </p>
-              </div>
-              <div className="mt-6 w-full flex gap-22">
-                <div className="w-full flex flex-wrap gap-4">
-                  {[
-                    {
-                      bg: "bg-emerald-100",
-                      color: "text-emerald-600",
-                      Icon: Cpu,
-                      label: "Compliance Technology",
-                    },
-                    {
-                      bg: "bg-orange-100",
-                      color: "text-orange-600",
-                      Icon: Globe,
-                      label: "Global Network",
-                    },
-                    {
-                      bg: "bg-cyan-100",
-                      color: "text-cyan-600",
-                      Icon: Users,
-                      label: "Industry Experts",
-                    },
-                    {
-                      bg: "bg-amber-100",
-                      color: "text-amber-600",
-                      Icon: BadgeCheck,
-                      label: "Trusted Collaboration",
-                    },
-                  ].map(({ bg, color, Icon, label }) => (
+              <p className="mt-4 max-w-full text-sm leading-relaxed text-zinc-700 sm:text-base">
+                We help organisations evaluate, implement, and optimise
+                compliance technology tailored to their regulatory obligations
+                and operational needs. From AML screening and transaction
+                monitoring to KYC onboarding and regulatory reporting, our
+                advisory approach focuses on scalable systems that reduce risk,
+                improve efficiency, and support long term compliance readiness.
+              </p>
+
+              <div className="mt-6 flex max-w-full flex-wrap gap-2.5 sm:gap-3">
+                {[
+                  {
+                    bg: "bg-emerald-100",
+                    color: "text-emerald-600",
+                    Icon: Cpu,
+                    label: "Compliance Technology",
+                  },
+                  {
+                    bg: "bg-orange-100",
+                    color: "text-orange-600",
+                    Icon: Globe,
+                    label: "Global Network",
+                  },
+                  {
+                    bg: "bg-cyan-100",
+                    color: "text-cyan-600",
+                    Icon: Users,
+                    label: "Industry Experts",
+                  },
+                  {
+                    bg: "bg-amber-100",
+                    color: "text-amber-600",
+                    Icon: BadgeCheck,
+                    label: "Trusted Collaboration",
+                  },
+                ].map(({ bg, color, Icon, label }) => (
+                  <div
+                    key={label}
+                    className="flex max-w-full items-center gap-2 rounded-full border border-zinc-300 bg-white p-1 pr-3"
+                  >
                     <div
-                      key={label}
-                      className="bg-white border border-zinc-300 rounded-full p-1 pr-3 flex items-center gap-2.5"
+                      className={`flex size-8 shrink-0 items-center justify-center rounded-full ${bg}`}
                     >
-                      <div
-                        className={`size-8 rounded-full ${bg} flex items-center justify-center`}
-                      >
-                        <Icon className={`size-4 ${color}`} />
-                      </div>
-                      <span className="font-medium text-sm">{label}</span>
+                      <Icon className={`size-4 ${color}`} />
                     </div>
-                  ))}
-                </div>
+                    <span className="text-sm font-medium leading-snug">{label}</span>
+                  </div>
+                ))}
               </div>
 
-              <div className="mt-7 flex items-center gap-4">
-                <Button href="#" showArrow>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+                <Button href="#" showArrow className="w-full sm:w-auto">
                   Book a Free Demo
                 </Button>
 
-                <Button href="#" variant="secondary" showArrow>
+                <Button
+                  href="#"
+                  variant="secondary"
+                  showArrow
+                  className="w-full sm:w-auto"
+                >
                   Get In Touch With US
                 </Button>
               </div>
@@ -414,6 +416,8 @@ const SystemsPage = () => {
           </div>
         </div>
       </section>
+
+      <SystemsBenefits />
 
       <MainCTA
         heading="Not Sure Which System Fits Your Organisation?"

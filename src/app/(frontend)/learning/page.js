@@ -1,13 +1,20 @@
 import MainCTA from "@/components/global/MainCTA";
 import MediumHero from "@/components/global/MediumHero";
+import LearningIntro from "@/components/learning/LearningIntro";
+import LearningApproach from "@/components/learning/LearningApproach";
+import LearningWhyChoose from "@/components/learning/LearningWhyChoose";
+import TrainingProgrammes from "@/components/learning/TrainingProgrammes";
+import LearningTrustStrip from "@/components/learning/LearningTrustStrip";
+import TestimonialsSection from "@/components/global/TestimonialsSection";
+import { learningTestimonials } from "@/data/learningTestimonials";
 
 const LearningPage = () => {
   return (
     <main>
       <MediumHero
-        eyebrow="Learning for Compliance Professionals"
-        heading="Learn From the Practitioners, Not the Textbooks"
-        description="Structured compliance training, pre-recorded webinars, and certification preparation designed for professionals who need practical skills, not just theory."
+        eyebrow="Holistic Learning Solutions"
+        heading="The PROTEQme Training Experience"
+        description="Holistic learning solutions that deliver quality trainings, enhance learner experience, and transform performance for professionals across every discipline."
         highlights={[
           "Expert Led Webinars",
           "Practical AML Education",
@@ -23,12 +30,30 @@ const LearningPage = () => {
             showArrow: true,
           },
           {
-            label: "Browse Webinars",
-            href: "#",
+            label: "Explore Our Programs",
+            href: "#training-programmes",
             variant: "outline",
             showArrow: true,
           },
         ]}
+        bgImage="/learning-5.webp"
+      />
+
+      <LearningIntro />
+
+      <TrainingProgrammes />
+
+      <LearningTrustStrip />
+
+      <LearningApproach />
+
+      <LearningWhyChoose />
+
+      <TestimonialsSection
+        id="learning-testimonials"
+        eyebrow="Learner Stories"
+        heading="What professionals say about our training"
+        testimonials={learningTestimonials}
       />
 
       <MainCTA

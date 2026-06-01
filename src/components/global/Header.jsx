@@ -132,8 +132,13 @@ const Header = ({
             </Link>
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="size-4" />
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label="Open navigation menu"
+                  className="size-11 shrink-0 border-zinc-300! bg-white! text-[#231143]! shadow-sm hover:border-[#E25C8F]/50! hover:bg-zinc-50! hover:text-[#231143]!"
+                >
+                  <Menu className="size-5" strokeWidth={2} />
                 </Button>
               </SheetTrigger>
               <SheetContent className="overflow-y-auto">

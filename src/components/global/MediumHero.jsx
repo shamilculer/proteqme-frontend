@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { CheckCircle2, ShieldCheck, Sparkles } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -38,53 +38,50 @@ const MediumHero = ({
   return (
     <section
       className={cn(
-        "w-full relative overflow-hidden",
+        "relative w-full overflow-hidden px-2 sm:px-3 lg:px-0",
         className
       )}
     >
-      <div className="container relative min-h-[560px] overflow-hidden rounded-[18px] border border-white/60 bg-secondary-dark shadow-[0_24px_70px_rgba(17,24,39,0.18)] md:min-h-[640px] md:rounded-3xl">
+      <div className="container relative min-h-[570px] overflow-hidden rounded-[14px] bg-secondary-dark !px-0 shadow-[0_24px_70px_rgba(17,24,39,0.18)] md:min-h-175 md:rounded-3xl">
         <Image
           src={bgImage}
           alt={imageAlt}
           fill
           priority
-          sizes="(min-width: 1460px) 1460px, calc(100vw - 24px)"
+          sizes="100vw"
           className="object-cover object-center brightness-[1.04] contrast-[1.04] saturate-[1.02]"
         />
 
         <div className="absolute inset-0 bg-linear-to-r from-[#100A1D]/90 via-[#100A1D]/54 to-[#100A1D]/5" />
         <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/5 to-white/10" />
         <div className="absolute inset-y-0 left-0 w-full bg-[radial-gradient(circle_at_22%_42%,rgba(226,92,143,0.24),transparent_34%)]" />
-        <div className="absolute inset-x-8 top-0 h-px bg-linear-to-r from-transparent via-white/55 to-transparent" />
 
-        <div className="relative z-10 flex min-h-[560px] items-end px-6 py-10 md:min-h-[640px] lg:px-10 lg:py-20">
-          <div className="max-w-3xl">
-            <div className="mb-6 flex flex-wrap items-center gap-3">
-              {eyebrow ? (
-                <div className="inline-flex items-center gap-2 bg-zinc-100 border border-zinc-200 rounded-full px-4 py-1.5">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E25C8F] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E25C8F]"></span>
-                  </span>
-                  <span className="text-xs text-zinc-700 uppercase font-semibold tracking-wider">
-                    {eyebrow}
-                  </span>
-                </div>
-              ) : null}
-            </div>
+        <div className="relative z-10 flex min-h-[570px] w-full flex-col items-start justify-end px-4 py-10 sm:px-8 sm:py-12 md:min-h-175 md:justify-center md:px-14 md:py-14 lg:px-16 lg:py-16">
+          <div className="w-full md:max-w-[58%] lg:max-w-[62%]">
+            {eyebrow ? (
+              <div className="mb-2 inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 backdrop-blur-sm md:mb-4 md:px-4">
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E25C8F] opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#E25C8F]" />
+                </span>
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-white/90 sm:text-xs">
+                  {eyebrow}
+                </span>
+              </div>
+            ) : null}
 
-            <h1 className="max-w-4xl text-[40px] font-medium! leading-[1.02] text-white sm:text-5xl md:text-[58px] lg:text-[68px]">
+            <h1 className="mb-2 max-w-none text-[40px] font-bold tracking-tight text-white !leading-[1.2] md:mb-4 md:max-w-4xl md:text-5xl md:leading-[1.12] lg:text-[62px]">
               {heading}
             </h1>
 
             {description ? (
-              <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/82">
+              <p className="mb-6 max-w-xl text-sm leading-relaxed text-white/95 sm:mb-8 sm:text-base md:text-lg">
                 {description}
               </p>
             ) : null}
 
             {buttons?.length ? (
-              <div className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 md:gap-4">
                 {buttons.map((button) => (
                   <Button
                     key={button.label}
@@ -95,7 +92,7 @@ const MediumHero = ({
                     arrowDirection={button.arrowDirection}
                     icon={button.icon}
                     iconPosition={button.iconPosition}
-                    className={cn("w-full sm:w-auto", button.className)}
+                    className={button.className}
                   >
                     {button.label}
                   </Button>
@@ -103,21 +100,20 @@ const MediumHero = ({
               </div>
             ) : null}
           </div>
-          <div>
-            {highlights?.length ? (
-              <div className="mt-7 flex flex-wrap max-w-2xl gap-3">
-                {highlights.map((highlight) => (
-                  <div
-                    key={highlight}
-                    className="flex items-center gap-2.5 rounded-full border border-white/15 bg-black/10 px-3.5 py-2.5 text-sm font-medium text-white shadow-xs backdrop-blur-md"
-                  >
-                    <CheckCircle2 className="size-4 shrink-0 text-[#E25C8F]" />
-                    <span className="leading-snug">{highlight}</span>
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </div>
+
+          {highlights?.length ? (
+            <div className="mt-5 flex w-full flex-wrap gap-2 sm:mt-6 md:max-w-[90%] md:gap-3">
+              {highlights.map((highlight) => (
+                <div
+                  key={highlight}
+                  className="flex max-w-full items-center gap-2 rounded-full border border-white/15 bg-black/15 px-2.5 py-1.5 text-[11px] font-medium text-white shadow-xs backdrop-blur-md sm:gap-2.5 sm:px-3.5 sm:py-2 sm:text-xs md:text-sm"
+                >
+                  <CheckCircle2 className="size-3 shrink-0 text-[#E25C8F] sm:size-3.5" />
+                  <span className="leading-snug">{highlight}</span>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
     </section>
