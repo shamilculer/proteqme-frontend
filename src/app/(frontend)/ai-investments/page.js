@@ -23,11 +23,14 @@ const AiInvestmentPage = () => {
         buttons={[
           {
             label: "Explore Aurum Foundation",
-            href: "#aurum-intro",
+            href: "https://aurum-foundation.com/",
             variant: "white",
             showArrow: true,
+            target: "_blank",
+            rel: "noopener noreferrer",
           },
         ]}
+        bgImage="/ai-investment.webp"
       />
       <AurumIntro />
 

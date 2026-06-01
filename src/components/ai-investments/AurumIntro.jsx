@@ -45,12 +45,15 @@ const AurumIntro = () => {
               </p>
             </div>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Button href="/contact" showArrow glowingDot>
-                Book a Free Demo
-              </Button>
-              <Button href="/contact" variant="secondary" showArrow>
-                Speak With Our Team
+            <div className="mt-7">
+              <Button
+                href="https://aurum-foundation.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                showArrow
+                className="w-full border-[#0428F0] bg-[#0428F0] text-white shadow-md hover:border-[#0325d9] hover:bg-[#0325d9] hover:shadow-lg sm:w-auto"
+              >
+                Explore Aurum Foundation
               </Button>
             </div>
           </ScrollReveal>

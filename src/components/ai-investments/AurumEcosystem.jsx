@@ -23,7 +23,8 @@ const platforms = [
       "Digital Asset Management",
     ],
     buttonLabel: "Visit Aurum Foundation",
-    href: "/contact",
+    href: "https://aurum-foundation.com/",
+    external: true,
     image: "/aurum.webp",
     buttonVariant: "default",
   },
@@ -39,7 +40,7 @@ const platforms = [
       "Blockchain Transparency",
       "Future Ready Financial Tools",
     ],
-    buttonLabel: "Learn More",
+    buttonLabel: "Speak to Our Experts",
     href: "/contact",
     image: "/hero-3.webp",
     buttonVariant: "secondary",
@@ -56,23 +57,23 @@ function PlatformCard({
   href,
   image,
   buttonVariant,
+  external = false,
 }) {
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-[18px] bg-white shadow-[0_22px_70px_rgba(6,21,37,0.1)] ring-1 ring-zinc-200/80 transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_32px_90px_rgba(226,92,143,0.18)] hover:ring-[#E25C8F]/25">
+    <article className="relative flex h-full flex-col overflow-hidden rounded-[18px] bg-white shadow-[0_22px_70px_rgba(6,21,37,0.1)] ring-1 ring-zinc-200/80">
       <div className="relative h-[min(48vw,260px)] min-h-[220px] shrink-0 overflow-hidden sm:min-h-[240px] md:h-[260px]">
         <Image
           src={image}
           alt={title}
           fill
           sizes="(min-width: 1024px) 50vw, 100vw"
-          className="object-cover transition duration-700 ease-out group-hover:scale-105"
+          className="object-cover"
         />
 
-        <div className="absolute inset-0 bg-linear-to-t from-[#061525] via-[#061525]/50 to-[#231143]/15 transition duration-500 group-hover:from-[#061525]/95 group-hover:via-[#231143]/60" />
-        <div className="absolute inset-0 bg-[#E25C8F]/0 mix-blend-multiply transition duration-500 group-hover:bg-[#E25C8F]/12" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#061525] via-[#061525]/50 to-[#231143]/15" />
 
         <span
-          className="pointer-events-none absolute -right-1 top-3 select-none text-[100px] font-semibold leading-none tracking-tighter text-white/[0.07] transition duration-500 group-hover:text-[#E25C8F]/15"
+          className="pointer-events-none absolute -right-1 top-3 select-none text-[100px] font-semibold leading-none tracking-tighter text-white/[0.07]"
           aria-hidden
         >
           {index}
@@ -104,7 +105,7 @@ function PlatformCard({
             {highlights.map((item) => (
               <li
                 key={item}
-                className="flex items-start gap-3 text-sm text-zinc-700 transition duration-300 group-hover:translate-x-0.5"
+                className="flex items-start gap-3 text-sm text-zinc-700"
               >
                 <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#E25C8F] text-white shadow-[0_4px_12px_rgba(226,92,143,0.35)]">
                   <Check className="size-3 stroke-[3]" aria-hidden />
@@ -120,6 +121,9 @@ function PlatformCard({
               variant={buttonVariant}
               showArrow
               className="w-full sm:w-auto"
+              {...(external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
             >
               {buttonLabel}
             </Button>

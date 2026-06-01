@@ -92,6 +92,8 @@ const MediumHero = ({
                     arrowDirection={button.arrowDirection}
                     icon={button.icon}
                     iconPosition={button.iconPosition}
+                    target={button.target}
+                    rel={button.rel}
                     className={button.className}
                   >
                     {button.label}
