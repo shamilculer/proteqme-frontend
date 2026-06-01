@@ -86,9 +86,6 @@ function PlatformCard({
         </div>
 
         <div className="absolute inset-x-0 bottom-0 p-5 md:px-6 md:pb-8">
-          <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.2em] text-[#E25C8F]">
-            Platform {index}
-          </span>
           <h3 className="max-w-[95%] text-2xl font-semibold leading-tight tracking-tight text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.5)] md:text-[28px]">
             {title}
           </h3>
@@ -105,7 +102,7 @@ function PlatformCard({
             {highlights.map((item) => (
               <li
                 key={item}
-                className="flex items-start gap-3 text-sm text-zinc-700"
+                className="flex items-start gap-3 text-sm text-zinc-700 transition duration-300 group-hover:translate-x-0.5"
               >
                 <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#E25C8F] text-white shadow-[0_4px_12px_rgba(226,92,143,0.35)]">
                   <Check className="size-3 stroke-[3]" aria-hidden />
@@ -121,9 +118,6 @@ function PlatformCard({
               variant={buttonVariant}
               showArrow
               className="w-full sm:w-auto"
-              {...(external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
             >
               {buttonLabel}
             </Button>
