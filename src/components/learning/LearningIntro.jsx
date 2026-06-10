@@ -99,7 +99,7 @@ const LearningIntro = () => {
               </div>
 
               <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                <div className="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-md">
+                <div className="consultancy-why-card rounded-2xl p-5">
                   <p className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
                     200+
                   </p>
@@ -185,11 +185,11 @@ const LearningIntro = () => {
             </div>
 
             <StaggerItem className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <Button href="/contact" showArrow>
-                Book a Free Demo
+              <Button href="#training-programmes" showArrow>
+                Browse Courses
               </Button>
-              <Button href="#training-programmes" variant="secondary" showArrow>
-                Explore Our Programs
+              <Button href="#learning-webinars" variant="secondary" showArrow>
+                View Webinars
               </Button>
             </StaggerItem>
           </StaggerContainer>

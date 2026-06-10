@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 const defaultButtons = [
   {
     label: "Book a Free Demo",
-    href: "/book-demo",
+    href: "/contact",
     variant: "white",
     glowingDot: true,
     showArrow: true,
@@ -29,10 +29,10 @@ const MainCTA = ({
   buttons = defaultButtons,
 }) => {
   return (
-    <section className="w-full py-24 md:py-30 relative overflow-hidden flex flex-col items-center justify-center text-center bg-[#130A1C]">
+    <section className="section-dark section-bg-pattern w-full py-24 md:py-30 relative flex flex-col items-center justify-center overflow-hidden text-center">
       
-      {/* Background */}
-      <div className="absolute inset-0 z-0 w-full h-full pointer-events-none select-none">
+      {/* Full-bleed image reserved for CTA sections only */}
+      <div className="absolute inset-0 z-0 h-full w-full pointer-events-none select-none">
         <Image
           src={bgImage || "/hero-3.webp"}
           alt="CTA background"
@@ -42,21 +42,21 @@ const MainCTA = ({
           priority
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/58 via-[#130A1C]/70 to-[#130A1C]/94" />
+        <div className="absolute inset-0 bg-[rgba(13,13,18,0.65)]" />
       </div>
 
       {/* Glow */}
-      <div className="absolute left-1/2 top-1/2 z-[1] -translate-x-1/2 -translate-y-1/2 w-140 h-140 bg-[#E25C8F]/25 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute left-1/2 top-1/2 z-[1] -translate-x-1/2 -translate-y-1/2 w-140 h-140 bg-primary/25 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-10 max-w-4xl">
+      <div className="container relative z-10 mx-auto max-w-4xl px-4">
         <ScrollReveal className="flex flex-col items-center" yOffset={24}>
           
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2 mb-6 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 shadow-xs">
             <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E25C8F] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E25C8F]"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
 
             <span className="text-xs text-zinc-300 uppercase font-semibold tracking-wider">
@@ -65,12 +65,12 @@ const MainCTA = ({
           </div>
 
           {/* Heading */}
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.12] mb-6 max-w-3xl">
+          <h2 className="text-white tracking-tight leading-[1.12] mb-6 max-w-3xl text-4xl! lg:text-6xl!">
             {heading}
           </h2>
 
           {/* Description */}
-          <p className="text-zinc-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl mb-10">
+          <p className="text-zinc-300 text-body max-w-2xl mb-10">
             {description}
           </p>
 

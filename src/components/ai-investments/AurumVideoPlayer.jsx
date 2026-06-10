@@ -23,7 +23,7 @@ export default function AurumVideoPlayer({
   return (
     <div
       className={cn(
-        "relative aspect-video overflow-hidden rounded-[18px] bg-[#061525] shadow-[0_20px_60px_rgba(35,17,67,0.1)] ring-1 ring-zinc-200/80",
+        "relative aspect-video overflow-hidden rounded-2xl border border-zinc-200 bg-aurum-dark shadow-[0_16px_48px_rgba(10,10,0,0.1)]",
         className
       )}
     >
@@ -42,10 +42,10 @@ export default function AurumVideoPlayer({
             sizes="(min-width: 1024px) 50vw, 100vw"
             unoptimized
           />
-          <div className="absolute inset-0 bg-[#061525]/35 transition group-hover:bg-[#061525]/45" />
+          <div className="absolute inset-0 bg-[rgba(20,8,0,0.55)] transition group-hover:bg-[rgba(20,8,0,0.65)]" />
 
-          <span className="relative z-10 flex size-14 items-center justify-center rounded-full bg-[#E25C8F] text-white shadow-lg transition group-hover:scale-105">
-            <Play className="ml-0.5 size-6 fill-white" aria-hidden />
+          <span className="relative z-10 flex size-14 items-center justify-center rounded-full border border-white/35 bg-white/20 text-[var(--aurum-gold-muted)] shadow-[0_8px_30px_rgba(10,10,0,0.25)] transition group-hover:scale-105">
+            <Play className="ml-0.5 size-6 fill-aurum-dark" aria-hidden />
           </span>
         </button>
       ) : (

@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowUpRight, Check } from "lucide-react";
 import {
   ScrollReveal,
   StaggerContainer,
@@ -11,57 +11,49 @@ import {
 
 const platforms = [
   {
-    index: "01",
-    category: "Aurum Foundation Platform",
-    title: "Aurum Foundation",
+    category: "Official Platform",
+    title: "AURUM Foundation",
     description:
-      "Explore the official Aurum Foundation platform featuring AI trading bots, gold backed investment packages, blockchain powered security, and integrated digital finance solutions.",
+      "Direct access to AI trading bots, gold-backed investment packages, blockchain custody, and integrated digital finance.",
     highlights: [
-      "AI Trading Infrastructure",
-      "Gold Backed Investment Tools",
-      "Web3 Financial Ecosystem",
-      "Digital Asset Management",
+      "EX AI & ZEUS Trading Bots",
+      "Gold (XAU) Packages",
+      "Web3 NeoBank",
+      "Global Partner Network",
     ],
-    buttonLabel: "Visit Aurum Foundation",
     href: "https://aurum-foundation.com/",
     external: true,
-    image: "/aurum.webp",
-    buttonVariant: "default",
+    image: "/ai-investment.webp",
   },
   {
-    index: "02",
-    category: "Advanced Investment Solutions",
-    title: "AI Powered Investment Opportunities",
+    category: "Proteq Partnership",
+    title: "Investor Information via Proteq",
     description:
-      "Learn more about Aurum’s expanding ecosystem of intelligent investment tools, automated trading technologies, and modern wealth management solutions.",
+      "Curated introductions, due diligence support, and compliance-aligned onboarding for qualified investors.",
     highlights: [
-      "Intelligent Market Analysis",
-      "Automated Trading Systems",
-      "Blockchain Transparency",
-      "Future Ready Financial Tools",
+      "Curated investor access",
+      "Due diligence support",
+      "Compliance-aligned introduction",
+      "Ongoing partnership guidance",
     ],
-    buttonLabel: "Speak to Our Experts",
     href: "/contact",
-    image: "/hero-3.webp",
-    buttonVariant: "secondary",
+    external: false,
+    image: "/who-we-are.webp",
   },
 ];
 
 function PlatformCard({
-  index,
   category,
   title,
   description,
   highlights,
-  buttonLabel,
   href,
   image,
-  buttonVariant,
-  external = false,
+  external,
 }) {
   return (
-    <article className="relative flex h-full flex-col overflow-hidden rounded-[18px] bg-white shadow-[0_22px_70px_rgba(6,21,37,0.1)] ring-1 ring-zinc-200/80">
-      <div className="relative h-[min(48vw,260px)] min-h-[220px] shrink-0 overflow-hidden sm:min-h-[240px] md:h-[260px]">
+    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200/90 bg-white shadow-[0_12px_40px_rgba(10,10,0,0.06)]">
+      <div className="relative h-[200px] shrink-0 overflow-hidden sm:h-[220px]">
         <Image
           src={image}
           alt={title}
@@ -69,110 +61,79 @@ function PlatformCard({
           sizes="(min-width: 1024px) 50vw, 100vw"
           className="object-cover"
         />
-
-        <div className="absolute inset-0 bg-linear-to-t from-[#061525] via-[#061525]/50 to-[#231143]/15" />
-
-        <span
-          className="pointer-events-none absolute -right-1 top-3 select-none text-[100px] font-semibold leading-none tracking-tighter text-white/[0.07]"
-          aria-hidden
-        >
-          {index}
-        </span>
-
-        <div className="absolute inset-x-0 top-0 flex items-start justify-between p-5 md:p-6">
-          <span className="rounded-full border border-white/20 bg-white/12 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white backdrop-blur-md">
+        <div className="absolute inset-0 bg-[rgba(20,8,0,0.45)]" />
+        <div className="absolute inset-x-0 bottom-0 p-5">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">
             {category}
-          </span>
-        </div>
-
-        <div className="absolute inset-x-0 bottom-0 p-5 md:px-6 md:pb-8">
-          <h3 className="max-w-[95%] text-2xl font-semibold leading-tight tracking-tight text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.5)] md:text-[28px]">
-            {title}
-          </h3>
+          </p>
+          <h3 className="mt-1 text-xl font-semibold text-white">{title}</h3>
         </div>
       </div>
 
-      <div className="relative z-10 -mt-6 flex flex-1 flex-col px-3 pb-3 md:-mt-7 md:px-4 md:pb-4">
-        <div className="flex flex-1 flex-col rounded-[18px] bg-white p-5 ring-1 ring-zinc-100/90 shadow-[0_-10px_40px_rgba(6,21,37,0.08)] md:p-6">
-          <div className="mb-4 h-px w-full bg-linear-to-r from-[#E25C8F] via-[#E25C8F]/40 to-transparent" />
+      <div className="flex flex-1 flex-col p-6 md:p-7">
+        <p className="text-sm leading-relaxed text-zinc-600">{description}</p>
 
-          <p className="text-sm leading-relaxed text-zinc-600">{description}</p>
-
-          <ul className="mt-5 space-y-3 rounded-xl border border-zinc-100 bg-linear-to-b from-zinc-50 to-white p-4">
-            {highlights.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-3 text-sm text-zinc-700 transition duration-300 group-hover:translate-x-0.5"
-              >
-                <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#E25C8F] text-white shadow-[0_4px_12px_rgba(226,92,143,0.35)]">
-                  <Check className="size-3 stroke-[3]" aria-hidden />
-                </span>
-                <span className="leading-snug">{item}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-6 pt-1">
-            <Button
-              href={href}
-              variant={buttonVariant}
-              showArrow
-              className="w-full sm:w-auto"
+        <ul className="mt-5 flex-1 space-y-2.5 border-t border-zinc-200/80 pt-5">
+          {highlights.map((item) => (
+            <li
+              key={item}
+              className="flex items-start gap-2.5 text-sm text-zinc-700"
             >
-              {buttonLabel}
-            </Button>
-          </div>
+              <Check
+                className="mt-0.5 size-4 shrink-0 text-[var(--aurum-gold-muted)]"
+                strokeWidth={2}
+              />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-6">
+          {external ? (
+            <Link
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-aurum-outline-dark inline-flex"
+            >
+              Visit AURUM Foundation
+              <ArrowUpRight className="size-4" />
+            </Link>
+          ) : (
+            <Link href={href} className="btn-aurum inline-flex">
+              Request Investor Information
+            </Link>
+          )}
         </div>
       </div>
     </article>
   );
 }
 
-const AurumEcosystem = () => {
+export default function AurumEcosystem() {
   return (
-    <section className="relative w-full overflow-hidden bg-linear-to-b from-white via-[#fbfafd] to-[#f5f0f8] pb-22">
-      <div className="pointer-events-none absolute -right-20 top-0 h-80 w-80 rounded-full bg-[#E25C8F]/10 blur-[100px]" />
-      <div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-[#231143]/8 blur-[90px]" />
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.4]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, rgba(35,17,67,0.05) 1px, transparent 0)",
-          backgroundSize: "40px 40px",
-        }}
-      />
+    <section className="section-aurum-light w-full py-16 md:py-20">
+      <div className="container relative z-10">
+        <div className="mb-12 grid gap-6 lg:mb-14 lg:grid-cols-2 lg:items-end">
+          <ScrollReveal>
+            <p className="aurum-section-label">Investor Access</p>
+            <h2 className="text-section-heading max-w-xl text-foreground">
+              How to Engage with AURUM
+            </h2>
+          </ScrollReveal>
 
-      <div className="container relative">
-        <ScrollReveal className="mb-12 md:mb-14">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-2xl">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-1.5 shadow-xs">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E25C8F] opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#E25C8F]" />
-                </span>
-                <span className="text-xs font-semibold uppercase tracking-wider text-zinc-700">
-                  Explore the Aurum Ecosystem
-                </span>
-              </div>
-
-              <h2 className="text-3xl leading-tight text-[#231143] md:text-[44px]">
-                Access the Platforms Powering Intelligent Investing
-              </h2>
-            </div>
-
-            <p className="max-w-md border-l-2 border-[#E25C8F]/35 pl-6 text-sm leading-relaxed text-zinc-600 sm:text-base lg:max-w-sm">
-              Discover the tools, technologies, and financial infrastructure behind
-              the Aurum ecosystem. Explore AI powered trading solutions, digital
-              asset services, and next generation financial tools designed for
-              the future of modern investing.
+          <ScrollReveal xOffset={12}>
+            <p className="text-base leading-relaxed text-zinc-600">
+              Proteq partners with AURUM Foundation to provide curated investor
+              introductions and compliance-aligned onboarding — alongside direct
+              access to the official platform.
             </p>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+        </div>
 
         <StaggerContainer
-          className="grid gap-7 lg:grid-cols-2 lg:gap-8"
-          staggerChildren={0.08}
+          className="grid gap-6 lg:grid-cols-2"
+          staggerChildren={0.06}
         >
           {platforms.map((platform) => (
             <StaggerItem key={platform.title} className="h-full">
@@ -183,6 +144,4 @@ const AurumEcosystem = () => {
       </div>
     </section>
   );
-};
-
-export default AurumEcosystem;
+}

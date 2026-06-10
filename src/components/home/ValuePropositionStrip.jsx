@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { Shield, GraduationCap, Globe, Building2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Building2, GraduationCap, Globe, Shield } from "lucide-react";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
 
-// Robust, high-performance progressive count-up component using requestAnimationFrame
-const ProgressiveCounter = ({ value, duration = 2000, shouldAnimate }) => {
+function ProgressiveCounter({ value, duration = 2000, shouldAnimate }) {
   const endValue = parseInt(value, 10);
   const isNumeric = !isNaN(endValue);
-
-  const [count, setCount] = useState(() => (isNumeric ? 0 : value));
+  const [count, setCount] = useState(() => (isNumeric ? endValue : value));
 
   useEffect(() => {
     if (!shouldAnimate || !isNumeric) return;
@@ -19,15 +17,11 @@ const ProgressiveCounter = ({ value, duration = 2000, shouldAnimate }) => {
 
     const animate = (timestamp) => {
       if (!startTime) startTime = timestamp;
-      const progress = timestamp - startTime;
-      const progressRatio = Math.min(progress / duration, 1);
-
-      // Easing out quadratic curve for a premium, decelerating feel
+      const progressRatio = Math.min((timestamp - startTime) / duration, 1);
       const easeRatio = progressRatio * (2 - progressRatio);
-
       setCount(Math.floor(easeRatio * endValue));
 
-      if (progress < duration) {
+      if (progressRatio < 1) {
         animationFrameId = requestAnimationFrame(animate);
       } else {
         setCount(endValue);
@@ -36,14 +30,81 @@ const ProgressiveCounter = ({ value, duration = 2000, shouldAnimate }) => {
 
     animationFrameId = requestAnimationFrame(animate);
     return () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, [endValue, isNumeric, duration, shouldAnimate]);
 
   return <span>{count.toLocaleString()}</span>;
-};
+}
+
+const stats = [
+  {
+    icon: Shield,
+    number: 15,
+    suffix: "+",
+    title: "Years in Compliance",
+    description:
+      "Proven track record designing secure compliance structures and mitigating high-stakes risk.",
+  },
+  {
+    icon: GraduationCap,
+    number: 200,
+    suffix: "+",
+    title: "Professionals Trained",
+    description:
+      "Empowering teams with practical, audit-ready regulatory knowledge and operational skills.",
+  },
+  {
+    icon: Globe,
+    number: 10,
+    suffix: "+",
+    prefix: "Across ",
+    title: "Jurisdictions",
+    description:
+      "Expertise navigating complex cross-border financial systems and regional mandates.",
+  },
+  {
+    icon: Building2,
+    number: 40,
+    suffix: "+",
+    title: "Institutions Served",
+    description:
+      "Approved compliance frameworks built for banks, exchanges, and regulated organisations.",
+  },
+];
+
+function StatCard({ stat, inView }) {
+  const Icon = stat.icon;
+
+  return (
+    <StaggerItem className="flex h-full flex-col px-7 py-9 md:px-9 md:py-11">
+      <div className="mb-7 flex items-center gap-4">
+        <div className="icon-stat-circle size-11 shrink-0">
+          <Icon className="size-5 text-primary" strokeWidth={1.75} />
+        </div>
+        <span className="h-px flex-1 bg-zinc-200" aria-hidden />
+      </div>
+
+      <p className="mb-2 text-[2rem] font-bold leading-none tabular-nums tracking-tight text-primary md:text-[2.35rem]">
+        {stat.prefix && (
+          <span className="mr-1 text-base font-medium text-zinc-400 md:text-lg">
+            {stat.prefix.trim()}
+          </span>
+        )}
+        <ProgressiveCounter value={stat.number} shouldAnimate={inView} />
+        {stat.suffix}
+      </p>
+
+      <h3 className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-foreground">
+        {stat.title}
+      </h3>
+
+      <p className="mt-auto text-sm leading-[1.7] text-zinc-600">
+        {stat.description}
+      </p>
+    </StaggerItem>
+  );
+}
 
 const ValuePropositionStrip = () => {
   const [inView, setInView] = useState(false);
@@ -54,180 +115,58 @@ const ValuePropositionStrip = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
-          // Once animated, we don't need to observe anymore
-          if (sectionRef.current) {
-            observer.unobserve(sectionRef.current);
-          }
+          if (sectionRef.current) observer.unobserve(sectionRef.current);
         }
       },
-      {
-        threshold: 0.1, // Trigger when 10% of the section is visible
-      }
+      { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden"
+      id="values"
+      className="section-light-white w-full py-b0 md:pb-28"
+      aria-labelledby="values-heading"
     >
-      {/* 1. Cinematic Background Loop Video */}
-      <div className="absolute inset-0 w-full h-full -z-10 origin-center pointer-events-none select-none">
-        <div className="absolute inset-0 w-full h-full bg-black/90" />
-
-        {/* Looping HTML5 Video */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="w-full h-full object-cover opacity-50 transition-opacity duration-1000"
-        >
-          <source
-            src="/value.mp4"
-            type="video/mp4"
-          />
-        </video>
-
-        {/* Softer dark radial overlay for text readability, keeping the video highly visible in the center */}
-        {/* <div 
-          className="absolute inset-0 w-full h-full pointer-events-none" 
-          style={{
-            background: 'radial-gradient(circle, rgba(18, 8, 35, 0.1) 0%, rgba(9, 9, 11, 0.65) 60%, rgba(9, 9, 11, 0.95) 100%)'
-          }}
-        /> */}
-      </div>
-
-      {/* 2. Bento Container Split Layout */}
-      <div className="w-full max-w-400 mx-auto flex flex-col lg:flex-row items-stretch">
-
-        {/* Left Side: Large Heading Column */}
-        <ScrollReveal className="w-full lg:w-[40%] px-4 py-12 lg:!p-16 flex flex-col lg:border-r border-white/10" xOffset={-16} yOffset={0}>
-          <div>
-            {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 mb-4 bg-zinc-100 border border-zinc-200 rounded-full px-4 py-1.5 shadow-xs">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E25C8F] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E25C8F]"></span>
-              </span>
-              <span className="text-xs text-zinc-700 uppercase font-semibold tracking-wider">Our Values</span>
-            </div>
-
-            {/* Heading with mixed modern typography - using only brand sans-serif font */}
-            <h2 className="text-[34px] lg:text-[56px] text-white mb-2">
-              Where Expertise Compliance, and Trust Merge
-            </h2>
-
-            <p className="text-white text-sm">
-              Empowering organizations to proactively mitigate risk, navigate shifting international frameworks, and protect operations through intelligence.
+      <div className="container relative z-10">
+        <div className="mb-12 flex flex-col gap-6 md:mb-14 lg:flex-row lg:items-end lg:justify-between">
+          <ScrollReveal>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
+              Our Values
             </p>
-          </div>
-        </ScrollReveal>
+            <h2
+              id="values-heading"
+              className="section-heading-accent text-section-heading max-w-2xl text-foreground lg:hidden"
+            >
+              Expertise. Compliance. Trust.
+            </h2>
+            <h2 className="section-heading-accent text-section-heading hidden max-w-2xl text-foreground lg:block">
+              Where Expertise, Compliance, and Trust Merge
+            </h2>
+          </ScrollReveal>
 
-        {/* Right Side: Staggered Bento Grid */}
-        <StaggerContainer className="w-full lg:w-[60%] grid grid-cols-1 md:grid-cols-2 border-t lg:border-t-0 border-white/10" staggerChildren={0.08}>
+          <ScrollReveal xOffset={12} className="max-w-lg">
+            <p className="text-body text-zinc-600">
+              A track record built on practitioner expertise — helping
+              organisations mitigate risk, navigate evolving frameworks, and
+              operate with defensible, audit-ready compliance programmes.
+            </p>
+          </ScrollReveal>
+        </div>
 
-          {/* CARD 01 */}
-          <StaggerItem className="border-b md:border-r border-white/10 p-8 md:p-12 lg:p-16 flex flex-col justify-between min-h-70 md:min-h-80 group transition-all duration-300  backdrop-blur-sm">
-            <div className="flex items-start justify-between">
-              {/* Brand Pink Circular Icon Container */}
-              <div className="w-16 h-16 md:w-14 md:h-14 rounded-full bg-[#E25C8F] text-white flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(226,92,143,0.5)]">
-                <Shield className="size-8 md:size-6 stroke-[2]" />
-              </div>
-              {/* Card Number */}
-              <span className="text-zinc-500 text-sm font-light select-none tracking-wider">01</span>
-            </div>
-
-            <div className="mt-8">
-              <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
-                <ProgressiveCounter value={15} shouldAnimate={inView} />+ Years in Compliance
-              </h3>
-              <p className="text-white text-xs md:text-sm leading-relaxed max-w-sm">
-                Proven track record designing secure compliance structures and mitigating high-stakes risk.
-              </p>
-            </div>
-          </StaggerItem>
-
-          {/* Spacer 01 (Row 1, Col 2) - Hidden on Mobile */}
-          <div className="hidden md:block border-b border-white/10 p-8 md:p-12 lg:p-16 min-h-70 md:min-h-80 select-none pointer-events-none" />
-
-          {/* CARD 02 */}
-          <StaggerItem className="border-b  md:border-r border-white/10 p-8 md:p-12 lg:p-16 flex flex-col justify-between min-h-70 md:min-h-80 group transition-all duration-300  backdrop-blur-sm">
-            <div className="flex items-start justify-between">
-              {/* Brand Pink Circular Icon Container */}
-              <div className="w-16 h-16 md:w-14 md:h-14 rounded-full bg-[#E25C8F] text-white flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(226,92,143,0.5)]">
-                <GraduationCap className="size-8 md:size-6 stroke-[2]" />
-              </div>
-              {/* Card Number */}
-              <span className="text-zinc-500 text-sm font-light select-none tracking-wider">02</span>
-            </div>
-
-            <div className="mt-8">
-              <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
-                <ProgressiveCounter value={200} shouldAnimate={inView} />+ Professionals Trained
-              </h3>
-              <p className="text-white text-xs md:text-sm leading-relaxed max-w-sm">
-                Empowering teams with practical, audit-ready regulatory knowledge and operational skills.
-              </p>
-            </div>
-          </StaggerItem>
-
-          {/* CARD 03 */}
-          <StaggerItem className="border-b border-white/10 p-8 md:p-12 lg:p-16 flex flex-col justify-between min-h-70 md:min-h-80 group transition-all duration-300  backdrop-blur-sm">
-            <div className="flex items-start justify-between">
-              {/* Brand Pink Circular Icon Container */}
-              <div className="w-16 h-16 md:w-14 md:h-14 rounded-full bg-[#E25C8F] text-white flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(226,92,143,0.5)]">
-                <Globe className="size-8 md:size-6 stroke-[2]" />
-              </div>
-              {/* Card Number */}
-              <span className="text-zinc-500 text-sm font-light select-none tracking-wider">03</span>
-            </div>
-
-            <div className="mt-8">
-              <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
-                Across <ProgressiveCounter value={10} shouldAnimate={inView} />+ Jurisdictions
-              </h3>
-              <p className="text-white text-xs md:text-sm leading-relaxed max-w-sm">
-                Expertise navigating complex cross-border financial systems and regional mandates.
-              </p>
-            </div>
-          </StaggerItem>
-
-          {/* Spacer 02 (Row 3, Col 1) - Hidden on Mobile */}
-          <div className="hidden md:block border-r border-white/10 p-8 md:p-12 lg:p-16 min-h-70 md:min-h-80 select-none pointer-events-none" />
-
-          {/* CARD 04 */}
-          <StaggerItem className="p-8 md:p-12 lg:p-16 flex flex-col justify-between min-h-70 md:min-h-80 group transition-all duration-300  backdrop-blur-sm">
-            <div className="flex items-start justify-between">
-              {/* Brand Pink Circular Icon Container */}
-              <div className="w-16 h-16 md:w-14 md:h-14 rounded-full bg-[#E25C8F] text-white flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(226,92,143,0.5)]">
-                <Building2 className="size-8 md:size-6 stroke-[2]" />
-              </div>
-              {/* Card Number */}
-              <span className="text-zinc-500 text-sm font-light select-none tracking-wider">04</span>
-            </div>
-
-            <div className="mt-8">
-              <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
-                Trusted by Institutions
-              </h3>
-              <p className="text-white text-xs md:text-sm leading-relaxed max-w-sm">
-                Approved compliance frameworks built for banks, exchanges, and regulated organizations.
-              </p>
-            </div>
-          </StaggerItem>
-
+        <StaggerContainer
+          className="grid grid-cols-1 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_24px_80px_rgba(13,13,20,0.07)] divide-y divide-zinc-200 lg:grid-cols-4 lg:divide-x lg:divide-y-0"
+          staggerChildren={0.08}
+        >
+          {stats.map((stat) => (
+            <StatCard key={stat.title} stat={stat} inView={inView} />
+          ))}
         </StaggerContainer>
       </div>
     </section>

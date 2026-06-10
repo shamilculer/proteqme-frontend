@@ -1,5 +1,12 @@
 import * as z from "zod";
 
+export const heroLeadFormSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Please enter a valid email"),
+  company: z.string().optional(),
+  service: z.string().min(1, "Please select a service"),
+});
+
 export const contactFormSchema = z.object({
   "full-name": z.string({ error: "This field is required" }),
   email: z.email({ error: "Please enter a valid email" }),
@@ -47,4 +54,4 @@ export const partnerStep2SystemSchema = z.object({
   targetMarket: z.string().min(1, "Target market is required"),
   integrationCapabilities: z.string().min(1, "Integration capabilities are required"),
   demoAvailable: z.enum(["yes", "no"], { error: "Please select an option" }),
-});
+});

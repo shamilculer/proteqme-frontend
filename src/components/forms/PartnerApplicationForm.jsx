@@ -33,14 +33,14 @@ import { cn } from "@/lib/utils";
 // ─── Field helpers ─────────────────────────────────────────────────────────
 
 const fieldClass =
-  "h-12 rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 placeholder:text-zinc-400 text-sm w-full focus:outline-none focus:border-[#E25C8F] focus:ring-2 focus:ring-[#E25C8F]/15 transition-all";
+  "h-12 rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 placeholder:text-zinc-400 text-sm w-full focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition-all";
 
-const errorClass = "text-xs text-[#E25C8F] font-semibold mt-1.5 flex items-center gap-1";
+const errorClass = "text-xs text-primary font-semibold mt-1.5 flex items-center gap-1";
 
 const FieldWrapper = ({ label, required, error, children, className }) => (
   <div className={cn("flex flex-col gap-1", className)}>
     <label className="text-zinc-700 text-sm font-medium mb-0.5">
-      {label} {required && <span className="text-[#E25C8F]">*</span>}
+      {label} {required && <span className="text-primary">*</span>}
     </label>
     {children}
     {error && <p className={errorClass}>{error}</p>}
@@ -68,8 +68,8 @@ const MultiSelect = ({ options, value = [], onChange, error }) => (
             className={cn(
               "px-3.5 py-2 rounded-full text-sm font-medium border transition-all duration-200 cursor-pointer select-none",
               selected
-                ? "bg-[#E25C8F] border-[#E25C8F] text-white shadow-sm"
-                : "bg-white border-zinc-200 text-zinc-600 hover:border-[#E25C8F]/50 hover:text-zinc-900"
+                ? "bg-primary border-primary text-white shadow-sm"
+                : "bg-white border-zinc-200 text-zinc-600 hover:border-primary/50 hover:text-zinc-900"
             )}
           >
             {opt.label}
@@ -94,8 +94,8 @@ const YesNoToggle = ({ value, onChange, error }) => (
           className={cn(
             "flex-1 h-12 rounded-xl border text-sm font-semibold transition-all duration-200 cursor-pointer capitalize",
             value === opt
-              ? "bg-[#E25C8F] border-[#E25C8F] text-white shadow-sm"
-              : "bg-white border-zinc-200 text-zinc-600 hover:border-[#E25C8F]/50"
+              ? "bg-primary border-primary text-white shadow-sm"
+              : "bg-white border-zinc-200 text-zinc-600 hover:border-primary/50"
           )}
         >
           {opt === "yes" ? "Yes" : "No"}
@@ -140,9 +140,9 @@ const StepIndicator = ({ step, category }) => {
                 className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 shrink-0",
                   isDone
-                    ? "bg-[#E25C8F] border-[#E25C8F] text-white"
+                    ? "bg-primary border-primary text-white"
                     : isActive
-                    ? "bg-[#231143] border-[#231143] text-white"
+                    ? "bg-panel-dark border-panel-dark text-white"
                     : "bg-white border-zinc-200 text-zinc-400"
                 )}
               >
@@ -151,7 +151,7 @@ const StepIndicator = ({ step, category }) => {
               <span
                 className={cn(
                   "text-xs font-semibold whitespace-nowrap",
-                  isActive ? "text-[#231143]" : isDone ? "text-[#E25C8F]" : "text-zinc-400"
+                  isActive ? "text-foreground" : isDone ? "text-primary" : "text-zinc-400"
                 )}
               >
                 {s.label}
@@ -161,7 +161,7 @@ const StepIndicator = ({ step, category }) => {
               <div
                 className={cn(
                   "h-0.5 flex-1 mx-3 mb-5 rounded-full transition-all duration-500",
-                  isDone ? "bg-[#E25C8F]" : "bg-zinc-200"
+                  isDone ? "bg-primary" : "bg-zinc-200"
                 )}
               />
             )}
@@ -181,7 +181,7 @@ const CategoryCard = ({ value, current, onClick, icon: Icon, title, description 
     className={cn(
       "flex items-start gap-4 w-full p-4 rounded-2xl border-2 text-left transition-all duration-200 cursor-pointer group",
       current === value
-        ? "border-[#E25C8F] bg-[#E25C8F]/5"
+        ? "border-primary bg-primary/10"
         : "border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50"
     )}
   >
@@ -189,14 +189,14 @@ const CategoryCard = ({ value, current, onClick, icon: Icon, title, description 
       className={cn(
         "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-200",
         current === value
-          ? "bg-[#E25C8F] text-white"
+          ? "bg-primary text-white"
           : "bg-zinc-100 text-zinc-500 group-hover:bg-zinc-200"
       )}
     >
       <Icon className="size-5" />
     </div>
     <div>
-      <p className={cn("font-semibold text-sm", current === value ? "text-[#E25C8F]" : "text-zinc-900")}>
+      <p className={cn("font-semibold text-sm", current === value ? "text-primary" : "text-zinc-900")}>
         {title}
       </p>
       <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">{description}</p>
@@ -204,7 +204,7 @@ const CategoryCard = ({ value, current, onClick, icon: Icon, title, description 
     <div
       className={cn(
         "ml-auto shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200 mt-0.5",
-        current === value ? "border-[#E25C8F] bg-[#E25C8F]" : "border-zinc-300"
+        current === value ? "border-primary bg-primary" : "border-zinc-300"
       )}
     >
       {current === value && <Check className="size-3 text-white" />}
@@ -474,7 +474,7 @@ export default function PartnerApplicationForm() {
   }
 
   return (
-    <div className="p-6 sm:p-10 w-full rounded-3xl bg-primary/3 border border-zinc-200 border-t-4 border-t-[#E25C8F]">
+    <div className="p-6 sm:p-10 w-full rounded-3xl bg-primary/3 border border-zinc-200 border-t-4 border-t-primary">
       {/* Step indicator */}
       <StepIndicator step={step} category={category} />
 
@@ -565,7 +565,7 @@ export default function PartnerApplicationForm() {
             {/* Partnership category selector */}
             <div>
               <p className="text-zinc-700 text-sm font-medium mb-3">
-                Partnership Category <span className="text-[#E25C8F]">*</span>
+                Partnership Category <span className="text-primary">*</span>
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <CategoryCard
@@ -621,10 +621,10 @@ export default function PartnerApplicationForm() {
           >
             {/* Category-specific sub-title */}
             <div className="flex items-center gap-3 pb-2 border-b border-zinc-100">
-              <div className="w-8 h-8 rounded-lg bg-[#E25C8F]/10 flex items-center justify-center">
-                {category === "partner" && <Handshake className="size-4 text-[#E25C8F]" />}
-                {category === "trainer" && <GraduationCap className="size-4 text-[#E25C8F]" />}
-                {category === "system-provider" && <Cpu className="size-4 text-[#E25C8F]" />}
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                {category === "partner" && <Handshake className="size-4 text-primary" />}
+                {category === "trainer" && <GraduationCap className="size-4 text-primary" />}
+                {category === "system-provider" && <Cpu className="size-4 text-primary" />}
               </div>
               <div>
                 <p className="text-zinc-900 font-semibold text-sm">

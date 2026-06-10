@@ -2,55 +2,37 @@ export const learningTestimonials = [
   {
     quote:
       "The AML programme was practical, well structured, and immediately relevant to our day-to-day compliance work. Our team left with confidence, not just certificates.",
-    name: "Sarah Mitchell",
-    role: "Compliance Manager",
-    company: "Regulated Financial Services",
-    avatar:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop&crop=faces",
+    attribution: "Compliance Manager, Regulated Financial Services Firm",
+    initials: "CM",
   },
   {
     quote:
-      "PROTEQme's facilitators understand regulated environments. The sessions were engaging, scenario-led, and far more useful than generic off-the-shelf training.",
-    name: "James Okonkwo",
-    role: "Head of Learning & Development",
-    company: "Regional Bank",
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=faces",
+      "Facilitators understand regulated environments. The sessions were engaging, scenario-led, and far more useful than generic off-the-shelf training.",
+    attribution: "Head of Learning & Development, Regional Bank",
+    initials: "HL",
   },
   {
     quote:
-      "We used their customised in-house workshop series for our compliance team. Content aligned with our policies and the feedback from participants was outstanding.",
-    name: "Elena Vasquez",
-    role: "Director of Risk",
-    company: "Payments Group",
-    avatar:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop&crop=faces",
+      "Our in-house workshop series aligned with internal policies. Participant feedback was consistently strong across every cohort.",
+    attribution: "Director of Risk, Payments Group",
+    initials: "DR",
   },
   {
     quote:
-      "CAFS preparation support was focused and efficient. The modules cut through complexity and helped our professionals prepare with a clear study path.",
-    name: "David Chen",
-    role: "Senior Compliance Officer",
-    company: "Insurance Sector",
-    avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=faces",
+      "CAFS preparation support was focused and efficient. The modules cut through complexity and gave our team a clear study path.",
+    attribution: "Senior Compliance Officer, Insurance Sector",
+    initials: "SC",
   },
   {
     quote:
-      "The webinar library is a strong resource for keeping our team current. Topics are timely, expert-led, and easy to integrate into busy schedules.",
-    name: "Amara Diallo",
-    role: "AML Training Lead",
-    company: "Fintech",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop&crop=faces",
+      "The webinar library keeps our team current on regulatory change. Topics are timely, expert-led, and easy to fit around busy schedules.",
+    attribution: "AML Training Lead, Fintech",
+    initials: "AT",
   },
   {
     quote:
-      "Experiential exercises made the learning stick. Our staff could apply concepts in the room and carry that judgement into real case reviews the following week.",
-    name: "Michael Torres",
-    role: "VP Compliance",
-    company: "Wealth Management",
-    avatar:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop&crop=faces",
+      "Experiential exercises made the learning stick. Staff applied concepts in the room and carried that judgement into real case reviews.",
+    attribution: "VP Compliance, Wealth Management",
+    initials: "VC",
   },
 ];

@@ -1,157 +1,153 @@
 "use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { Shield, GraduationCap, Network, ArrowRight } from 'lucide-react';
-import { ScrollReveal, StaggerContainer, StaggerItem } from '../ui/scroll-reveal';
-import Image from 'next/image';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { ShieldCheck, GraduationCap, Layers, ArrowRight } from "lucide-react";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
+
+const PANEL_GRADIENT =
+  "linear-gradient(90deg, rgba(13,13,18,0.92) 0%, rgba(13,13,18,0.78) 68%, rgba(13,13,18,0.18) 100%)";
 
 const pillars = [
   {
     number: "01",
     tag: "Advisory",
     title: "Consultancy & Advisory",
-    description: "Expert guidance on AML compliance frameworks, anti-fraud programme design, risk assessment, and regulatory readiness. We help organisations build defensible compliance operations.",
-    linkText: "Learn More",
+    description:
+      "Expert guidance on AML compliance frameworks, anti-fraud programme design, risk assessment, and regulatory readiness. We help organisations build defensible compliance operations.",
     href: "/consultancy-advisory",
-    icon: Shield,
-    iconColor: "text-[#E25C8F]",
-    image: "/systems.webp",
+    icon: ShieldCheck,
+    image: "/consulting-adv.webp",
+    imageAlt: "Compliance advisory consultation",
     gridClass: "lg:col-span-2 min-h-[480px]",
-    parentFlexClass: "justify-start",
-    panelClass: "w-full sm:w-[420px]",
+    alignClass: "justify-start",
+    panelClass: "w-full sm:w-[min(100%,520px)] lg:w-[55%]",
+    panelShadow: false,
   },
   {
     number: "02",
     tag: "Learning",
     title: "Learning",
-    description: "Pre-recorded webinars, structured courses, and certification preparation programmes designed for compliance professionals and teams building anti-fraud capability.",
-    linkText: "Explore Courses",
+    description:
+      "Pre-recorded webinars, structured courses, and certification preparation programmes designed for compliance professionals and teams building anti-fraud capability.",
     href: "/learning",
     icon: GraduationCap,
-    iconColor: "text-pink-400",
     image: "/learning.webp",
+    imageAlt: "Professional compliance learning",
     gridClass: "lg:col-span-1 min-h-[480px]",
-    parentFlexClass: "justify-center",
-    panelClass: "w-full",
+    alignClass: "justify-start",
+    panelClass: "w-full sm:w-[min(100%,420px)]",
+    panelShadow: false,
   },
   {
     number: "03",
     tag: "Systems",
     title: "Systems",
-    description: "AML screening, transaction monitoring, and regulatory technology solutions. We evaluate, recommend, and implement systems that reduce compliance risk and operational overhead.",
-    linkText: "View Systems",
+    description:
+      "AML screening, transaction monitoring, and regulatory technology solutions. We evaluate, recommend, and implement systems that reduce compliance risk and operational overhead.",
     href: "/systems",
-    icon: Network,
-    iconColor: "text-indigo-400",
-    image: "/consulting-adv.webp",
+    icon: Layers,
+    image: "/systems.webp",
+    imageAlt: "RegTech systems and compliance technology",
     gridClass: "lg:col-span-3 min-h-[440px]",
-    parentFlexClass: "justify-start lg:justify-end",
-    panelClass: "w-full sm:w-[420px]",
-  }
+    alignClass: "justify-start lg:justify-end",
+    panelClass: "w-full sm:w-[min(100%,520px)] lg:w-[42%]",
+    panelShadow: true,
+  },
 ];
 
 const ServicePillars = () => {
   return (
-    <section className="mt-10 mb-14 relative overflow-hidden">
-      <div className="container">
-        {/* Premium Geometric Grid Background */}
-        {/* <div
-          className="absolute inset-0 opacity-[0.25] pointer-events-none"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, #E25C8F 1.5px, transparent 0)`,
-            backgroundSize: "40px 40px",
-          }}
-        /> */}
+    <section className="section-dark py-18 md:py-24">
+      <div className="container relative z-10">
+        <ScrollReveal className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+            </span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-white/80">
+              Our Solutions Blueprint
+            </span>
+          </div>
 
-        {/* Immersive Ambient Glows */}
-        <div className="absolute right-0 top-1/4 w-125 h-125 bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
+          <h2 className="text-section-heading text-white">
+            Integrated Advisory, Learning, and RegTech Services
+          </h2>
+        </ScrollReveal>
 
-        <div className="w-full relative z-10">
-          {/* Section Header */}
-          <ScrollReveal className="text-center max-w-3xl mx-auto mb-8">
-            <div className="inline-flex items-center gap-2 mb-4 bg-zinc-100 border border-zinc-200 rounded-full px-4 py-1.5 shadow-xs">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E25C8F] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E25C8F]"></span>
-              </span>
-              <span className="text-xs text-zinc-700 uppercase font-semibold tracking-wider">Our Solutions Blueprint</span>
-            </div>
+        <StaggerContainer className="mx-auto grid max-w-7xl grid-cols-1 gap-5 lg:grid-cols-3 lg:gap-6">
+          {pillars.map((pillar) => {
+            const Icon = pillar.icon;
+            return (
+              <StaggerItem
+                key={pillar.number}
+                className={`group relative overflow-hidden rounded-2xl bg-proteq-dark ${pillar.gridClass}`}
+              >
+                {/* Full-bleed background photography */}
+                <div className="absolute inset-0">
+                  <Image
+                    src={pillar.image}
+                    alt={pillar.imageAlt}
+                    fill
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                </div>
 
-            <h2 className="text-[34px] md:text-[42px]">
-              Integrated Advisory, Learning, and RegTech Services
-            </h2>
-          </ScrollReveal>
-
-          {/* Pillars Cards Grid */}
-          <StaggerContainer className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 max-w-7xl mx-auto">
-            {pillars.map((pillar, idx) => {
-              const Icon = pillar.icon;
-              return (
-                <StaggerItem
-                  key={idx}
-                  className={`relative group overflow-hidden rounded-[10px] ${pillar.gridClass} border border-zinc-200/60 shadow-lg p-4 md:p-6 flex flex-col justify-center items-center md:items-stretch ${pillar.parentFlexClass}`}
+                {/* Card link + left content panel */}
+                <Link
+                  href={pillar.href}
+                  className={`relative z-10 flex h-full min-h-[inherit] p-4 md:p-6 ${pillar.alignClass}`}
                 >
-
-                  {/* 1. Card Background Image with Parallax & Scaling */}
-                  <div className="absolute inset-0 w-full h-full overflow-hidden -z-10">
-                    <Image
-                      fill
-                      src={pillar.image}
-                      alt={pillar.title}
-                      className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
-                    />
-                  </div>
-
-                  {/* 2. Flex-Stretching Glassmorphic Card Container */}
-                  <Link
-                    href={pillar.href}
-                    className={`relative z-10 bg-zinc-950/75 backdrop-blur-xl rounded-[24px] p-6 lg:p-8 border border-white/10 flex flex-col justify-between overflow-hidden transition-all duration-500 group-hover:bg-zinc-950/80 group-hover:border-white/15 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-pointer ${pillar.panelClass}`}
+                  <div
+                    className={`relative flex min-h-[280px] flex-col justify-between rounded-xl p-6 backdrop-blur-sm md:min-h-[320px] md:p-8 ${pillar.panelClass} ${
+                      pillar.panelShadow
+                        ? "shadow-[4px_0_24px_rgba(0,0,0,0.5)]"
+                        : ""
+                    }`}
+                    style={{ background: PANEL_GRADIENT }}
                   >
-                    {/* Background Counter Number */}
-                    <span className="absolute right-8 top-6 text-7xl lg:text-8xl font-black text-white/[0.02] group-hover:text-[#E25C8F]/5 transition-colors duration-500 font-sans select-none pointer-events-none">
+                    <span
+                      className="pointer-events-none absolute right-6 top-5 text-6xl font-black leading-none text-white/[0.04] transition group-hover:text-primary/10"
+                      aria-hidden
+                    >
                       {pillar.number}
                     </span>
 
-                    <div>
-                      {/* Glowing Icon Container */}
-                      <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 text-white transition-all duration-500 group-hover:scale-110 group-hover:bg-white/10">
-                        <Icon className={`size-5 ${pillar.iconColor}`} />
+                    <div className="relative z-10">
+                      <div className="icon-ghost-pink mb-6 flex size-12 items-center justify-center rounded-xl">
+                        <Icon className="size-5 text-white" strokeWidth={1.75} />
                       </div>
 
-                      {/* Floating tag */}
-                      <span className="inline-block bg-white/10 backdrop-blur-sm border border-white/10 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-3 shadow-xs">
+                      <span className="mb-3 inline-block rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white/90">
                         {pillar.tag}
                       </span>
 
-                      {/* Title */}
-                      <h3 className="text-2xl lg:text-3xl font-bold text-white tracking-tight mb-3 group-hover:text-[#E25C8F] transition-colors duration-300">
+                      <h3 className="mb-3 text-2xl font-semibold tracking-tight text-white transition group-hover:text-primary lg:text-3xl">
                         {pillar.title}
                       </h3>
 
-                      {/* Description Paragraph */}
-                      <p className="text-zinc-300 text-sm lg:text-base leading-relaxed mb-6">
+                      <p className="max-w-lg text-sm leading-relaxed text-zinc-300 md:text-base">
                         {pillar.description}
                       </p>
                     </div>
 
-                    {/* 3. Action Link Row */}
-                    <div className="pt-5 border-t border-white/10 flex items-center justify-between">
-                      <span className="text-xs lg:text-sm uppercase tracking-wider font-bold text-white group-hover:text-[#E25C8F] transition-colors duration-300">
-                        {pillar.linkText}
-                      </span>
-                      <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 text-white transition-all duration-300 group-hover:bg-[#E25C8F] group-hover:border-[#E25C8F] group-hover:text-white group-hover:rotate-45 group-hover:scale-105 shrink-0 shadow-xs border border-white/10">
+                    <div className="relative z-10 mt-8 flex items-center justify-end border-t border-white/10 pt-5">
+                      <span
+                        className="flex size-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition group-hover:rotate-45 group-hover:border-primary/40 group-hover:bg-primary"
+                        aria-label="Learn more"
+                      >
                         <ArrowRight className="size-4" />
                       </span>
                     </div>
-                  </Link>
-
-                  <div className="absolute inset-0 w-full h-full bg-black/40" />
-                </StaggerItem>
-              );
-            })}
-          </StaggerContainer>
-        </div>
+                  </div>
+                </Link>
+              </StaggerItem>
+            );
+          })}
+        </StaggerContainer>
       </div>
     </section>
   );

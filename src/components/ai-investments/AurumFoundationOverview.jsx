@@ -5,9 +5,9 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import AurumVideoPlayer from "./AurumVideoPlayer";
 
 const statBars = [
-  "$30M+ Assets Managed",
-  "18,000+ Active Partners",
-  "5+ Tech Products",
+  { label: "$30M+ Assets Managed", width: 100 },
+  { label: "18,000+ Active Partners", width: 88 },
+  { label: "5+ Tech Products", width: 62 },
 ];
 
 function AnimatedStatBar({ label, targetWidth, delay = 0, animate }) {
@@ -27,9 +27,9 @@ function AnimatedStatBar({ label, targetWidth, delay = 0, animate }) {
   }, [animate, targetWidth, delay]);
 
   return (
-    <div className="relative h-12 w-full overflow-hidden rounded-full bg-zinc-100 md:h-[52px]">
+    <div className="aurum-stat-bar">
       <div
-        className="absolute inset-y-0 left-0 flex min-w-0 items-center rounded-full bg-[#231143] px-5 transition-[width] duration-1000 ease-out"
+        className="aurum-stat-bar-fill"
         style={{ width: `${width}%` }}
       >
         <span className="truncate text-sm font-semibold text-white md:text-[15px]">
@@ -40,7 +40,7 @@ function AnimatedStatBar({ label, targetWidth, delay = 0, animate }) {
   );
 }
 
-const AurumFoundationOverview = () => {
+export default function AurumFoundationOverview() {
   const sectionRef = useRef(null);
   const [barsInView, setBarsInView] = useState(false);
 
@@ -62,28 +62,29 @@ const AurumFoundationOverview = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full border-t border-zinc-200/60 bg-white py-18 md:py-24"
+      className="section-aurum-alt w-full py-16 md:py-20"
     >
-      <div className="container">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16 xl:gap-20">
-          <ScrollReveal xOffset={-16} yOffset={0}>
-            <h2 className="text-3xl leading-tight text-[#231143] md:text-[40px] lg:text-[42px]">
-              AURUM Foundation: Shaping the Future of Finance
+      <div className="container relative z-10">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <ScrollReveal xOffset={-12}>
+            <p className="aurum-section-label">Platform Scale</p>
+
+            <h2 className="text-section-heading text-white">
+              Shaping the Future of Finance
             </h2>
 
-            <p className="mt-5 text-sm leading-relaxed text-zinc-600 sm:text-base">
-              AURUM is a decentralized fintech ecosystem that integrates
-              artificial intelligence and blockchain technology to modernize
-              financial management. The platform delivers secure, transparent,
-              and scalable solutions designed for a global digital economy.
+            <p className="aurum-text-muted mt-5 text-base leading-relaxed">
+              AURUM integrates artificial intelligence and blockchain technology
+              to modernise financial management — delivering secure, transparent,
+              and scalable solutions for a global digital economy.
             </p>
 
             <div className="mt-8 space-y-3 md:mt-10 md:space-y-4">
-              {statBars.map((label, index) => (
+              {statBars.map((bar, index) => (
                 <AnimatedStatBar
-                  key={label}
-                  label={label}
-                  targetWidth={100}
+                  key={bar.label}
+                  label={bar.label}
+                  targetWidth={bar.width}
                   delay={index * 180}
                   animate={barsInView}
                 />
@@ -91,7 +92,7 @@ const AurumFoundationOverview = () => {
             </div>
           </ScrollReveal>
 
-          <ScrollReveal xOffset={16} yOffset={0}>
+          <ScrollReveal xOffset={12}>
             <AurumVideoPlayer
               videoId="uKgSgGClewc"
               playLabel="Play AURUM Foundation video"
@@ -101,6 +102,4 @@ const AurumFoundationOverview = () => {
       </div>
     </section>
   );
-};
-
-export default AurumFoundationOverview;
+}

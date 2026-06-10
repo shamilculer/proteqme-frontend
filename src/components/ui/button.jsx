@@ -12,9 +12,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         // Standard Shadcn variants
-        default: "bg-secondary text-white hover:bg-secondary-dark active:scale-[0.98] hover:scale-[1.02] shadow-md hover:shadow-lg transition-all duration-300 rounded-full cursor-pointer",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 active:scale-[0.98] hover:scale-[1.02] shadow-md hover:shadow-lg transition-all duration-300 rounded-full cursor-pointer",
 
-        secondary: "bg-primary text-white hover:bg-primary/95 active:scale-[0.98] hover:scale-[1.02] shadow-md hover:shadow-lg transition-all duration-300 rounded-full cursor-pointer",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-proteq-dark active:scale-[0.98] hover:scale-[1.02] shadow-md hover:shadow-lg transition-all duration-300 rounded-full cursor-pointer",
 
         outline:
           "border-white/20 text-white hover:bg-white/5 bg-transparent border active:scale-[0.98] hover:scale-[1.02] shadow-sm transition-all duration-300 rounded-full cursor-pointer",
@@ -131,8 +131,8 @@ function Button({
               variant === "white"
                 ? "bg-zinc-950 text-zinc-100 group-hover/button:rotate-45"
                 : variant === "secondary"
-                  ? "bg-[#E25C8F] text-white group-hover/button:rotate-45"
-                  : "bg-white/10 text-white group-hover/button:rotate-45"
+                  ? "bg-primary text-primary-foreground group-hover/button:rotate-45"
+                  : "bg-proteq-dark text-white group-hover/button:rotate-45"
             )}>
               {arrowDirection === "right" ? (
                 <ArrowRight className="size-4" />

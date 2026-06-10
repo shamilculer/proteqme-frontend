@@ -77,7 +77,7 @@ function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 sm:p-10 w-full rounded-3xl bg-primary/1 border border-zinc-200 border-t-4 border-t-[#E25C8F]"
+      className="p-6 sm:p-10 w-full rounded-3xl bg-primary/1 border border-zinc-200 border-t-4 border-t-primary"
     >
       <FieldGroup className="grid md:grid-cols-6 gap-x-8 gap-y-6 mb-6">
         <Controller
@@ -95,7 +95,7 @@ function ContactForm() {
                 placeholder="Enter your full name"
                 className="h-12 rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 placeholder:text-zinc-400 outline-none text-sm w-full"
               />
-              {fieldState.invalid && <FieldError className="text-xs text-[#E25C8F] font-semibold mt-1" errors={[fieldState.error]} />}
+              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
             </Field>
           )}
         />
@@ -115,7 +115,7 @@ function ContactForm() {
                 placeholder="Enter your email address"
                 className="h-12 rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 placeholder:text-zinc-400text-sm w-full"
               />
-              {fieldState.invalid && <FieldError className="text-xs text-[#E25C8F] font-semibold mt-1" errors={[fieldState.error]} />}
+              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
             </Field>
           )}
         />
@@ -135,7 +135,7 @@ function ContactForm() {
                 placeholder="Enter your phone number"
                 className="h-12 rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 placeholder:text-zinc-400text-sm w-full"
               />
-              {fieldState.invalid && <FieldError className="text-xs text-[#E25C8F] font-semibold mt-1" errors={[fieldState.error]} />}
+              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
             </Field>
           )}
         />
@@ -155,7 +155,7 @@ function ContactForm() {
                 placeholder="Enter your company name"
                 className="h-12 rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 placeholder:text-zinc-400text-sm w-full"
               />
-              {fieldState.invalid && <FieldError className="text-xs text-[#E25C8F] font-semibold mt-1" errors={[fieldState.error]} />}
+              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
             </Field>
           )}
         />
@@ -178,7 +178,7 @@ function ContactForm() {
                   ))}
                 </SelectContent>
               </Select>
-              {fieldState.invalid && <FieldError className="text-xs text-[#E25C8F] font-semibold mt-1" errors={[fieldState.error]} />}
+              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
             </Field>
           )}
         />
@@ -196,7 +196,7 @@ function ContactForm() {
                 placeholder="Tell us about your compliance requirements, training needs, or any questions you have...."
                 className="min-h-[140px] rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 placeholder:text-zinc-400shadow-xs text-sm resize-none w-full"
               />
-              {fieldState.invalid && <FieldError className="text-xs text-[#E25C8F] font-semibold mt-1" errors={[fieldState.error]} />}
+              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
             </Field>
           )}
         />

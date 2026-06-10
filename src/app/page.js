@@ -1,8 +1,10 @@
 import React from 'react'
 import Hero from '@/components/home/Hero'
 import Intro from '@/components/home/Intro'
-import ServicePillars from '@/components/home/ServicePillars'
+import HowItWorks from '@/components/home/HowItWorks'
+import ServicesSlider from '@/components/home/ServicesSlider'
 import Partners from '@/components/home/Partners'
+import Clients from '@/components/home/Clients'
 import ValuePropositionStrip from '@/components/home/ValuePropositionStrip'
 import AurumFeature from '@/components/home/AurumFeature'
 import Testimonials from '@/components/home/Testimonials'
@@ -13,12 +15,14 @@ const HomePage = () => {
     <main>
       <Hero />
       <Intro />
-      <ServicePillars />
+      <HowItWorks />
+      <ServicesSlider />
       <Partners />
+      {/* <Clients /> */}
       <ValuePropositionStrip />
       <AurumFeature />
       <Testimonials />
-      <MainCTA />
+      <MainCTA bgImage="/hero-3.webp" />
     </main>
   )
 }

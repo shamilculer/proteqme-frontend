@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { CheckCircle2 } from "lucide-react";
 
+import HeroOverlays from "@/components/global/HeroOverlays";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -42,7 +43,11 @@ const MediumHero = ({
         className
       )}
     >
-      <div className="container relative min-h-[570px] overflow-hidden rounded-[14px] bg-secondary-dark !px-0 shadow-[0_24px_70px_rgba(17,24,39,0.18)] md:min-h-175 md:rounded-3xl">
+      <div
+        className={cn(
+          "hero-home-pattern container relative min-h-[570px] overflow-hidden rounded-[12px] bg-secondary-dark !px-0 shadow-[0_24px_70px_rgba(17,24,39,0.18)] md:min-h-175",
+        )}
+      >
         <Image
           src={bgImage}
           alt={imageAlt}
@@ -52,17 +57,15 @@ const MediumHero = ({
           className="object-cover object-center brightness-[1.04] contrast-[1.04] saturate-[1.02]"
         />
 
-        <div className="absolute inset-0 bg-linear-to-r from-[#100A1D]/90 via-[#100A1D]/54 to-[#100A1D]/5" />
-        <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/5 to-white/10" />
-        <div className="absolute inset-y-0 left-0 w-full bg-[radial-gradient(circle_at_22%_42%,rgba(226,92,143,0.24),transparent_34%)]" />
+        <HeroOverlays />
 
-        <div className="relative z-10 flex min-h-[570px] w-full flex-col items-start justify-end px-4 py-10 sm:px-8 sm:py-12 md:min-h-175 md:justify-center md:px-14 md:py-14 lg:px-16 lg:py-16">
+        <div className="relative z-10 flex min-h-[570px] w-full flex-col items-start justify-end px-4 py-10 sm:px-8 sm:py-12 md:min-h-175 md:justify-center md:px-10 md:py-16">
           <div className="w-full md:max-w-[58%] lg:max-w-[62%]">
             {eyebrow ? (
               <div className="mb-2 inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 backdrop-blur-sm md:mb-4 md:px-4">
                 <span className="relative flex h-2 w-2 shrink-0">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E25C8F] opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#E25C8F]" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
                 </span>
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-white/90 sm:text-xs">
                   {eyebrow}
@@ -110,7 +113,7 @@ const MediumHero = ({
                   key={highlight}
                   className="flex max-w-full items-center gap-2 rounded-full border border-white/15 bg-black/15 px-2.5 py-1.5 text-[11px] font-medium text-white shadow-xs backdrop-blur-md sm:gap-2.5 sm:px-3.5 sm:py-2 sm:text-xs md:text-sm"
                 >
-                  <CheckCircle2 className="size-3 shrink-0 text-[#E25C8F] sm:size-3.5" />
+                  <CheckCircle2 className="size-3 shrink-0 text-primary sm:size-3.5" />
                   <span className="leading-snug">{highlight}</span>
                 </div>
               ))}

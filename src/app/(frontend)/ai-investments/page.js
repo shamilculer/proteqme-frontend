@@ -1,68 +1,29 @@
-import MainCTA from "@/components/global/MainCTA";
-import MediumHero from "@/components/global/MediumHero";
+import AurumHero from "@/components/ai-investments/AurumHero";
 import AurumIntro from "@/components/ai-investments/AurumIntro";
-import AurumInvestmentPerformance from "@/components/ai-investments/AurumInvestmentPerformance";
-import AurumWhyAI from "@/components/ai-investments/AurumWhyAI";
-import AurumFoundationOverview from "@/components/ai-investments/AurumFoundationOverview";
-import AurumEcosystem from "@/components/ai-investments/AurumEcosystem";
-import AurumFAQ from "@/components/ai-investments/AurumFAQ";
+import AurumEcosystemSection from "@/components/ai-investments/AurumEcosystemSection";
+import AurumMissionVision from "@/components/ai-investments/AurumMissionVision";
+import AurumWhyChoose from "@/components/ai-investments/AurumWhyChoose";
+import AurumGetStarted from "@/components/ai-investments/AurumGetStarted";
+import AurumMobileApp from "@/components/ai-investments/AurumMobileApp";
+import AurumCTA from "@/components/ai-investments/AurumCTA";
+
+export const metadata = {
+  title: "AI Investments | AURUM Foundation | Proteq",
+  description:
+    "Explore AURUM Foundation — AI trading bots, Gold (XAU) packages, and Web3 NeoBank. Request investor information through Proteq.",
+};
 
 const AiInvestmentPage = () => {
   return (
-    <main>
-      <MediumHero
-        eyebrow="AI Investments with Aurum"
-        heading="Your Exclusive Gateway to Premium Returns"
-        description="Join an elite circle of investors generating 16-18% ROI through our proprietary FinTech investment strategies. Limited positions available."
-        highlights={[
-          "SEC Compliant",
-          "Bank-Grade Security",
-          "Verified Returns",
-          "Exclusive Access",
-        ]}
-        buttons={[
-          {
-            label: "Explore Aurum Foundation",
-            href: "https://aurum-foundation.com/",
-            variant: "white",
-            showArrow: true,
-            target: "_blank",
-            rel: "noopener noreferrer",
-          },
-        ]}
-        bgImage="/ai-investment.webp"
-      />
+    <main className="aurum-page">
+      <AurumHero />
       <AurumIntro />
-
-      <AurumInvestmentPerformance />
-
-      <AurumWhyAI />
-
-      <AurumFoundationOverview />
-
-      <AurumEcosystem />
-
-      <AurumFAQ />
-
-      <MainCTA
-        heading="Ready to Explore AI-Driven Investment Opportunities?"
-        description="Speak with our team to learn how Aurum Foundation combines AI-driven trading intelligence with blockchain-powered security for modern wealth management."
-        buttons={[
-          {
-            label: "Book a Free Demo",
-            href: "/contact",
-            variant: "white",
-            glowingDot: true,
-            showArrow: true,
-          },
-          {
-            label: "Get in Touch",
-            href: "/contact",
-            variant: "outline",
-            showArrow: true,
-          },
-        ]}
-      />
+      <AurumEcosystemSection />
+      <AurumMissionVision />
+      <AurumWhyChoose />
+      <AurumGetStarted />
+      <AurumMobileApp />
+      <AurumCTA />
     </main>
   );
 };

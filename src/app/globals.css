@@ -7,7 +7,19 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist);
   --font-mono: var(--font-geist);
-  --font-heading: var(--font-geist);
+  --font-heading: var(--font-dm-sans);
+  --color-proteq-dark: var(--proteq-dark);
+  --color-brand-pink: var(--brand-pink);
+  --color-panel-dark: var(--panel-dark);
+  --color-slate-white: var(--slate-white);
+  --color-aurum-dark: var(--aurum-dark);
+  --color-aurum-surface: var(--aurum-surface);
+  --color-aurum-brand: var(--aurum-brand);
+  --color-aurum-light: var(--aurum-light);
+  --color-aurum-gold: var(--aurum-brand);
+  --color-aurum-gold-light: var(--aurum-gold-light);
+  --color-aurum-gold-muted: var(--aurum-gold-muted);
+  --font-serif: var(--font-playfair);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -48,39 +60,58 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.148 0.004 228.8);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.148 0.004 228.8);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.148 0.004 228.8);
-  --primary: #E25C8F;
+  /* Proteq 4-color brand system */
+  --proteq-dark: #0D0D14;
+  --brand-pink: #E8185A;
+  --panel-dark: #181820;
+  --slate-white: #F4F6F9;
+  --aurum-brand: #c9a84c;
+  --aurum-dark: #0a0a00;
+  --aurum-surface: #141208;
+  --aurum-light: #f5f0e6;
+  --aurum-teal-light: #d4b85e;
+  --aurum-teal-muted: #9a8448;
+  --aurum-gold: #c9a84c;
+  --aurum-gold-light: #d4b85e;
+  --aurum-gold-muted: #6b5824;
+  --aurum-gold-on-dark: #e0c070;
+  --aurum-panel-elevated: #1c1a14;
+  --aurum-panel-elevated-alt: #222018;
+
+  /* Semantic tokens mapped to brand palette */
+  --background: #ffffff;
+  --foreground: var(--proteq-dark);
+  --card: #ffffff;
+  --card-foreground: var(--proteq-dark);
+  --popover: var(--panel-dark);
+  --popover-foreground: #F4F6F9;
+  --primary: var(--brand-pink);
   --primary-foreground: #ffffff;
-  --secondary: #231143;
-  --dark-secondary: #120823;
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.963 0.002 197.1);
-  --muted-foreground: oklch(0.56 0.021 213.5);
-  --accent: oklch(0.963 0.002 197.1);
-  --accent-foreground: oklch(0.218 0.008 223.9);
+  --secondary: var(--panel-dark);
+  --dark-secondary: var(--proteq-dark);
+  --secondary-foreground: #ffffff;
+  --muted: var(--slate-white);
+  --muted-foreground: #6b7280;
+  --accent: var(--slate-white);
+  --accent-foreground: var(--proteq-dark);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.925 0.005 214.3);
-  --input: oklch(0.925 0.005 214.3);
-  --ring: #120823;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: var(--proteq-dark);
   --chart-1: oklch(0.827 0.119 306.383);
   --chart-2: oklch(0.627 0.265 303.9);
   --chart-3: oklch(0.558 0.288 302.321);
   --chart-4: oklch(0.496 0.265 301.924);
   --chart-5: oklch(0.438 0.218 303.724);
   --radius: 0.625rem;
-  --sidebar: oklch(0.987 0.002 197.1);
-  --sidebar-foreground: oklch(0.148 0.004 228.8);
-  --sidebar-primary: #E25C8F;
+  --sidebar: var(--panel-dark);
+  --sidebar-foreground: #F4F6F9;
+  --sidebar-primary: var(--brand-pink);
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: oklch(0.963 0.002 197.1);
-  --sidebar-accent-foreground: oklch(0.218 0.008 223.9);
-  --sidebar-border: oklch(0.925 0.005 214.3);
-  --sidebar-ring: oklch(0.723 0.014 214.4);
+  --sidebar-accent: rgba(255, 255, 255, 0.06);
+  --sidebar-accent-foreground: #F4F6F9;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: rgba(255, 255, 255, 0.2);
 }
 
 
@@ -89,7 +120,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply text-foreground;
+    @apply bg-background text-foreground;
   }
   button:not(:disabled), [role="button"]:not(:disabled) {
     cursor: pointer;
@@ -104,11 +135,37 @@ p{
 }
 
 h1, h2, h3, h4, h5, h6 {
-  @apply leading-[1.1em] font-medium
+  @apply font-heading font-bold;
+}
+
+h1{
+  @apply text-[40px] md:text-5xl lg:text-[70px] font-bold leading-[1.15]!
 }
 
 h2{
-  @apply leading-[1.25em]
+  @apply text-[34px] md:text-4xl lg:text-[46px] font-bold leading-[1.10]!
+}
+
+@layer utilities {
+  .text-section-heading {
+    @apply font-heading text-[36px] font-semibold leading-[1.15] md:text-[40px] lg:text-[48px];
+  }
+
+  .section-heading-accent {
+    @apply border-l-[3px] border-primary pl-5 md:pl-6;
+  }
+
+  .text-subheading {
+    @apply font-heading text-xl font-medium leading-snug tracking-[0.06em] md:text-2xl;
+  }
+
+  .text-body {
+    @apply text-base leading-[1.75] md:text-lg;
+  }
+
+  .font-serif-quote {
+    font-family: var(--font-playfair), Georgia, serif;
+  }
 }
 
 .container {
@@ -116,8 +173,8 @@ h2{
   max-width: 1460px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 /* Infinite Marquee Animation for Testimonials */
@@ -145,4 +202,746 @@ h2{
 .pause-marquee:hover .animate-marquee,
 .pause-marquee:hover .animate-marquee-reverse {
   animation-play-state: paused;
+}
+
+/* ── Homepage hero ── */
+.hero-home-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(13, 13, 18, 0.84) 0%,
+    rgba(13, 13, 18, 0.64) 55%,
+    rgba(13, 13, 18, 0.46) 100%
+  );
+}
+
+.hero-home-overlay-side {
+  background: linear-gradient(
+    105deg,
+    rgba(13, 13, 18, 0.88) 0%,
+    rgba(13, 13, 18, 0.68) 38%,
+    rgba(13, 13, 18, 0.42) 62%,
+    rgba(13, 13, 18, 0.24) 100%
+  );
+}
+
+.hero-home-overlay-accent {
+  background: radial-gradient(
+    circle at 22% 48%,
+    rgba(232, 24, 90, 0.16),
+    transparent 44%
+  );
+}
+
+.hero-home-content-scrim {
+  background: linear-gradient(
+    90deg,
+    rgba(13, 13, 18, 1) 0%,
+    rgba(13, 13, 18, 0.52) 55%,
+    transparent 80%
+  );
+}
+
+.hero-lead-panel {
+  background: rgba(13, 13, 18, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: none;
+}
+
+.hero-home-pattern::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: url("/bg-pattern.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.14;
+}
+
+/* Opt-in network pattern — add to specific sections only */
+.section-bg-pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("/bg-pattern.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.16;
+}
+
+/* ── Section alternation (2.3) ── */
+/* Dark: hero, card grids, credential strips, CTA — dot grid at ~2% opacity */
+.section-dark {
+  @apply relative overflow-hidden bg-proteq-dark text-white;
+}
+
+.section-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(255, 255, 255, 0.14) 1px,
+    transparent 0
+  );
+  background-size: 28px 28px;
+  opacity: 0.08;
+}
+
+/* Light: intro, process, values, testimonials — subtle line grid */
+.section-light {
+  @apply relative overflow-hidden bg-slate-white;
+}
+
+.section-light::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+      to right,
+      rgba(13, 13, 20, 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(13, 13, 20, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.35;
+}
+
+/* White light band — alternates with slate-white sections */
+.section-light-white {
+  @apply relative overflow-hidden bg-white;
+}
+
+.section-light-white::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+      to right,
+      rgba(13, 13, 20, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(13, 13, 20, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.25;
+}
+
+.credential-strip {
+  @apply relative overflow-hidden bg-proteq-dark text-white;
+}
+
+.credential-strip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(255, 255, 255, 0.14) 1px,
+    transparent 0
+  );
+  background-size: 28px 28px;
+  opacity: 0.08;
+}
+
+/* Pattern replaces default dot grid on dark sections */
+.section-dark.section-bg-pattern::before {
+  background-image: url("/bg-pattern.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.16;
+  z-index: 1;
+}
+
+/* ── Iconography system (2.4) ── */
+.icon-ghost-pink {
+  background-color: rgba(232, 24, 90, 0.12);
+  border: 1px solid rgba(232, 24, 90, 0.3);
+}
+
+.icon-stat-circle {
+  @apply flex size-9 shrink-0 items-center justify-center rounded-full bg-transparent text-primary;
+  border: 1.5px solid rgba(232, 24, 90, 0.55);
+}
+
+.step-number-circle {
+  @apply flex size-12 shrink-0 items-center justify-center rounded-full bg-transparent text-sm font-bold tabular-nums text-primary;
+  border: 1.5px solid rgba(232, 24, 90, 0.6);
+}
+
+.consultancy-approach-panel {
+  background: rgba(13, 13, 18, 0.92);
+}
+
+.consultancy-approach-steps::before {
+  content: "";
+  position: absolute;
+  left: 1.5rem;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  width: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(232, 24, 90, 0.15),
+    rgba(232, 24, 90, 0.55) 15%,
+    rgba(232, 24, 90, 0.55) 85%,
+    rgba(232, 24, 90, 0.15)
+  );
+}
+
+@media (min-width: 768px) {
+  .consultancy-approach-steps::before {
+    left: 1.75rem;
+  }
+}
+
+.consultancy-why-card {
+  background: rgba(13, 13, 18, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: none;
+}
+
+/* Consultancy feature sections (non-hero) */
+.overlay-consultancy-feature-base {
+  background: rgba(13, 13, 18, 0.48);
+}
+
+.overlay-consultancy-feature-side {
+  background: linear-gradient(
+    100deg,
+    rgba(13, 13, 18, 0.8) 0%,
+    rgba(13, 13, 18, 0.52) 42%,
+    rgba(13, 13, 18, 0.32) 68%,
+    rgba(13, 13, 18, 0.68) 100%
+  );
+}
+
+@media (min-width: 1024px) {
+  .overlay-consultancy-feature-side {
+    background: linear-gradient(
+      100deg,
+      rgba(13, 13, 18, 0.76) 0%,
+      rgba(13, 13, 18, 0.44) 45%,
+      rgba(13, 13, 18, 0.22) 72%,
+      rgba(13, 13, 18, 0.5) 100%
+    );
+  }
+}
+
+.overlay-consultancy-why {
+  background: linear-gradient(
+    180deg,
+    rgba(13, 13, 18, 0.28) 0%,
+    rgba(13, 13, 18, 0.45) 50%,
+    rgba(13, 13, 18, 0.78) 100%
+  );
+}
+
+.industry-card-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(13, 13, 18, 0.93) 0%,
+    rgba(13, 13, 18, 0.58) 42%,
+    rgba(13, 13, 18, 0.18) 100%
+  );
+}
+
+.industries-snap-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 0.25rem;
+}
+
+.industries-snap-track::-webkit-scrollbar {
+  display: none;
+}
+
+.programmes-snap-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 0.25rem;
+}
+
+.programmes-snap-track::-webkit-scrollbar {
+  display: none;
+}
+
+.programmes-snap-track > * {
+  scroll-snap-align: start;
+  flex: 0 0 min(88%, 360px);
+}
+
+/* ── Sticky navigation (3.1) ── */
+.nav-sticky-glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(13, 13, 20, 0.85);
+}
+
+.btn-cta-nav {
+  @apply bg-primary text-white shadow-md transition-all duration-300;
+}
+
+.btn-cta-nav:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 30px rgba(232, 24, 90, 0.35);
+}
+
+/* ── Aurum AI Investments page — matches AURUM Foundation site (teal / light blue) ── */
+.aurum-page {
+  --aurum-brand: #003b49;
+  --aurum-dark: #003b49;
+  --aurum-surface: #002830;
+  --aurum-light: #eef3f6;
+  --aurum-gold-muted: #003b49;
+  --aurum-gold-on-dark: #b8d4e0;
+  --aurum-panel-elevated: #003b49;
+  --aurum-panel-elevated-alt: #002830;
+  --primary: #003b49;
+}
+
+.aurum-page .section-aurum-light {
+  @apply bg-white;
+}
+
+.aurum-page .section-aurum-muted {
+  @apply bg-[#eef3f6] text-foreground;
+}
+
+.aurum-page .section-aurum,
+.aurum-page .section-aurum-alt {
+  border-bottom: none;
+}
+
+.aurum-page .section-aurum::before,
+.aurum-page .section-aurum-alt::before {
+  display: none;
+}
+
+.aurum-page .aurum-heading {
+  @apply font-serif text-[32px] font-semibold leading-[1.15] text-[#003b49] md:text-[38px] lg:text-[42px];
+}
+
+.aurum-page .aurum-heading-light {
+  @apply font-serif text-[32px] font-semibold leading-[1.15] text-white md:text-[38px];
+}
+
+.aurum-page .aurum-subheading {
+  @apply text-lg font-semibold text-[#003b49] md:text-xl;
+}
+
+.aurum-page .aurum-body {
+  @apply text-base leading-[1.75] text-zinc-600;
+}
+
+.aurum-page .aurum-stat-bar-fill {
+  background: #003b49;
+}
+
+.aurum-page .btn-aurum {
+  background: #003b49;
+  color: #ffffff;
+}
+
+.aurum-page .btn-aurum:hover {
+  background: #002830;
+}
+
+.aurum-page .btn-aurum-outline-dark {
+  border-color: #003b49;
+  color: #003b49;
+}
+
+.aurum-page .btn-aurum-white {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-[#003b49] transition-colors duration-200;
+}
+
+.aurum-page .btn-aurum-white:hover {
+  background: #eef3f6;
+}
+
+.aurum-page .aurum-section-cta {
+  @apply mt-10 flex justify-center;
+}
+
+.section-aurum {
+  @apply relative overflow-hidden bg-aurum-dark text-white;
+}
+
+.section-aurum-alt {
+  @apply relative overflow-hidden bg-aurum-surface text-white;
+}
+
+.section-aurum-light {
+  @apply relative overflow-hidden bg-aurum-light text-foreground;
+}
+
+.section-aurum-white {
+  @apply relative overflow-hidden bg-white text-foreground;
+}
+
+.aurum-page .section-aurum::before,
+.aurum-page .section-aurum-alt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("/bg-pattern.svg");
+  background-size: 280px;
+}
+
+.aurum-eyebrow {
+  @apply inline-flex items-center gap-2 rounded-sm border px-4 py-1.5;
+  border-color: rgba(201, 168, 76, 0.35);
+  background: rgba(201, 168, 76, 0.08);
+}
+
+.aurum-eyebrow span:last-child {
+  @apply text-xs font-semibold uppercase tracking-wider;
+  color: rgba(201, 168, 76, 0.95);
+}
+
+.aurum-eyebrow-light {
+  @apply inline-flex items-center gap-2 rounded-sm border px-4 py-1.5;
+  border-color: rgba(201, 168, 76, 0.35);
+  background: rgba(201, 168, 76, 0.08);
+}
+
+.aurum-eyebrow-light span:last-child {
+  @apply text-xs font-semibold uppercase tracking-wider text-aurum-brand;
+}
+
+.aurum-panel {
+  background: rgba(201, 168, 76, 0.04);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+.section-aurum .aurum-panel,
+.section-aurum-alt .aurum-panel {
+  background: var(--aurum-panel-elevated);
+  border: 1px solid rgba(201, 168, 76, 0.28);
+}
+
+.section-aurum-alt .aurum-panel {
+  background: var(--aurum-panel-elevated-alt);
+}
+
+.section-aurum-light .aurum-panel,
+.section-aurum-white .aurum-panel {
+  background: #ffffff;
+  border: 1px solid rgba(201, 168, 76, 0.18);
+}
+
+/* Readable gold accents on cream/white Aurum sections */
+.aurum-page .section-aurum-light .text-aurum-brand,
+.aurum-page .section-aurum-white .text-aurum-brand {
+  color: var(--aurum-gold-muted);
+}
+
+.aurum-page .section-aurum-light .aurum-eyebrow-light span:last-child {
+  color: var(--aurum-gold-muted);
+}
+
+.aurum-page .section-aurum-light .bg-aurum-brand {
+  background-color: var(--aurum-gold-muted);
+}
+
+.aurum-page .section-aurum-light .border-aurum-brand\/25,
+.aurum-page .section-aurum-light .border-aurum-brand\/20,
+.aurum-page .section-aurum-light .border-aurum-brand\/30 {
+  border-color: rgba(107, 88, 36, 0.35);
+}
+
+.aurum-page .section-aurum-light .bg-aurum-brand\/10 {
+  background-color: rgba(107, 88, 36, 0.1);
+}
+
+/* Brighter gold for accents/icons inside dark Aurum panels */
+.aurum-page .section-aurum .aurum-panel .text-aurum-brand,
+.aurum-page .section-aurum-alt .aurum-panel .text-aurum-brand {
+  color: var(--aurum-gold-on-dark);
+}
+
+.aurum-page > section:first-of-type .aurum-stat-value {
+  color: var(--aurum-gold-on-dark);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.aurum-text-muted {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.aurum-text-subtle {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.aurum-step-circle {
+  @apply flex size-12 shrink-0 items-center justify-center rounded-full text-sm font-bold tabular-nums;
+  color: var(--aurum-gold-muted);
+  border: 1.5px solid rgba(107, 88, 36, 0.35);
+  background: rgba(107, 88, 36, 0.08);
+}
+
+.aurum-stat-value {
+  @apply font-semibold tracking-tight;
+  color: var(--aurum-gold-muted);
+}
+
+.aurum-page .section-aurum .aurum-step-circle,
+.aurum-page .section-aurum-alt .aurum-step-circle {
+  color: var(--aurum-gold-on-dark);
+  background: rgba(201, 168, 76, 0.14);
+  border-color: rgba(201, 168, 76, 0.42);
+}
+
+.aurum-page .section-aurum .aurum-stat-value,
+.aurum-page .section-aurum-alt .aurum-stat-value {
+  color: var(--aurum-gold-on-dark);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.aurum-page .section-aurum-light .aurum-stat-value,
+.aurum-page .section-aurum-white .aurum-stat-value {
+  color: var(--aurum-gold-muted);
+  text-shadow: none;
+}
+
+.aurum-hero-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 40, 48, 0.72) 0%,
+    rgba(0, 30, 36, 0.88) 100%
+  );
+}
+
+.aurum-cta-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 59, 73, 0.82) 0%,
+    rgba(0, 40, 48, 0.78) 100%
+  );
+}
+
+.aurum-stat-bar {
+  @apply relative h-12 w-full overflow-hidden rounded-md border border-zinc-200 bg-white md:h-[52px];
+}
+
+.aurum-stat-bar-fill {
+  @apply absolute inset-y-0 left-0 flex min-w-0 items-center rounded-md px-5 transition-[width] duration-1000 ease-out;
+  background: #003b49;
+}
+
+.btn-aurum {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors duration-200;
+  background: var(--aurum-brand);
+  color: var(--aurum-dark);
+}
+
+.btn-aurum:hover {
+  background: var(--aurum-gold-light);
+}
+
+.btn-aurum-outline {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold text-white transition-colors duration-200;
+  border-color: rgba(201, 168, 76, 0.55);
+  background: transparent;
+}
+
+.btn-aurum-outline:hover {
+  border-color: rgba(201, 168, 76, 0.85);
+  background: rgba(201, 168, 76, 0.12);
+}
+
+.btn-aurum-outline-dark {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border bg-white px-6 py-3 text-sm font-semibold text-aurum-dark transition-colors duration-200;
+  border-color: var(--aurum-gold-muted);
+}
+
+.btn-aurum-outline-dark:hover {
+  background: var(--aurum-light);
+  border-color: var(--aurum-gold-light);
+}
+
+/* ── Homepage Aurum strip ── */
+.section-aurum-home {
+  @apply text-white;
+}
+
+.section-aurum-home .aurum-home-overlay {
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    rgba(10, 8, 4, 0.78) 0%,
+    rgba(10, 8, 4, 0.58) 40%,
+    rgba(10, 8, 4, 0.35) 65%,
+    rgba(10, 8, 4, 0.18) 100%
+  );
+}
+
+@media (max-width: 1023px) {
+  .section-aurum-home .aurum-home-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(10, 8, 4, 0.78) 0%,
+      rgba(10, 8, 4, 0.62) 55%,
+      rgba(10, 8, 4, 0.4) 100%
+    );
+  }
+}
+
+.aurum-home-offerings-panel {
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  background: rgba(8, 8, 4, 0.55);
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .aurum-home-offerings-panel {
+    padding: 1.5rem 1.25rem 1.25rem;
+  }
+}
+
+.aurum-home-eyebrow {
+  @apply inline-flex items-center gap-2 rounded-full px-4 py-1.5;
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  background: rgba(201, 168, 76, 0.08);
+}
+
+.aurum-home-eyebrow span:last-child {
+  @apply text-xs font-semibold uppercase tracking-[0.18em];
+  color: rgba(201, 168, 76, 0.95);
+}
+
+.aurum-home-stat-value {
+  @apply font-bold tabular-nums tracking-tight;
+  color: #c9a84c;
+}
+
+.btn-aurum-home {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-[#0a0a00] transition-all duration-200;
+  background: #c9a84c;
+}
+
+.btn-aurum-home:hover {
+  background: #d4b85e;
+  transform: scale(1.02);
+  box-shadow: 0 8px 28px rgba(201, 168, 76, 0.35);
+}
+
+.btn-aurum-home-outline {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border px-7 py-3 text-sm font-semibold text-white transition-colors duration-200;
+  border-color: rgba(201, 168, 76, 0.55);
+  background: rgba(8, 8, 4, 0.55);
+}
+
+.btn-aurum-home-outline:hover {
+  border-color: rgba(201, 168, 76, 0.85);
+  background: rgba(201, 168, 76, 0.12);
+}
+
+/* ── Credential strips: Partners & Clients (10, 11) ── */
+.credential-strip-entries {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+}
+
+.credential-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0 28px;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  min-width: 160px;
+  flex: 1;
+}
+
+.credential-entry:last-child {
+  border-right: none;
+}
+
+.partner-logo-wrap {
+  height: 40px;
+  max-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partner-logo-img {
+  filter: brightness(0) invert(1);
+  opacity: 0.65;
+  transition: opacity 0.2s ease;
+}
+
+.credential-entry:hover .partner-logo-img {
+  opacity: 1;
+}
+
+.credential-entry {
+  padding: 0 40px;
+}
+
+.stat-panel {
+  background: rgba(13, 13, 18, 0.88);
+}
+
+.clients-entries .client-entry {
+  opacity: 0;
+}
+
+.clients-visible .client-entry {
+  animation: clientFadeUp 0.5s ease forwards;
+}
+
+@keyframes clientFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .credential-entry {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 20px 16px;
+    min-width: 50%;
+  }
+
+  .credential-entry:nth-child(even) {
+    border-right: none;
+  }
 }

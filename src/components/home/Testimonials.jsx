@@ -3,65 +3,48 @@ import TestimonialsSection from "@/components/global/TestimonialsSection";
 const homeTestimonials = [
   {
     quote:
-      "Amazing product—well-built, user-friendly, and just as advertised. The service team exceeded my expectations at every turn.",
-    name: "Lincoln Stanton",
-    role: "CEO & Co-Founder",
-    company: "Gumroad",
-    avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=faces",
+      "Their gap analysis was thorough and regulator-ready. We received a prioritised remediation plan our board could act on immediately.",
+    attribution: "Chief Compliance Officer, Mid-size European Bank",
+    initials: "CC",
   },
   {
     quote:
-      "Outstanding product—well-crafted, user-friendly, and exactly what I expected. The advisory support team went above and beyond.",
-    name: "Skylar Lipshutz",
-    role: "Product Manager",
-    company: "Orbit",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop&crop=faces",
+      "The AML programme redesign balanced regulatory expectations with how our team actually works day to day. Implementation support was practical throughout.",
+    attribution: "Head of Financial Crime, Regional Payment Provider",
+    initials: "HF",
   },
   {
     quote:
-      "Excellent compliance tools—durable, intuitive, and exactly what we needed. Their customer service is stellar and highly responsive.",
-    name: "Paityn Lipshutz",
-    role: "VP of Risk Operations",
-    company: "Lemonsqueezy",
-    avatar:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop&crop=faces",
+      "Training was scenario-led and immediately relevant to case reviews. Our analysts applied the frameworks in live investigations the following week.",
+    attribution: "VP of AML Operations, Digital Asset Exchange",
+    initials: "VA",
   },
   {
     quote:
-      "Impressive service—high quality, simple to integrate, and exactly as promised. The compliance gap analysis was incredibly thorough.",
-    name: "Anika Franci",
-    role: "Chief Compliance Officer",
-    company: "Zendesk",
-    avatar:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop&crop=faces",
+      "Systems advisory helped us cut through vendor noise and select monitoring tools aligned to our risk profile and budget constraints.",
+    attribution: "Director of RegTech, Insurance Group",
+    initials: "DR",
   },
   {
     quote:
-      "Great implementation—reliable, easy to set up, and just as described. The training webinars ensured a smooth onboarding experience.",
-    name: "Chance Baptista",
-    role: "Head of AML Auditing",
-    company: "ABC Company",
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=faces",
+      "Policy and procedure packs were audit-ready from the first draft. External reviewers commented on the clarity of our control documentation.",
+    attribution: "Senior Compliance Manager, Wealth Management Firm",
+    initials: "SC",
   },
   {
     quote:
-      "Wonderful partnership—highly detailed, easy to operate, and exactly what we wanted. Technical support has been quick and proactive.",
-    name: "Corey Franci",
-    role: "Lead Developer",
-    company: "Stripe",
-    avatar:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop&crop=faces",
+      "Cross-border advisory support helped us align KYC and screening controls across three jurisdictions without slowing onboarding.",
+    attribution: "Head of Risk & Compliance, Fintech Scale-up",
+    initials: "HR",
   },
 ];
 
 const Testimonials = () => {
   return (
     <TestimonialsSection
-      eyebrow="Testimonial"
-      heading="Words of Praise From Others About Our Presence"
+      eyebrow="Client Feedback"
+      heading="What compliance leaders say about working with Proteq"
+      description="Anonymised feedback from compliance, financial crime, and RegTech leaders across banking, payments, digital assets, and regulated fintech."
       testimonials={homeTestimonials}
     />
   );
