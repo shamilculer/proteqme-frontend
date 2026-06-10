@@ -61,8 +61,6 @@ export default function SystemsBenefits() {
             Impact at Scale
           </p>
           <h2
-            id="systems-impact-heading"
-            className="section-heading-accent text-section-heading text-foreground"
           >
             RegTech Advisory Built for Regulated Operations
           </h2>

@@ -56,7 +56,7 @@ export default function SystemsMetrics() {
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
             For teams that move at operational speed
           </p>
-          <h2 className="section-heading-accent text-section-heading mt-3">
+          <h2 className="mt-3">
             Measurable outcomes from vendor-neutral systems work
           </h2>
         </ScrollReveal>

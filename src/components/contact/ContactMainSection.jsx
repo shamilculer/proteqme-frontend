@@ -14,37 +14,42 @@ import { cn } from "@/lib/utils";
 import {
   OFFICE_ADDRESS,
   OFFICE_MAP_URL,
+  PHONE_PRIMARY,
+  PHONE_PRIMARY_DISPLAY,
+  PHONE_SECONDARY,
+  PHONE_SECONDARY_DISPLAY,
   SITE_EMAIL,
-  UK_HOTLINE,
-  UK_HOTLINE_DISPLAY,
-  US_HOTLINE,
-  US_HOTLINE_DISPLAY,
 } from "@/data/siteContact";
 
 const contactInfo = [
   {
-    title: "UK Hotline",
-    info: UK_HOTLINE_DISPLAY,
+    id: "phone-primary",
+    title: "Phone",
+    info: PHONE_PRIMARY_DISPLAY,
     icon: Phone,
-    link: `tel:${UK_HOTLINE}`,
+    link: `tel:${PHONE_PRIMARY}`,
   },
   {
-    title: "US Hotline",
-    info: US_HOTLINE_DISPLAY,
+    id: "phone-secondary",
+    title: "Phone",
+    info: PHONE_SECONDARY_DISPLAY,
     icon: Phone,
-    link: `tel:${US_HOTLINE}`,
+    link: `tel:${PHONE_SECONDARY}`,
   },
   {
-    title: "Email Us",
+    id: "email",
+    title: "Email",
     info: SITE_EMAIL,
     icon: Mail,
     link: `mailto:${SITE_EMAIL}`,
   },
   {
-    title: "Visit Us",
+    id: "location",
+    title: "Location",
     info: OFFICE_ADDRESS,
     icon: MapPin,
     link: OFFICE_MAP_URL,
+    external: true,
   },
 ];
 
@@ -79,7 +84,7 @@ export default function ContactMainSection() {
               const Icon = item.icon;
 
               return (
-                <StaggerItem key={item.title}>
+                <StaggerItem key={item.id}>
                   <div
                     className={cn(
                       "rounded-2xl p-[3px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_50px_rgba(232,24,90,0.15)]",
@@ -95,12 +100,8 @@ export default function ContactMainSection() {
                   >
                     <Link
                       href={item.link}
-                      target={item.title === "Visit Us" ? "_blank" : undefined}
-                      rel={
-                        item.title === "Visit Us"
-                          ? "noopener noreferrer"
-                          : undefined
-                      }
+                      target={item.external ? "_blank" : undefined}
+                      rel={item.external ? "noopener noreferrer" : undefined}
                       className="group flex items-center justify-between gap-3 rounded-[calc(1rem-3px)] bg-white p-4 sm:gap-4 sm:p-5"
                     >
                       <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-5">

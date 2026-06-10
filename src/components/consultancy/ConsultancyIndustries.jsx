@@ -57,7 +57,7 @@ function IndustryCard({ industry, index }) {
   const Icon = industry.icon;
 
   return (
-    <article className="group relative min-h-[320px] overflow-hidden rounded-xl border border-zinc-200/80 bg-white shadow-[0_18px_55px_rgba(13,13,20,0.06)]">
+    <article className="group relative h-full min-h-[320px] w-full overflow-hidden rounded-xl border border-zinc-200/80 bg-white shadow-[0_18px_55px_rgba(13,13,20,0.06)]">
       <Image
         src={industry.image}
         alt={industry.title}
@@ -162,7 +162,7 @@ export default function ConsultancyIndustries() {
             aria-label="Industries carousel"
           >
             {industries.map((industry, index) => (
-              <div key={industry.title} className="relative min-h-[320px]">
+              <div key={industry.title} className="h-full min-h-[320px]">
                 <IndustryCard industry={industry} index={index} />
               </div>
             ))}

@@ -89,7 +89,7 @@ export const heroParticleOptions = {
     },
   },
   interactivity: {
-    detectsOn: "window",
+    detectsOn: "parent",
     events: {
       onHover: {
         enable: true,

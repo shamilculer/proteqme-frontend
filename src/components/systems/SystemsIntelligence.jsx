@@ -4,13 +4,7 @@ import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Activity,
-  ArrowRight,
-  FileCheck2,
-  SearchCheck,
-  UserCheck,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import {
   motion,
   useMotionValueEvent,
@@ -37,7 +31,6 @@ const solutions = [
   {
     id: "screening",
     label: "AML Screening",
-    icon: SearchCheck,
     title: "Screening Against Analyst-Approved Data Models",
     summary:
       "Evaluate and implement PEP, sanctions, adverse media, and watchlist screening — with workflow integration and false positive reduction.",
@@ -52,7 +45,6 @@ const solutions = [
   {
     id: "monitoring",
     label: "Transaction Monitoring",
-    icon: Activity,
     title: "Customisable Transaction Monitoring",
     summary:
       "Deploy rule-based and AI-augmented monitoring across typology libraries, alert management, and regulatory reporting integration.",
@@ -67,7 +59,6 @@ const solutions = [
   {
     id: "kyc",
     label: "KYC & CDD",
-    icon: UserCheck,
     title: "Customer Onboarding & Ongoing Due Diligence",
     summary:
       "End-to-end onboarding and ongoing due diligence platforms for regulated customer journeys — identity, UBO, and risk scoring.",
@@ -82,7 +73,6 @@ const solutions = [
   {
     id: "reporting",
     label: "Reporting",
-    icon: FileCheck2,
     title: "Regulatory Reporting & Case Management",
     summary:
       "SAR, CTR, and case management workflows with audit trails built for regulatory examination and internal governance.",
@@ -186,10 +176,10 @@ function StackImage({ solution, index, scrollYProgress, total }) {
 
   return (
     <motion.article
-      className="absolute inset-x-0 top-0 mx-auto w-full overflow-hidden rounded-2xl border border-zinc-200/90 bg-white shadow-[0_28px_70px_rgba(13,13,20,0.2)] will-change-transform"
+      className="absolute inset-x-0 top-0 mx-auto w-full overflow-hidden rounded-2xl border border-zinc-200/60 bg-white shadow-[0_20px_56px_rgba(13,13,20,0.14)] will-change-transform"
       style={{ zIndex, opacity, transform }}
     >
-      <div className="relative aspect-square w-full">
+      <div className="relative aspect-[4/3] w-full">
         <Image
           src={solution.image}
           alt={solution.title}
@@ -204,7 +194,6 @@ function StackImage({ solution, index, scrollYProgress, total }) {
 }
 
 function SolutionContent({ solution, index, scrollYProgress, total, isActive }) {
-  const Icon = solution.icon;
   const opacity = useTransform(scrollYProgress, (progress) =>
     getContentOpacity(progress, index, total)
   );
@@ -219,30 +208,26 @@ function SolutionContent({ solution, index, scrollYProgress, total, isActive }) 
       style={{ opacity, y }}
       aria-hidden={!isActive}
     >
-      <div className="rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-[0_20px_50px_rgba(13,13,20,0.12)] md:p-8">
-        <div className="mb-5 inline-flex size-12 w-fit items-center justify-center rounded-2xl border border-primary/20 bg-primary/10">
-          <Icon className="size-5 text-primary" strokeWidth={1.75} />
-        </div>
-
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+      <div className="rounded-2xl border border-zinc-200/60 bg-white p-7 shadow-[0_16px_48px_rgba(13,13,20,0.08)] md:p-8">
+        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
           {solution.label}
         </p>
 
-        <h3 className="max-w-xl text-2xl font-semibold leading-snug text-[#061525] md:text-3xl">
+        <h3 className="max-w-xl text-2xl font-semibold leading-snug tracking-tight text-[#061525] md:text-[1.75rem]">
           {solution.title}
         </h3>
 
-        <p className="mt-4 max-w-xl text-base leading-relaxed text-zinc-600 md:text-[17px]">
+        <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-zinc-600 md:text-base">
           {solution.summary}
         </p>
 
-        <ul className="mt-8 max-w-xl space-y-3.5">
+        <ul className="mt-6 max-w-xl space-y-3 border-t border-zinc-100 pt-6">
           {solution.bullets.map((bullet) => (
             <li
               key={bullet}
-              className="flex gap-3 text-sm leading-relaxed text-zinc-700 md:text-[15px]"
+              className="flex gap-3 text-sm leading-relaxed text-zinc-600 md:text-[15px]"
             >
-              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+              <span className="mt-2 size-1 shrink-0 rounded-full bg-primary/70" />
               {bullet}
             </li>
           ))}
@@ -271,46 +256,45 @@ function ScrollProgressBar({ scrollYProgress, total }) {
 
 function StaticSolutionsList() {
   return (
-    <div className="space-y-10">
-      {solutions.map((solution) => {
-        const Icon = solution.icon;
-        return (
-          <article
-            key={solution.id}
-            className="grid gap-8 overflow-hidden rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-[0_20px_50px_rgba(13,13,20,0.1)] md:grid-cols-2 md:p-8"
-          >
-            <div className="relative aspect-square overflow-hidden rounded-xl border border-zinc-200">
-              <Image
-                src={solution.image}
-                alt={solution.title}
-                fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="flex flex-col justify-center">
-              <div className="mb-4 inline-flex size-11 w-fit items-center justify-center rounded-xl border border-primary/20 bg-primary/10">
-                <Icon className="size-5 text-primary" strokeWidth={1.75} />
-              </div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-                {solution.label}
-              </p>
-              <h3 className="text-2xl font-semibold text-[#061525]">
-                {solution.title}
-              </h3>
-              <p className="mt-3 text-zinc-600">{solution.summary}</p>
-              <ul className="mt-6 space-y-3">
-                {solution.bullets.map((bullet) => (
-                  <li key={bullet} className="flex gap-3 text-sm text-zinc-700">
-                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </article>
-        );
-      })}
+    <div className="space-y-8">
+      {solutions.map((solution) => (
+        <article
+          key={solution.id}
+          className="overflow-hidden rounded-2xl border border-zinc-200/60 bg-white shadow-[0_16px_48px_rgba(13,13,20,0.08)]"
+        >
+          <div className="relative aspect-[4/3] w-full">
+            <Image
+              src={solution.image}
+              alt={solution.title}
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="flex flex-col justify-center p-6 sm:p-7">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+              {solution.label}
+            </p>
+            <h3 className="text-xl font-semibold leading-snug tracking-tight text-[#061525] sm:text-2xl">
+              {solution.title}
+            </h3>
+            <p className="mt-3 text-[15px] leading-relaxed text-zinc-600">
+              {solution.summary}
+            </p>
+            <ul className="mt-5 space-y-3 border-t border-zinc-100 pt-5">
+              {solution.bullets.map((bullet) => (
+                <li
+                  key={bullet}
+                  className="flex gap-3 text-sm leading-relaxed text-zinc-600"
+                >
+                  <span className="mt-2 size-1 shrink-0 rounded-full bg-primary/70" />
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))}
     </div>
   );
 }
@@ -376,7 +360,7 @@ export default function SystemsIntelligence() {
 
               <div className="container relative z-10 flex h-full flex-col justify-center py-12 md:py-16">
                 <div className="grid min-h-0 flex-1 items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-12 xl:gap-16">
-                  <div className="relative mx-auto aspect-square w-full max-w-[min(88vw,400px)] shrink-0 sm:max-w-[440px] lg:max-w-[480px]">
+                  <div className="relative mx-auto aspect-[4/3] w-full max-w-[min(88vw,400px)] shrink-0 sm:max-w-[440px] lg:max-w-[480px]">
                     {solutions.map((solution, index) => (
                       <StackImage
                         key={solution.id}

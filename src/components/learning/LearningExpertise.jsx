@@ -86,7 +86,7 @@ export default function LearningExpertise() {
     <>
       {/* Section 1 — Lead faculty */}
       <section
-        className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
+        className="section-light-white relative isolate w-full overflow-hidden pb-20 md:pb-28"
         aria-labelledby="learning-expertise-heading"
       >
         <SectionAmbient variant="light" />

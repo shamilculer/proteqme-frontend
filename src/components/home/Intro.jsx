@@ -63,7 +63,7 @@ const Intro = () => {
 
           <ScrollReveal xOffset={12} className="max-w-md">
             <p className="text-body text-zinc-600">
-              A UK-based compliance firm helping regulated organisations build
+              An independent compliance firm helping regulated organisations build
               defensible programmes, capable teams, and systems that stand up to
               scrutiny.
             </p>

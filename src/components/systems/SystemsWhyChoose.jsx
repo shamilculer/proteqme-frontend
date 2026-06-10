@@ -100,47 +100,49 @@ export default function SystemsWhyChoose() {
               recommendations.
             </p>
 
-            <div className="relative mt-9 min-h-[280px] w-full overflow-hidden rounded-2xl bg-proteq-dark shadow-[0_28px_80px_rgba(35,17,67,0.14)] sm:min-h-[360px] md:min-h-[520px]">
-              <Image
-                src="/systems-bg.webp"
-                alt="RegTech systems and compliance technology environment"
-                fill
-                sizes="(min-width: 1024px) 42vw, 100vw"
-                className="object-cover"
-              />
-              <div className="overlay-consultancy-why absolute inset-0" />
+            <div className="relative mt-9 w-full overflow-hidden rounded-2xl bg-proteq-dark shadow-[0_28px_80px_rgba(35,17,67,0.14)]">
+              <div className="relative min-h-[400px] sm:min-h-[440px] md:min-h-[520px]">
+                <Image
+                  src="/implementation.webp"
+                  alt="RegTech systems and compliance technology environment"
+                  fill
+                  sizes="(min-width: 1024px) 42vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="overlay-consultancy-why absolute inset-0" />
 
-              <div className="absolute inset-x-7 top-7 flex items-center justify-between border-t border-white/35 pt-5 text-white">
-                <p className="text-xs font-semibold uppercase tracking-wider text-white/70">
-                  Systems Standard
-                </p>
-                <p className="text-xs text-white/55">
-                  Screening / Monitoring / KYC
-                </p>
-              </div>
+                <div className="relative z-10 flex min-h-[400px] flex-col justify-between gap-6 p-5 sm:min-h-[440px] sm:p-7 md:min-h-[520px]">
+                  <div className="flex items-start justify-between gap-4 border-t border-white/35 pt-4 text-white">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-white/80">
+                      Systems Standard
+                    </p>
+                    <p className="text-right text-xs text-white/70">
+                      Screening / Monitoring / KYC
+                    </p>
+                  </div>
 
-              <div className="absolute bottom-7 left-7 right-7">
-                <div className="consultancy-why-card max-w-md p-5">
-                  <p className="text-2xl font-medium leading-tight text-white">
-                    Recommendations shaped by obligation, workflow, and scale —
-                    not vendor incentives.
-                  </p>
-                  <div className="mt-5 grid grid-cols-2 gap-4 border-t border-white/15 pt-5">
-                    <div>
-                      <p className="text-2xl font-medium leading-none text-white">
-                        180+
-                      </p>
-                      <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-white/45">
-                        Evaluations delivered
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-medium leading-none text-white">
-                        100%
-                      </p>
-                      <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-white/45">
-                        Vendor-neutral
-                      </p>
+                  <div className="consultancy-why-card w-full rounded-xl p-4 sm:max-w-md sm:p-5">
+                    <p className="text-lg font-medium leading-snug text-white sm:text-2xl sm:leading-tight">
+                      Recommendations shaped by obligation, workflow, and scale
+                      — not vendor incentives.
+                    </p>
+                    <div className="mt-4 grid grid-cols-2 gap-4 border-t border-white/15 pt-4 sm:mt-5 sm:pt-5">
+                      <div>
+                        <p className="text-xl font-medium leading-none text-white sm:text-2xl">
+                          180+
+                        </p>
+                        <p className="mt-2 text-[11px] font-semibold uppercase tracking-wider text-white/55 sm:text-xs">
+                          Evaluations delivered
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xl font-medium leading-none text-white sm:text-2xl">
+                          100%
+                        </p>
+                        <p className="mt-2 text-[11px] font-semibold uppercase tracking-wider text-white/55 sm:text-xs">
+                          Vendor-neutral
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

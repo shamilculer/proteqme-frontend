@@ -1,11 +1,11 @@
 export const SITE_EMAIL = "info@proteq.me";
 export const PARTNERS_EMAIL = "partners@proteqme.com";
 
-export const UK_HOTLINE = "+442071234567";
-export const UK_HOTLINE_DISPLAY = "+44 (0) 20 7123 4567";
+export const PHONE_PRIMARY = "+442071234567";
+export const PHONE_PRIMARY_DISPLAY = "+44 (0) 20 7123 4567";
 
-export const US_HOTLINE = "+12125550199";
-export const US_HOTLINE_DISPLAY = "+1 (212) 555-0199";
+export const PHONE_SECONDARY = "+12125550199";
+export const PHONE_SECONDARY_DISPLAY = "+1 (212) 555-0199";
 
 export const OFFICE_ADDRESS =
   "Level 24, International Finance Centre, London, EC2N 1HQ";

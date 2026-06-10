@@ -102,7 +102,7 @@ const LearningIntro = () => {
                   </p>
                 </div>
 
-                <div className="relative h-28 w-40 shrink-0 overflow-hidden rounded-xl border-2 border-white/25 shadow-[0_16px_40px_rgba(0,0,0,0.25)] sm:h-32 sm:w-44">
+                <div className="hidden md:block relative h-28 w-40 shrink-0 overflow-hidden rounded-xl border-2 border-white/25 shadow-[0_16px_40px_rgba(0,0,0,0.25)] sm:h-32 sm:w-44">
                   <Image
                     src="/learning-4.webp"
                     alt="Learners in a compliance workshop"
@@ -147,7 +147,7 @@ const LearningIntro = () => {
               </p>
             </StaggerItem>
 
-            <div className="relative mt-5 space-y-0">
+            <div className="relative mt-5 space-y-0 px-3 md:px-0">
               <div className="absolute bottom-8 left-[1.65rem] top-8 hidden w-px bg-zinc-200 md:block" />
 
               {learningJourney.map((item) => {

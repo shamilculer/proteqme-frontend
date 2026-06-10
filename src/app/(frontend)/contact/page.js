@@ -6,7 +6,7 @@ import NewsletterSignup from "@/components/home/NewsletterSignup";
 export const metadata = {
   title: "Contact Us | Proteq",
   description:
-    "Speak with Proteq's compliance experts about advisory, training, or RegTech systems. UK and US hotlines, email, and London office details.",
+    "Speak with Proteq's compliance experts about advisory, training, or RegTech systems. Phone, email, and office contact details.",
 };
 
 const ContactPage = () => {

@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/global/Header";
 import Footer from "@/components/global/Footer";
 import SkipToContent from "@/components/global/SkipToContent";
+import ParticlesRoot from "@/components/providers/ParticlesRoot";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -33,16 +34,18 @@ export default function RootLayout({ children }) {
       className={`${geist.variable} ${dmSans.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col overflow-x-clip">
-        <SkipToContent />
-        <Header />
-        <main
-          id="main-content"
-          tabIndex={-1}
-          className="site-interactions flex flex-1 flex-col outline-none"
-        >
-          {children}
-        </main>
-        <Footer />
+        <ParticlesRoot>
+          <SkipToContent />
+          <Header />
+          <main
+            id="main-content"
+            tabIndex={-1}
+            className="site-interactions relative isolate flex flex-1 flex-col outline-none"
+          >
+            {children}
+          </main>
+          <Footer />
+        </ParticlesRoot>
       </body>
     </html>
   );

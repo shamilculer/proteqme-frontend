@@ -16,7 +16,7 @@ const ParticleNetwork = dynamic(
 const trustSignals = [
   { value: "200+", label: "Professionals Trained" },
   { value: "15+", label: "Years Experience" },
-  { value: "UK", label: "Based Team" },
+  { value: "40+", label: "Institutions Served" },
 ];
 
 const Hero = () => {
@@ -30,7 +30,7 @@ const Hero = () => {
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"]);
 
   return (
-    <section ref={heroRef} className="relative w-full overflow-hidden px-3 md:px-0">
+    <section ref={heroRef} className="relative w-full overflow-hidden px-2 md:px-0">
       <div className="hero-home-pattern hero-home-pattern-animated container relative isolate min-h-[min(92vh,680px)] overflow-hidden rounded-[12px] bg-proteq-dark shadow-[0_24px_70px_rgba(17,24,39,0.22)] sm:min-h-[580px] md:min-h-[640px] lg:min-h-[680px]">
         <motion.div
           className="absolute inset-0"
@@ -89,24 +89,22 @@ const Hero = () => {
               need to operate with confidence.
             </p>
 
-            <div className="flex w-full flex-row items-stretch gap-2.5 sm:w-auto sm:items-center sm:gap-4">
+            <div className="flex w-full flex-col gap-4 sm:w-auto sm:flex-row sm:items-center">
               <Button
                 href="/contact"
                 glowingDot
                 showArrow
-                className="h-12 min-w-0 flex-1 px-3 text-xs font-semibold leading-tight shadow-[0_8px_30px_rgba(232,24,90,0.35)] sm:h-13 sm:flex-none sm:px-8 sm:text-base"
+                className="h-13 w-full px-8 text-base font-semibold shadow-[0_8px_30px_rgba(232,24,90,0.35)] sm:w-auto"
               >
-                <span className="sm:hidden">Free Consultation</span>
-                <span className="hidden sm:inline">Book a Free Consultation</span>
+                Book a Free Consultation
               </Button>
               <Button
                 href="#services"
                 variant="white"
                 showArrow
-                className="h-12 min-w-0 flex-1 px-3 text-xs font-semibold leading-tight sm:h-13 sm:flex-none sm:px-8 sm:text-base"
+                className="hidden h-13 px-8 text-base font-semibold sm:inline-flex sm:w-auto"
               >
-                <span className="sm:hidden">Our Services</span>
-                <span className="hidden sm:inline">Explore Our Services</span>
+                Explore Our Services
               </Button>
             </div>
 

@@ -15,10 +15,10 @@ import { ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal
 
 
 import {
-  UK_HOTLINE,
-  UK_HOTLINE_DISPLAY,
-  US_HOTLINE,
-  US_HOTLINE_DISPLAY,
+  PHONE_PRIMARY,
+  PHONE_PRIMARY_DISPLAY,
+  PHONE_SECONDARY,
+  PHONE_SECONDARY_DISPLAY,
   SITE_EMAIL,
   OFFICE_ADDRESS,
 } from "@/data/siteContact";
@@ -28,24 +28,6 @@ import {
 /** Update with official company registration when confirmed */
 
 const COMPANY_REGISTRATION = "England & Wales · Company No. [registration number]";
-
-
-
-function FlagIcon({ code, label }) {
-
-  const flags = { UK: "🇬🇧", US: "🇺🇸" };
-
-  return (
-
-    <span className="text-base leading-none" role="img" aria-label={label}>
-
-      {flags[code]}
-
-    </span>
-
-  );
-
-}
 
 
 
@@ -69,7 +51,7 @@ const Footer = () => {
 
   return (
 
-    <footer className="bg-panel-dark text-zinc-300">
+    <footer className="relative z-20 shrink-0 bg-panel-dark text-zinc-300">
 
       <div className="container mx-auto px-4 py-16 md:py-20">
 
@@ -149,75 +131,49 @@ const Footer = () => {
 
 
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full text-xs text-zinc-400 border-t border-white/10 pt-6">
+            <div className="grid w-full gap-3 border-t border-white/10 pt-6 text-xs text-zinc-400 sm:grid-cols-2">
 
-              <div className="space-y-2.5">
+              <div className="flex items-start gap-2">
 
-                <div className="flex items-start gap-2">
+                <MapPin className="mt-0.5 size-3.5 shrink-0 text-zinc-500" />
 
-                  <MapPin className="size-3.5 mt-0.5 text-zinc-500 shrink-0" />
-
-                  <span>{OFFICE_ADDRESS}</span>
-
-                </div>
-
-                <div className="flex items-center gap-2">
-
-                  <Mail className="size-3.5 text-zinc-500 shrink-0" />
-
-                  <a href={`mailto:${SITE_EMAIL}`} className="hover:text-primary transition-colors">
-
-                    {SITE_EMAIL}
-
-                  </a>
-
-                </div>
+                <span>{OFFICE_ADDRESS}</span>
 
               </div>
 
-              
+              <div className="flex items-center gap-2">
 
-              <div className="space-y-2.5">
+                <Mail className="size-3.5 shrink-0 text-zinc-500" />
 
-                <div className="flex items-center gap-2">
+                <a href={`mailto:${SITE_EMAIL}`} className="hover:text-primary transition-colors">
 
-                  <Phone className="size-3.5 text-zinc-500 shrink-0" />
+                  {SITE_EMAIL}
 
-                  <FlagIcon code="UK" label="United Kingdom" />
+                </a>
 
-                  <a
+              </div>
 
-                    href={`tel:${UK_HOTLINE}`}
+              <div className="flex items-center gap-2">
 
-                    className="hover:text-primary transition-colors"
+                <Phone className="size-3.5 shrink-0 text-zinc-500" />
 
-                  >
+                <a href={`tel:${PHONE_PRIMARY}`} className="hover:text-primary transition-colors">
 
-                    UK Hotline: {UK_HOTLINE_DISPLAY}
+                  {PHONE_PRIMARY_DISPLAY}
 
-                  </a>
+                </a>
 
-                </div>
+              </div>
 
-                <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
 
-                  <Phone className="size-3.5 text-zinc-500 shrink-0" />
+                <Phone className="size-3.5 shrink-0 text-zinc-500" />
 
-                  <FlagIcon code="US" label="United States" />
+                <a href={`tel:${PHONE_SECONDARY}`} className="hover:text-primary transition-colors">
 
-                  <a
+                  {PHONE_SECONDARY_DISPLAY}
 
-                    href={`tel:${US_HOTLINE}`}
-
-                    className="hover:text-primary transition-colors"
-
-                  >
-
-                    US Hotline: {US_HOTLINE_DISPLAY}
-
-                  </a>
-
-                </div>
+                </a>
 
               </div>
 
