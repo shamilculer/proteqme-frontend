@@ -62,12 +62,12 @@ export default function ConsultancyOverview() {
               </div>
             </div>
 
-            <div className="relative min-h-[600px]">
+            <div className="relative min-h-0 lg:min-h-[600px]">
               <div className="absolute left-0 top-10 hidden h-[78%] w-px bg-[#231143]/15 lg:block" />
               <div className="absolute left-0 top-10 hidden h-24 w-px bg-[#E25C8F] lg:block" />
 
               <div className="relative ml-0 h-full lg:ml-10">
-                <div className="relative h-[520px] overflow-hidden rounded-[14px] rounded-tl-[28px] rounded-br-[28px] bg-[#231143] shadow-[0_32px_90px_rgba(35,17,67,0.18)] md:h-[620px] md:rounded-[12px] md:rounded-tl-[42px] md:rounded-br-[42px]">
+                <div className="relative h-[260px] overflow-hidden rounded-[14px] rounded-tl-[28px] rounded-br-[28px] bg-[#231143] shadow-[0_32px_90px_rgba(35,17,67,0.18)] sm:h-[360px] md:h-[520px] md:rounded-[12px] md:rounded-tl-[42px] md:rounded-br-[42px] lg:h-[620px]">
                   <Image
                     src="/consulting-intro.webp"
                     alt="Compliance advisory team reviewing regulatory controls"
@@ -80,7 +80,7 @@ export default function ConsultancyOverview() {
                   <div className="absolute inset-y-8 right-8 w-px bg-white/25" />
                 </div>
 
-                <div className="absolute -left-1 bottom-10 w-[min(92%,520px)] border border-zinc-200 bg-white p-5 shadow-[0_22px_60px_rgba(35,17,67,0.14)] md:-left-8">
+                <div className="relative mt-6 w-full border border-zinc-200 bg-white p-5 shadow-[0_22px_60px_rgba(35,17,67,0.14)] lg:absolute lg:-left-8 lg:bottom-10 lg:mt-0 lg:w-[min(92%,520px)]">
                   <div className="grid gap-4 sm:grid-cols-[0.88fr_1.12fr]">
                     <div className="border-r border-zinc-200 pr-4">
                       <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">

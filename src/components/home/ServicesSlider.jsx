@@ -1,9 +1,15 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, GraduationCap, Layers, ShieldCheck } from "lucide-react";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 import {
   Carousel,
   CarouselContent,
@@ -19,7 +25,7 @@ const services = [
     title: "Consultancy & Advisory",
     description:
       "Expert guidance on AML compliance frameworks, anti-fraud programme design, risk assessment, and regulatory readiness — built to stand up to regulatory scrutiny.",
-    href: "/consultancy-bg",
+    href: "/consultancy-advisory",
     cta: "Book a Free Consultation",
     icon: ShieldCheck,
     image: "/consulting-bg.webp",
@@ -74,8 +80,54 @@ export default function ServicesSlider() {
     };
   }, [api, onSelect]);
 
+  useEffect(() => {
+    if (!api) return;
+
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches) return;
+
+    const slider = document.getElementById("services");
+    let autoplayId = null;
+    let paused = false;
+
+    const tick = () => {
+      if (paused) return;
+      if (api.canScrollNext()) {
+        api.scrollNext();
+      } else {
+        api.scrollTo(0);
+      }
+    };
+
+    autoplayId = window.setInterval(tick, 6500);
+
+    const pause = () => {
+      paused = true;
+    };
+    const resume = () => {
+      paused = false;
+    };
+
+    slider?.addEventListener("mouseenter", pause);
+    slider?.addEventListener("mouseleave", resume);
+    slider?.addEventListener("focusin", pause);
+    slider?.addEventListener("focusout", resume);
+
+    return () => {
+      if (autoplayId) window.clearInterval(autoplayId);
+      slider?.removeEventListener("mouseenter", pause);
+      slider?.removeEventListener("mouseleave", resume);
+      slider?.removeEventListener("focusin", pause);
+      slider?.removeEventListener("focusout", resume);
+    };
+  }, [api]);
+
   return (
-    <section id="services" className="section-dark section-bg-pattern py-14 md:py-20">
+    <section
+      id="services"
+      className="section-dark section-particles-animated relative isolate overflow-hidden py-14 md:py-20"
+    >
+      <ParticleNetwork id="services-particles" />
       <div className="container relative z-10">
         <div className="mb-8 flex flex-col gap-5 md:mb-10 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
@@ -96,7 +148,7 @@ export default function ServicesSlider() {
           </ScrollReveal>
         </div>
 
-        <div className="relative md:px-16 lg:px-20">
+        <div className="group/slider relative md:px-16 lg:px-20">
           <Carousel
             setApi={setApi}
             opts={{ align: "start", loop: true }}
@@ -107,7 +159,7 @@ export default function ServicesSlider() {
                 const Icon = service.icon;
                 return (
                   <CarouselItem key={service.title} className="pl-0">
-                    <article className="group overflow-hidden rounded-2xl border border-white/20 bg-white shadow-[0_40px_120px_rgba(0,0,0,0.45),0_0_0_1px_rgba(255,255,255,0.08)] md:grid md:h-[480px] lg:h-[520px] md:grid-cols-[1.05fr_1fr]">
+                    <article className="group overflow-hidden rounded-2xl border border-white/20 bg-white shadow-[0_40px_120px_rgba(0,0,0,0.45),0_0_0_1px_rgba(255,255,255,0.08)] transition-transform duration-500 md:grid md:min-h-[480px] md:h-[480px] lg:h-[520px] md:grid-cols-[1.05fr_1fr]">
                       <div className="relative flex flex-col justify-between p-7 sm:p-10 lg:p-12">
                         <span
                           className="font-serif-quote pointer-events-none absolute right-5 top-4 text-6xl leading-none text-zinc-100 md:text-7xl"

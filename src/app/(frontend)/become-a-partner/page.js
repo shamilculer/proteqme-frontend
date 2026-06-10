@@ -16,7 +16,7 @@ export const metadata = {
 
 const PartnerPage = () => {
   return (
-    <main>
+    <>
       <MediumHero
         eyebrow="Partner With Proteq"
         heading="Join a Network Shaping Compliance, Learning, and RegTech"
@@ -43,14 +43,17 @@ const PartnerPage = () => {
           "Co-Branded Training",
           "Technology Partnerships",
         ]}
+        enableParticles
+        animatedPattern
+        particleId="partner-hero-particles"
       />
 
       <PartnerOverview />
       <PartnerTrustStrip />
       <PartnerOpportunities />
-      <PartnerProcess />
       <PartnerWhyChoose />
       <PartnerFormSection />
+      {/* <PartnerProcess /> */}
 
       <MainCTA
         bgImage="/partner.webp"
@@ -73,7 +76,7 @@ const PartnerPage = () => {
           },
         ]}
       />
-    </main>
+    </>
   );
 };
 

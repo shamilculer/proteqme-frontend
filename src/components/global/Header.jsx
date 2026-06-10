@@ -110,7 +110,7 @@ const Header = ({
       )}
     >
       <div className="container mx-auto px-4">
-        <nav className="hidden w-full items-center justify-between lg:flex">
+        <nav className="hidden w-full items-center justify-between lg:flex" aria-label="Primary">
           <Link href={logo.url} className="flex shrink-0 items-center gap-2">
             <Image
               src={isScrolled ? "/proteq-white.png" : logo.src}
@@ -223,7 +223,7 @@ const Header = ({
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-6 p-4">
-                <nav className="flex flex-col gap-1">
+                <nav className="flex flex-col gap-1" aria-label="Mobile primary">
                   <Link
                     href="/"
                     className={cn(

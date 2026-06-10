@@ -1,43 +1,75 @@
 "use client";
 
 import React from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import { useIsMobile } from "@/lib/use-media-query";
+import {
+  revealEase,
+  revealSpring,
+  staggerHidden,
+  staggerSpring,
+  staggerVisible,
+} from "@/lib/motion-presets";
+
+function buildRevealState({ yOffset, xOffset, scale, blur = 8, compact = false }) {
+  const effectiveBlur = compact ? 0 : blur;
+  return {
+    opacity: 0,
+    y: compact ? yOffset * 0.65 : yOffset,
+    x: xOffset,
+    scale: compact ? 0.99 : scale,
+    filter: effectiveBlur > 0 ? `blur(${effectiveBlur}px)` : "blur(0px)",
+  };
+}
+
+function buildRevealTarget() {
+  return {
+    opacity: 1,
+    y: 0,
+    x: 0,
+    scale: 1,
+    filter: "blur(0px)",
+  };
+}
 
 /**
- * ScrollReveal component reveals a single block as it enters the viewport.
+ * ScrollReveal — single block entrance on scroll (blur + lift + scale).
  */
 export const ScrollReveal = ({
   children,
   className = "",
   delay = 0,
-  duration = 0.6,
-  yOffset = 16,
+  duration,
+  yOffset = 28,
   xOffset = 0,
-  scale = 1,
+  scale = 0.97,
+  blur = 8,
   once = true,
-  amount = 0.15,
+  amount = 0.18,
+  spring = true,
 }) => {
+  const reduceMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+
+  const transition = spring
+    ? { ...revealSpring, delay }
+    : {
+        duration: duration ?? 0.65,
+        delay,
+        ease: revealEase,
+      };
+
   return (
     <motion.div
       className={className}
-      initial={{
-        opacity: 0,
-        y: yOffset,
-        x: xOffset,
-        scale: scale,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        x: 0,
-        scale: 1,
-      }}
-      viewport={{ once, amount }}
-      transition={{
-        duration,
-        delay,
-        ease: [0.21, 1.02, 0.43, 1.01], // Decelerating premium cubic bezier
-      }}
+      initial={
+        reduceMotion
+          ? false
+          : buildRevealState({ yOffset, xOffset, scale, blur, compact: isMobile })
+      }
+      whileInView={reduceMotion ? undefined : buildRevealTarget()}
+      viewport={{ once, amount, margin: "0px 0px -40px 0px" }}
+      transition={transition}
     >
       {children}
     </motion.div>
@@ -45,22 +77,28 @@ export const ScrollReveal = ({
 };
 
 /**
- * StaggerContainer is a parent component that triggers staggered reveal transitions for its StaggerItem children.
+ * StaggerContainer — orchestrates staggered child reveals.
  */
 export const StaggerContainer = ({
   children,
   className = "",
   delay = 0,
-  staggerChildren = 0.08,
+  staggerChildren = 0.1,
   once = true,
-  amount = 0.1,
+  amount = 0.12,
 }) => {
+  const reduceMotion = useReducedMotion();
+
+  if (reduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once, amount }}
+      viewport={{ once, amount, margin: "0px 0px -32px 0px" }}
       variants={{
         hidden: {},
         show: {
@@ -77,36 +115,76 @@ export const StaggerContainer = ({
 };
 
 /**
- * StaggerItem is a child component of StaggerContainer that animates relative to its siblings.
+ * StaggerItem — child of StaggerContainer with matched reveal motion.
  */
 export const StaggerItem = ({
   children,
   className = "",
-  yOffset = 16,
+  yOffset = 22,
   xOffset = 0,
-  duration = 0.5,
+  scale = 0.96,
+  blur = 6,
+  duration,
+  spring = true,
 }) => {
+  const reduceMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+
+  if (reduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
+  const hidden = {
+    ...staggerHidden,
+    y: isMobile ? yOffset * 0.65 : yOffset,
+    x: xOffset,
+    scale: isMobile ? 0.99 : scale,
+    filter: isMobile ? "blur(0px)" : blur > 0 ? `blur(${blur}px)` : "blur(0px)",
+  };
+
+  const show = {
+    ...staggerVisible,
+    transition: spring
+      ? staggerSpring
+      : {
+          duration: duration ?? 0.55,
+          ease: revealEase,
+        },
+  };
+
   return (
-    <motion.div
-      className={className}
-      variants={{
-        hidden: {
-          opacity: 0,
-          y: yOffset,
-          x: xOffset,
-        },
-        show: {
-          opacity: 1,
-          y: 0,
-          x: 0,
-          transition: {
-            duration,
-            ease: [0.21, 1.02, 0.43, 1.01],
-          },
-        },
-      }}
-    >
+    <motion.div className={className} variants={{ hidden, show }}>
       {children}
     </motion.div>
+  );
+};
+
+/**
+ * HoverLift — subtle spring lift on hover for cards and panels.
+ */
+export const HoverLift = ({
+  children,
+  className = "",
+  y = -5,
+  scale = 1.01,
+  as = "div",
+}) => {
+  const reduceMotion = useReducedMotion();
+  const Component = motion[as] ?? motion.div;
+
+  if (reduceMotion) {
+    const Static = as;
+    return <Static className={className}>{children}</Static>;
+  }
+
+  return (
+    <Component
+      className={className}
+      whileHover={{ y, scale }}
+      whileTap={{ scale: 0.995 }}
+      transition={{ type: "spring", stiffness: 420, damping: 26 }}
+    >
+      {children}
+    </Component>
   );
 };

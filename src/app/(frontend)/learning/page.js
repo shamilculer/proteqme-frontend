@@ -17,7 +17,7 @@ export const metadata = {
 
 const LearningPage = () => {
   return (
-    <main>
+    <>
       <MediumHero
         eyebrow="Professional Learning"
         heading="The PROTEQme Training Experience"
@@ -45,14 +45,17 @@ const LearningPage = () => {
         ]}
         bgImage="/learning-5.webp"
         imageAlt="Professional compliance learning and webinar session"
+        enableParticles
+        animatedPattern
+        particleId="learning-hero-particles"
       />
 
       <LearningIntro />
       <LearningExpertise />
       <TrainingProgrammes />
       <LearningTrustStrip />
-      <LearningApproach />
       <LearningWhyChoose />
+      <LearningApproach />
 
       <TestimonialsSection
         id="learning-testimonials"
@@ -81,7 +84,7 @@ const LearningPage = () => {
           },
         ]}
       />
-    </main>
+    </>
   );
 };
 

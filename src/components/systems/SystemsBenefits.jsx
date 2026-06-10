@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import SectionAmbient from "@/components/ui/SectionAmbient";
 import {
   ScrollReveal,
   StaggerContainer,
@@ -30,55 +31,56 @@ const impactStats = [
   },
 ];
 
+function ImpactStat({ stat }) {
+  return (
+    <article className="text-center">
+      <p className="text-4xl font-bold tracking-tight text-primary md:text-5xl lg:text-6xl">
+        {stat.value}
+      </p>
+      <p className="mt-3 text-base font-semibold text-foreground md:text-lg">
+        {stat.label}
+      </p>
+      <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+        {stat.description}
+      </p>
+    </article>
+  );
+}
+
 export default function SystemsBenefits() {
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#061525] py-18 text-white md:py-24"
+      className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
       aria-labelledby="systems-impact-heading"
     >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-30"
-        aria-hidden
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 80%, rgba(232,24,90,0.2), transparent 40%), radial-gradient(circle at 80% 20%, rgba(35,17,67,0.5), transparent 50%)",
-        }}
-      />
+      <SectionAmbient variant="light" />
 
       <div className="container relative z-10">
         <ScrollReveal className="mb-10 text-center md:mb-12">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/55">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
             Impact at Scale
           </p>
           <h2
             id="systems-impact-heading"
-            className="mt-3 text-3xl font-semibold md:text-[40px]"
+            className="section-heading-accent text-section-heading text-foreground"
           >
             RegTech Advisory Built for Regulated Operations
           </h2>
         </ScrollReveal>
 
         <StaggerContainer
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid gap-10 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4 lg:gap-6"
           staggerChildren={0.07}
         >
           {impactStats.map((stat) => (
             <StaggerItem key={stat.label}>
-              <article className="text-center">
-                <p className="text-5xl font-bold tracking-tight text-primary md:text-6xl">
-                  {stat.value}
-                </p>
-                <p className="mt-3 text-lg font-semibold">{stat.label}</p>
-                <p className="mt-2 text-sm leading-relaxed text-white/60">
-                  {stat.description}
-                </p>
-              </article>
+              <ImpactStat stat={stat} />
             </StaggerItem>
           ))}
         </StaggerContainer>
 
         <ScrollReveal className="mt-12 text-center">
-          <Button href="/contact" variant="white" showArrow glowingDot>
+          <Button href="/contact" showArrow glowingDot>
             Request a Systems Assessment
           </Button>
         </ScrollReveal>

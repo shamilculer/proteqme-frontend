@@ -2,6 +2,28 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@layer base {
+  html {
+    overflow-x: clip;
+    scroll-behavior: smooth;
+  }
+
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -139,11 +161,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1{
-  @apply text-[40px] md:text-5xl lg:text-[70px] font-bold leading-[1.15]!
+  @apply text-[40px] md:text-6xl lg:text-[68px] font-semibold leading-[1.15]!
 }
 
 h2{
-  @apply text-[34px] md:text-4xl lg:text-[46px] font-bold leading-[1.10]!
+  @apply text-[34px] md:text-4xl lg:text-[48px] font-semibold leading-[1.10]!
 }
 
 @layer utilities {
@@ -204,6 +226,122 @@ h2{
   animation-play-state: paused;
 }
 
+/* Ambient section motion */
+@keyframes float-ambient-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(28px, -22px) scale(1.06);
+  }
+}
+
+@keyframes float-ambient-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-24px, 18px) scale(1.04);
+  }
+}
+
+@keyframes grid-drift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 48px 48px;
+  }
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  will-change: transform;
+}
+
+.ambient-orb--a {
+  top: -8%;
+  right: -4%;
+  width: min(42vw, 420px);
+  height: min(42vw, 420px);
+  animation: float-ambient-a 18s ease-in-out infinite;
+}
+
+.ambient-orb--b {
+  bottom: -12%;
+  left: -6%;
+  width: min(36vw, 360px);
+  height: min(36vw, 360px);
+  animation: float-ambient-b 22s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-orb--a,
+  .ambient-orb--b {
+    animation: none;
+  }
+
+  .section-light::before,
+  .section-light-white::before {
+    animation: none !important;
+  }
+
+  .animate-marquee,
+  .animate-marquee-reverse {
+    animation-play-state: paused;
+  }
+}
+
+.section-light::before,
+.section-light-white::before {
+  animation: grid-drift 90s linear infinite;
+}
+
+/* Animated brand-pink border beam for cards */
+@keyframes border-beam-slide {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.border-beam-card {
+  background: linear-gradient(
+    90deg,
+    #0d0d14 0%,
+    #0d0d14 30%,
+    #e8185a 44%,
+    #ff6b9d 50%,
+    #e8185a 56%,
+    #0d0d14 70%,
+    #0d0d14 100%
+  );
+  background-size: 250% 100%;
+  background-position: 0% 50%;
+  animation: border-beam-slide 2.8s linear infinite;
+  animation-fill-mode: both;
+  box-shadow: 0 0 18px rgba(232, 24, 90, 0.15);
+}
+
+.border-beam-card-reverse {
+  animation-direction: reverse;
+  animation-fill-mode: both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .border-beam-card,
+  .border-beam-card-reverse {
+    animation: none;
+    background: transparent;
+  }
+}
+
 /* ── Homepage hero ── */
 .hero-home-overlay {
   background: linear-gradient(
@@ -235,7 +373,7 @@ h2{
 .hero-home-content-scrim {
   background: linear-gradient(
     90deg,
-    rgba(13, 13, 18, 1) 0%,
+    rgba(13, 13, 18, .7) 0%,
     rgba(13, 13, 18, 0.52) 55%,
     transparent 80%
   );
@@ -258,6 +396,42 @@ h2{
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0.14;
+}
+
+/* Static SVG fallback when canvas animation is disabled */
+.hero-home-pattern-animated::after {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-home-pattern-animated::after {
+    opacity: 0.14;
+  }
+}
+
+.particles-canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particles-canvas canvas {
+  pointer-events: none;
+}
+
+/* Hide static SVG when animated particles are active */
+.section-particles-animated.section-bg-pattern::before,
+.section-dark.section-particles-animated::before {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-particles-animated.section-bg-pattern::before,
+  .section-dark.section-particles-animated::before {
+    opacity: 0.16;
+  }
 }
 
 /* Opt-in network pattern — add to specific sections only */
@@ -375,6 +549,101 @@ h2{
 .icon-stat-circle {
   @apply flex size-9 shrink-0 items-center justify-center rounded-full bg-transparent text-primary;
   border: 1.5px solid rgba(232, 24, 90, 0.55);
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    box-shadow 0.35s ease;
+}
+
+.group:hover .icon-stat-circle,
+.icon-stat-circle:hover {
+  transform: scale(1.08);
+  border-color: rgba(232, 24, 90, 0.85);
+  box-shadow: 0 0 0 4px rgba(232, 24, 90, 0.1);
+}
+
+/* ── Site-wide interaction layer ── */
+@layer components {
+  .interactive-card {
+    transition:
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.3s ease,
+      background-color 0.3s ease;
+  }
+
+  .interactive-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(13, 13, 20, 0.1);
+  }
+
+  .hover-link-arrow {
+    @apply inline-flex items-center gap-2 transition-colors duration-300;
+  }
+
+  .hover-link-arrow svg {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hover-link-arrow:hover svg {
+    transform: translate(3px, -2px);
+  }
+
+  .site-interactions
+    article[class*="rounded"][class*="border"]:not(.no-hover-motion):not(
+      [class*="absolute"]
+    ) {
+    transition:
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.3s ease,
+      background-color 0.3s ease;
+  }
+
+  .site-interactions
+    article[class*="rounded"][class*="border"]:not(.no-hover-motion):not(
+      [class*="absolute"]
+    ):hover {
+    border-color: rgba(232, 24, 90, 0.22);
+  }
+
+  .site-interactions
+    article.group[class*="rounded"][class*="border"]:not(.no-hover-motion):not(
+      [class*="absolute"]
+    ):hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 44px rgba(13, 13, 20, 0.09);
+  }
+
+  .site-interactions h2,
+  .site-interactions h3 {
+    transition: color 0.25s ease;
+  }
+
+  .site-interactions footer a:not([data-slot="button"]) {
+    @apply transition-[color,transform] duration-300;
+  }
+
+  .site-interactions footer a:not([data-slot="button"]):hover {
+    transform: translateX(2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactive-card,
+  .interactive-card:hover,
+  .site-interactions
+    article[class*="rounded"][class*="border"]:not(.no-hover-motion):hover,
+  .site-interactions
+    article.group[class*="rounded"][class*="border"]:not(.no-hover-motion):hover,
+  .site-interactions footer a:not([data-slot="button"]):hover,
+  .icon-stat-circle,
+  .group:hover .icon-stat-circle,
+  .icon-stat-circle:hover,
+  .hover-link-arrow:hover svg {
+    transform: none !important;
+  }
 }
 
 .step-number-circle {

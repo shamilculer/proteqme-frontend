@@ -2,6 +2,8 @@ import { DM_Sans, Geist, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/global/Header";
 import Footer from "@/components/global/Footer";
+import SkipToContent from "@/components/global/SkipToContent";
+import MobileStickyCTA from "@/components/global/MobileStickyCTA";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -21,7 +23,8 @@ const playfair = Playfair_Display({
 
 export const metadata = {
   title: "Proteq | AML Compliance Advisory & RegTech Systems",
-  description: "AML compliance advisory, professional regulatory training, and RegTech systems for financial institutions, VASPs, and fintechs. Book a free consultation with Proteq.",
+  description:
+    "AML compliance advisory, professional regulatory training, and RegTech systems for financial institutions, VASPs, and fintechs. Book a free consultation with Proteq.",
 };
 
 export default function RootLayout({ children }) {
@@ -30,12 +33,19 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${geist.variable} ${dmSans.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col overflow-x-clip pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
+        <SkipToContent />
         <Header />
-        <main className="flex-1 flex flex-col">{children}</main>
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="site-interactions flex flex-1 flex-col outline-none"
+        >
+          {children}
+        </main>
         <Footer />
+        <MobileStickyCTA />
       </body>
     </html>
   );
 }
-

@@ -10,6 +10,7 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SectionAmbient from "@/components/ui/SectionAmbient";
 import {
   ScrollReveal,
   StaggerContainer,
@@ -49,24 +50,17 @@ const learningFormats = [
 
 const LearningIntro = () => {
   return (
-    <section className="relative w-full overflow-hidden bg-white py-18 md:py-24">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.35]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(35,17,67,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(35,17,67,0.04) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
-      <div className="pointer-events-none absolute -right-24 top-20 hidden text-[180px] font-semibold leading-none tracking-tighter text-[#231143]/[0.03] lg:block">
+    <section className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28">
+      <SectionAmbient variant="light" />
+      <div className="pointer-events-none absolute -right-24 top-20 hidden text-[180px] font-semibold leading-none tracking-tighter text-proteq-dark/[0.03] lg:block">
         LEARN
       </div>
 
-      <div className="container relative">
+      <div className="container relative z-10">
         <ScrollReveal className="mb-12 max-w-3xl md:mb-16" yOffset={20}>
           <p className="text-lg font-medium leading-relaxed text-zinc-600 md:text-xl md:leading-relaxed">
             Training that turns regulatory knowledge into{" "}
-            <span className="text-[#231143]">day-to-day capability</span>—for
+            <span className="text-proteq-dark">day-to-day capability</span>—for
             compliance teams, risk professionals, and leaders who need more than
             slides on a screen.
           </p>
@@ -80,7 +74,7 @@ const LearningIntro = () => {
             scale={0.98}
             duration={0.75}
           >
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[18px] bg-[#061525] shadow-[0_32px_90px_rgba(35,17,67,0.14)] sm:aspect-[5/6] lg:aspect-auto lg:min-h-[800px]">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-proteq-dark shadow-[0_28px_80px_rgba(13,13,20,0.12)] sm:aspect-[5/6] lg:aspect-auto lg:min-h-[800px]">
               <Image
                 src="/learning-bg.webp"
                 alt="Professional compliance training session"
@@ -89,7 +83,7 @@ const LearningIntro = () => {
                 className="object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-linear-to-t from-[#061525]/88 via-[#061525]/25 to-[#231143]/10" />
+              <div className="absolute inset-0 bg-linear-to-t from-proteq-dark/90 via-proteq-dark/25 to-proteq-dark/10" />
 
               <div className="absolute inset-x-6 top-6 flex items-center justify-between border-t border-white/30 pt-5 text-white">
                 <span className="text-xs font-semibold uppercase tracking-wider text-white/75">
@@ -120,7 +114,7 @@ const LearningIntro = () => {
               </div>
             </div>
 
-            <div className="absolute -right-2 top-1/2 hidden h-24 w-1 -translate-y-1/2 rounded-full bg-[#E25C8F] lg:block" />
+            <div className="absolute -right-2 top-1/2 hidden h-24 w-1 -translate-y-1/2 rounded-full bg-primary lg:block" />
           </ScrollReveal>
 
           <StaggerContainer
@@ -130,8 +124,8 @@ const LearningIntro = () => {
             <StaggerItem>
               <div className="mb-2.5 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1.5">
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E25C8F] opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#E25C8F]" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
                 </span>
                 <span className="text-xs font-semibold uppercase tracking-wider text-zinc-700">
                   How We Teach
@@ -140,7 +134,7 @@ const LearningIntro = () => {
             </StaggerItem>
 
             <StaggerItem>
-              <h2 className="max-w-xl text-3xl leading-tight text-[#231143] md:text-[44px]">
+              <h2 className="section-heading-accent text-section-heading max-w-xl">
                 Learning designed for regulated environments
               </h2>
             </StaggerItem>
@@ -164,12 +158,12 @@ const LearningIntro = () => {
                     key={item.step}
                     className="group relative grid gap-4 border-b border-zinc-150 py-6 last:border-b-0 md:grid-cols-[3.25rem_1fr] md:items-start md:gap-5"
                   >
-                    <div className="relative z-10 flex size-13 items-center justify-center rounded-full border border-zinc-200 bg-white text-[#231143] shadow-[0_10px_30px_rgba(35,17,67,0.06)] transition duration-300 group-hover:border-[#E25C8F]/40 group-hover:bg-[#231143] group-hover:text-white">
+                    <div className="icon-stat-circle relative z-10 size-13 transition duration-300 group-hover:border-primary/40 group-hover:bg-proteq-dark group-hover:text-white">
                       <Icon className="size-5" />
                     </div>
 
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E25C8F]">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
                         Phase {item.step}
                       </span>
                       <h3 className="mt-1 text-lg font-semibold text-[#061525]">
@@ -200,16 +194,15 @@ const LearningIntro = () => {
           staggerChildren={0.06}
         >
           {learningFormats.map(({ label, icon: Icon }) => (
-            <StaggerItem
-              key={label}
-              className="flex items-center gap-3 rounded-2xl border border-zinc-200/90 bg-zinc-50/80 px-4 py-4 transition duration-300 hover:border-[#E25C8F]/35 hover:bg-white hover:shadow-[0_14px_40px_rgba(35,17,67,0.07)]"
-            >
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-[#231143]/10 bg-white text-[#231143]">
-                <Icon className="size-4" />
-              </span>
-              <span className="text-sm font-medium leading-snug text-[#061525]">
-                {label}
-              </span>
+            <StaggerItem key={label}>
+              <div className="flex h-full items-center gap-3 rounded-2xl border border-zinc-200/90 bg-white px-4 py-4 transition duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_14px_40px_rgba(13,13,20,0.08)]">
+                <div className="icon-stat-circle size-10 shrink-0">
+                  <Icon className="size-4 text-primary" strokeWidth={1.75} />
+                </div>
+                <span className="text-sm font-medium leading-snug text-foreground">
+                  {label}
+                </span>
+              </div>
             </StaggerItem>
           ))}
         </StaggerContainer>

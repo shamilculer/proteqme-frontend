@@ -36,14 +36,14 @@ function PartnerLogo({ partner }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={partner.name}
-      className="flex h-16 shrink-0 items-center justify-center px-8 md:h-20 md:px-0 lg:h-28"
+      className="flex h-16 shrink-0 items-center justify-center px-8 transition-transform duration-300 hover:scale-105 md:h-20 md:px-10 lg:h-28"
     >
       <Image
         src={partner.logo}
         alt=""
         width={LOGO_WIDTH}
         height={LOGO_HEIGHT}
-        className="h-full w-auto max-w-[200px] object-contain sm:max-w-[220px] md:max-w-[240px] lg:max-w-[280px]"
+        className="h-full w-auto max-w-[200px] object-contain opacity-80 transition-opacity duration-300 hover:opacity-100 sm:max-w-[220px] md:max-w-[240px] lg:max-w-[280px]"
       />
     </a>
   );
@@ -54,7 +54,7 @@ const Partners = () => {
 
   return (
     <section
-      className="section-light-white w-full py-16 md:py-24"
+      className="section-light-white relative isolate w-full overflow-hidden py-16 md:py-24"
       aria-labelledby="partners-heading"
     >
       <div className="container relative z-10">
@@ -77,32 +77,16 @@ const Partners = () => {
           </ScrollReveal>
         </div>
 
-        <div className="hidden items-center justify-between py-2 md:flex">
-          {partners.map((partner, index) => (
-            <div key={partner.name} className="flex flex-1 items-center">
-              {index > 0 && (
-                <span
-                  className="mr-0 h-16 w-px shrink-0 bg-zinc-200 lg:h-20"
-                  aria-hidden
-                />
-              )}
-              <div className="flex flex-1 justify-center">
-                <PartnerLogo partner={partner} />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="pause-marquee relative overflow-hidden md:hidden">
+        <div className="pause-marquee relative overflow-hidden py-2">
           <div
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-linear-to-r from-white to-transparent"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-linear-to-r from-white to-transparent md:w-20"
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-white to-transparent"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-linear-to-l from-white to-transparent md:w-20"
             aria-hidden
           />
-          <div className="animate-marquee flex w-max items-center">
+          <div className="animate-marquee flex w-max items-center md:[animation-duration:55s]">
             {marqueeItems.map((partner, index) => (
               <PartnerLogo key={`${partner.name}-${index}`} partner={partner} />
             ))}

@@ -127,12 +127,12 @@ function Button({
         <span className="ml-3 shrink-0">
           {showArrow && (
             <span className={cn(
-              "flex items-center justify-center w-7 h-7 rounded-full transition-all duration-300 shrink-0",
+              "flex items-center justify-center w-7 h-7 rounded-full transition-all duration-300 shrink-0 group-hover/button:scale-105",
               variant === "white"
-                ? "bg-zinc-950 text-zinc-100 group-hover/button:rotate-45"
+                ? "bg-zinc-950 text-zinc-100 group-hover/button:rotate-45 group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5"
                 : variant === "secondary"
-                  ? "bg-primary text-primary-foreground group-hover/button:rotate-45"
-                  : "bg-proteq-dark text-white group-hover/button:rotate-45"
+                  ? "bg-primary text-primary-foreground group-hover/button:rotate-45 group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5"
+                  : "bg-proteq-dark text-white group-hover/button:rotate-45 group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5"
             )}>
               {arrowDirection === "right" ? (
                 <ArrowRight className="size-4" />

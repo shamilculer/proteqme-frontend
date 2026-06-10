@@ -7,29 +7,26 @@ export default function PartnerFormSection() {
   return (
     <section
       id="partner-form"
-      className="section-light-white w-full border-t border-zinc-200/70 py-20 md:py-28"
+      className="section-dark relative isolate scroll-mt-24 w-full overflow-hidden border-t border-white/10 py-16 md:py-24"
       aria-labelledby="partner-form-heading"
     >
-      <div className="container space-y-8 md:space-y-10">
-        <ScrollReveal className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
+      <div className="container relative z-10">
+        <ScrollReveal className="mx-auto mb-8 max-w-[1000px] text-center md:mb-10">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-white/65">
             Partnership Application
           </p>
           <h2
             id="partner-form-heading"
-            className="text-section-heading mb-4 text-foreground"
+            className="text-section-heading text-white"
           >
-            Let&apos;s Build Something Valuable Together
+            Apply to Partner With Proteq
           </h2>
-          <p className="text-body text-zinc-600">
-            Apply as a partner, trainer, or system provider and explore
-            opportunities to collaborate across advisory, training, and
-            compliance technology initiatives.
-          </p>
         </ScrollReveal>
 
-        <ScrollReveal yOffset={16}>
-          <PartnerApplicationForm />
+        <ScrollReveal yOffset={16} className="mx-auto w-full max-w-[1000px]">
+          <div className="rounded-2xl bg-white shadow-[0_24px_70px_rgba(0,0,0,0.28)] ring-1 ring-white/10">
+            <PartnerApplicationForm />
+          </div>
         </ScrollReveal>
       </div>
     </section>

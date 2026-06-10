@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { useReducedMotion } from "motion/react";
 import { ClipboardCheck, FileCheck2, ShieldCheck, Target } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const points = [
   {
@@ -35,6 +37,8 @@ const points = [
 ];
 
 export default function ConsultancyWhyChoose() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section className="w-full overflow-hidden bg-white py-18 md:py-24">
       <div className="container">
@@ -60,7 +64,7 @@ export default function ConsultancyWhyChoose() {
               complexity.
             </p>
 
-            <div className="relative mt-9 min-h-[420px] w-full overflow-hidden bg-proteq-dark shadow-[0_28px_80px_rgba(35,17,67,0.14)] md:min-h-[520px]">
+            <div className="relative mt-9 min-h-[420px] w-full overflow-hidden rounded-2xl bg-proteq-dark shadow-[0_28px_80px_rgba(35,17,67,0.14)] md:min-h-[520px]">
               <Image
                 src="/consulting-bg.webp"
                 alt="Regulated business environment for compliance advisory"
@@ -109,31 +113,42 @@ export default function ConsultancyWhyChoose() {
               const Icon = point.icon;
 
               return (
-                <article
+                <div
                   key={point.title}
-                  className="group relative min-h-[260px] overflow-hidden border border-zinc-200 bg-[#fbfafd] p-6 transition duration-300 hover:-translate-y-1 hover:border-primary/35 hover:bg-white hover:shadow-[0_24px_70px_rgba(35,17,67,0.1)]"
+                  className={cn(
+                    "group relative h-full rounded-2xl p-[3px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(232,24,90,0.2)]",
+                    reduceMotion
+                      ? "border-2 border-primary bg-transparent"
+                      : "border-beam-card"
+                  )}
+                  style={
+                    reduceMotion
+                      ? undefined
+                      : { animationDelay: `${index * 0.35}s` }
+                  }
                 >
-                  <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-primary via-[#231143] to-transparent opacity-0 transition group-hover:opacity-100" />
-                  <div className="absolute right-6 top-6 text-[64px] font-medium leading-none text-[#231143]/5 transition group-hover:text-primary/10">
-                    {String(index + 1).padStart(2, "0")}
-                  </div>
-
-                  <div className="relative flex h-full flex-col">
-                    <span className="flex size-20 items-center justify-center rounded-full border border-zinc-200 bg-white text-[#231143] shadow-[0_14px_35px_rgba(35,17,67,0.08)] transition group-hover:border-primary/35 group-hover:bg-primary group-hover:text-white">
-                      <Icon className="size-10" />
-                    </span>
-
-                    <div className="mt-auto pt-8">
-                      <div className="mb-4 h-px w-12 bg-zinc-300 transition group-hover:w-20 group-hover:bg-primary" />
-                      <h3 className="text-xl leading-tight text-[#061525]">
-                src="/assesment.webp"
-                      </h3>
-                      <p className="mt-3 text-sm leading-relaxed text-zinc-600">
-                        {point.description}
-                      </p>
+                  <article className="group relative flex min-h-[260px] h-full flex-col overflow-hidden rounded-[calc(1rem-3px)] bg-[#fbfafd] p-6 transition duration-300 hover:bg-white">
+                    <div className="absolute right-6 top-6 text-[64px] font-medium leading-none text-[#231143]/5 transition group-hover:text-primary/10">
+                      {String(index + 1).padStart(2, "0")}
                     </div>
-                  </div>
-                </article>
+
+                    <div className="relative flex h-full flex-col">
+                      <span className="flex size-20 items-center justify-center rounded-full border border-zinc-200 bg-white text-[#231143] shadow-[0_14px_35px_rgba(35,17,67,0.08)] transition group-hover:border-primary/35 group-hover:bg-primary group-hover:text-white">
+                        <Icon className="size-10" />
+                      </span>
+
+                      <div className="mt-auto pt-8">
+                        <div className="mb-4 h-px w-12 bg-zinc-300 transition group-hover:w-20 group-hover:bg-primary" />
+                        <h3 className="text-xl leading-tight text-[#061525]">
+                          {point.title}
+                        </h3>
+                        <p className="mt-3 text-sm leading-relaxed text-zinc-600">
+                          {point.description}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                </div>
               );
             })}
           </div>
@@ -142,4 +157,3 @@ export default function ConsultancyWhyChoose() {
     </section>
   );
 }
-

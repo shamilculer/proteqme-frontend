@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import SectionAmbient from "@/components/ui/SectionAmbient";
+import {
+  ScrollReveal,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/ui/scroll-reveal";
 
 function ProgressiveCounter({ value, duration = 2000, shouldAnimate }) {
   const endValue = Number(value);
@@ -76,9 +81,11 @@ const LearningTrustStrip = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden border-y border-zinc-100 bg-white py-14 md:py-16"
+      className="section-light relative isolate w-full overflow-hidden border-y border-zinc-200/70 py-14 md:py-16"
       aria-label="Learning impact statistics"
     >
+      <SectionAmbient variant="light" />
+
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.55]"
         aria-hidden
@@ -89,11 +96,11 @@ const LearningTrustStrip = () => {
           preserveAspectRatio="xMidYMid slice"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g stroke="#E25C8F" strokeWidth="1" fill="none" opacity="0.18">
+          <g stroke="currentColor" className="text-primary" strokeWidth="1" fill="none" opacity="0.18">
             <path d="M0 120 L200 80 L420 140 L640 60 L860 110 L1080 40 L1200 90" />
             <path d="M0 160 L180 100 L400 170 L620 90 L840 150 L1060 70 L1200 130" />
           </g>
-          <g fill="#E25C8F" opacity="0.22">
+          <g className="text-primary" fill="currentColor" opacity="0.22">
             <circle cx="200" cy="80" r="4" />
             <circle cx="420" cy="140" r="4" />
             <circle cx="640" cy="60" r="4" />
@@ -103,12 +110,15 @@ const LearningTrustStrip = () => {
         </svg>
       </div>
 
-      <div className="container relative">
-        <ScrollReveal yOffset={12}>
-          <ul className="grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-6">
-            {stats.map((stat) => (
-              <li key={stat.label} className="text-center">
-                <p className="text-5xl font-semibold tracking-tight text-[#E25C8F] md:text-[56px]">
+      <div className="container relative z-10">
+        <StaggerContainer
+          className="grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-6"
+          staggerChildren={0.1}
+        >
+          {stats.map((stat) => (
+            <StaggerItem key={stat.label}>
+              <div className="text-center transition-transform duration-300 hover:-translate-y-1">
+                <p className="text-5xl font-semibold tracking-tight text-primary md:text-[56px]">
                   <ProgressiveCounter
                     value={stat.value}
                     shouldAnimate={inView}
@@ -118,10 +128,10 @@ const LearningTrustStrip = () => {
                 <p className="mt-2 text-sm font-medium text-zinc-500 md:text-base">
                   {stat.label}
                 </p>
-              </li>
-            ))}
-          </ul>
-        </ScrollReveal>
+              </div>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
       </div>
     </section>
   );

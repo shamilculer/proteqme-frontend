@@ -1,7 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 import { Check } from "lucide-react";
 import {
   ScrollReveal,
@@ -180,6 +186,53 @@ const TrainingProgrammes = () => {
     };
   }, [updateActiveIndex]);
 
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches) return;
+
+    let autoplayId = null;
+    let paused = false;
+
+    const tick = () => {
+      if (paused || !track.firstElementChild) return;
+      const card = track.firstElementChild;
+      const cardWidth = card.getBoundingClientRect().width;
+      const gap = 24;
+      const maxScroll = track.scrollWidth - track.clientWidth;
+
+      if (track.scrollLeft >= maxScroll - 4) {
+        track.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        track.scrollBy({ left: cardWidth + gap, behavior: "smooth" });
+      }
+    };
+
+    autoplayId = window.setInterval(tick, 6500);
+
+    const pause = () => {
+      paused = true;
+    };
+    const resume = () => {
+      paused = false;
+    };
+
+    track.addEventListener("mouseenter", pause);
+    track.addEventListener("mouseleave", resume);
+    track.addEventListener("focusin", pause);
+    track.addEventListener("focusout", resume);
+
+    return () => {
+      if (autoplayId) window.clearInterval(autoplayId);
+      track.removeEventListener("mouseenter", pause);
+      track.removeEventListener("mouseleave", resume);
+      track.removeEventListener("focusin", pause);
+      track.removeEventListener("focusout", resume);
+    };
+  }, []);
+
   const scrollToIndex = (index) => {
     const track = trackRef.current;
     if (!track?.firstElementChild) return;
@@ -192,35 +245,28 @@ const TrainingProgrammes = () => {
   return (
     <section
       id="training-programmes"
-      className="relative w-full overflow-hidden bg-proteq-dark py-18 md:py-24"
+      className="section-dark section-particles-animated relative isolate w-full overflow-hidden py-20 md:py-28"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,255,255,0.08),transparent_50%)]" />
+      <ParticleNetwork id="learning-programmes-particles" />
 
-      <div className="container relative">
-        <ScrollReveal className="mb-12 md:mb-14">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E25C8F] opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#E25C8F]" />
-                </span>
-                <span className="text-xs font-semibold uppercase tracking-wider text-white/90">
-                  Training Programmes
-                </span>
-              </div>
+      <div className="container relative z-10">
+        <div className="mb-12 flex flex-col gap-6 md:mb-14 lg:flex-row lg:items-end lg:justify-between">
+          <ScrollReveal>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-white/65">
+              Training Programmes
+            </p>
+            <h2 className="text-section-heading max-w-3xl text-white">
+              A comprehensive portfolio for every professional
+            </h2>
+          </ScrollReveal>
 
-              <h2 className="max-w-3xl text-white">
-                A comprehensive portfolio for every professional
-              </h2>
-            </div>
-
-            <p className="max-w-lg border-l border-white/25 pl-6 text-sm leading-relaxed text-white/85 sm:text-base lg:max-w-sm">
+          <ScrollReveal xOffset={12} className="max-w-lg lg:max-w-sm">
+            <p className="border-l border-white/25 pl-6 text-body text-white/75">
               From standardised certifications to fully customised corporate
               programmes — we design learning that fits your goals.
             </p>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+        </div>
 
         <div className="lg:hidden">
           <div

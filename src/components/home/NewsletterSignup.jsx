@@ -52,10 +52,6 @@ const NewsletterSignup = () => {
 
   return (
     <section className="bg-panel-dark border-b border-zinc-700 pt-20 pb-16 relative overflow-hidden">
-      {/* Immersive Ambient Glows */}
-      <div className="absolute right-0 top-1/4 w-120 h-120 bg-primary/10 rounded-full blur-[140px] pointer-events-none -z-5" />
-      <div className="absolute left-0 bottom-0 w-100 h-100 bg-panel-dark rounded-full blur-[120px] pointer-events-none -z-5" />
-
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-16">
           
@@ -97,9 +93,6 @@ const NewsletterSignup = () => {
           {/* Right Column: Premium Boxed Subscription Card */}
           <ScrollReveal className="w-full lg:w-[50%] shrink-0" xOffset={16} yOffset={0}>
             <div className="bg-panel-dark/40 border border-white/10 rounded-[32px] p-8 md:p-10 shadow-2xl relative overflow-hidden backdrop-blur-md">
-              {/* Subtle visual lighting inside card */}
-              <div className="absolute right-0 top-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
-              
               <div className="relative z-10">
                 <h3 className="mb-2 text-lg font-bold tracking-tight text-white">
                   Get Monthly Compliance Briefings

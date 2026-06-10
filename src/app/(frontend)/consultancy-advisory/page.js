@@ -14,11 +14,14 @@ export const metadata = {
 
 const ConsultancyPage = () => {
   return (
-    <main>
+    <>
       <MediumHero
         eyebrow="Consultancy & Advisory"
         heading="Navigate Compliance with Confidence"
         description="From AML programme design to regulatory gap analysis, we deliver practical advisory that protects your organisation and satisfies your regulators."
+        enableParticles
+        animatedPattern
+        particleId="consultancy-hero-particles"
         buttons={[
           {
             label: "Book a Free Consultation",
@@ -70,7 +73,7 @@ const ConsultancyPage = () => {
           },
         ]}
       />
-    </main>
+    </>
   );
 };
 

@@ -12,18 +12,16 @@ import MainCTA from '@/components/global/MainCTA'
 
 const HomePage = () => {
   return (
-    <main>
+    <>
       <Hero />
       <Intro />
-      <HowItWorks />
       <ServicesSlider />
       <Partners />
-      {/* <Clients /> */}
       <ValuePropositionStrip />
-      <AurumFeature />
+      {/* <AurumFeature /> */}
       <Testimonials />
       <MainCTA bgImage="/hero-3.webp" />
-    </main>
+    </>
   )
 }
 

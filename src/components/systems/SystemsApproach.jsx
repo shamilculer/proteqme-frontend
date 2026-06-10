@@ -1,7 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
+import SectionAmbient from "@/components/ui/SectionAmbient";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const approachSteps = [
   {
@@ -29,7 +36,7 @@ const approachSteps = [
 export default function SystemsApproach() {
   return (
     <section
-      className="relative w-full overflow-hidden py-20 md:py-28"
+      className="section-dark section-particles-animated relative isolate w-full overflow-hidden py-20 md:py-28"
       aria-labelledby="systems-approach-heading"
     >
       <div className="absolute inset-0">
@@ -42,14 +49,21 @@ export default function SystemsApproach() {
           aria-hidden
         />
         <div
-          className="absolute inset-0 bg-[#061525]/55"
+          className="overlay-consultancy-feature-base absolute inset-0"
           aria-hidden
         />
         <div
-          className="absolute inset-0 bg-linear-to-r from-[#061525]/75 via-[#061525]/50 to-[#061525]/88 lg:via-[#061525]/35"
+          className="overlay-consultancy-feature-side absolute inset-0"
+          aria-hidden
+        />
+        <div
+          className="hero-home-overlay-accent absolute inset-0 opacity-80"
           aria-hidden
         />
       </div>
+
+      <SectionAmbient variant="dark" />
+      <ParticleNetwork id="systems-approach-particles" />
 
       <div className="container relative z-10">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-14">
@@ -63,20 +77,20 @@ export default function SystemsApproach() {
             >
               A Clear Route from Review to Implementation
             </h2>
-            <p className="text-body mt-5 max-w-lg text-white/75">
+            <p className="text-body mt-5 max-w-lg text-white/80">
               Each systems engagement follows a practical sequence: assess the
               stack, define requirements, evaluate vendors neutrally, and embed
               technology your team can operate with confidence.
             </p>
-            <blockquote className="mt-8 max-w-lg border-l-[3px] border-primary pl-5 text-sm font-medium leading-relaxed text-white">
+            <blockquote className="font-serif-quote mt-8 max-w-lg border-l-[3px] border-primary pl-5 text-sm font-medium leading-relaxed text-white/95">
               Structured enough for procurement and audit. Flexible enough for
               your operational realities.
             </blockquote>
           </ScrollReveal>
 
           <ScrollReveal xOffset={16}>
-            <div className="consultancy-approach-panel rounded-2xl border border-white/10 p-6 md:p-8">
-              <ol className="divide-y divide-white/10">
+            <div className="consultancy-approach-panel rounded-2xl border border-white/10 p-6 backdrop-blur-sm md:p-8">
+              <ol className="consultancy-approach-steps relative divide-y divide-white/10">
                 {approachSteps.map((step, index) => (
                   <li
                     key={step.title}

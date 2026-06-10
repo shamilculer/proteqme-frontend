@@ -1,75 +1,110 @@
 "use client";
 
 import {
-  Bot,
-  Database,
-  Fingerprint,
   Globe2,
   Layers,
   LineChart,
   ShieldCheck,
+  UserCheck,
   Workflow,
 } from "lucide-react";
+import SectionAmbient from "@/components/ui/SectionAmbient";
 import {
   ScrollReveal,
   StaggerContainer,
   StaggerItem,
 } from "@/components/ui/scroll-reveal";
 
-const features = [
-  { title: "Vendor-Neutral RFP", icon: ShieldCheck },
-  { title: "False Positive Tuning", icon: LineChart },
-  { title: "Workflow Design", icon: Workflow },
-  { title: "API & Integration Review", icon: Layers },
-  { title: "Multi-Jurisdiction Coverage", icon: Globe2 },
-  { title: "Data Model Assessment", icon: Database },
-  { title: "Biometric & Identity Stack", icon: Fingerprint },
-  { title: "AI-Augmented Monitoring", icon: Bot },
+const capabilities = [
+  {
+    title: "Vendor-Neutral Evaluation",
+    description:
+      "Structured RFP design, proof-of-concept scoring, and procurement-ready assessments — free from vendor incentives.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Workflow & Case Design",
+    description:
+      "Alert triage, escalation paths, and SLA design aligned to your team structure and regulatory obligations.",
+    icon: Workflow,
+  },
+  {
+    title: "Integration Architecture",
+    description:
+      "Technical review of how screening, monitoring, and core banking systems connect and exchange data.",
+    icon: Layers,
+  },
+  {
+    title: "False Positive Optimisation",
+    description:
+      "Rule and threshold calibration to reduce analyst burden while maintaining regulatory coverage.",
+    icon: LineChart,
+  },
+  {
+    title: "Multi-Jurisdiction Coverage",
+    description:
+      "Screening and monitoring configurations for cross-border operations across multiple regulatory regimes.",
+    icon: Globe2,
+  },
+  {
+    title: "Identity & KYC Stack",
+    description:
+      "Evaluation of identity verification, biometric proofing, and onboarding journey design for regulated clients.",
+    icon: UserCheck,
+  },
 ];
+
+function CapabilityCard({ capability }) {
+  const Icon = capability.icon;
+
+  return (
+    <article className="group flex h-full flex-col border border-zinc-200/90 bg-white p-7 transition duration-300 hover:border-zinc-300 hover:shadow-[0_12px_40px_rgba(13,13,20,0.06)] md:p-8">
+      <div className="flex size-10 items-center justify-center border border-zinc-200/90 text-proteq-dark transition duration-300 group-hover:border-primary/30 group-hover:text-primary">
+        <Icon className="size-[18px]" strokeWidth={1.5} />
+      </div>
+
+      <h3 className="mt-6 text-base font-semibold tracking-tight text-foreground md:text-[17px]">
+        {capability.title}
+      </h3>
+      <p className="mt-2.5 text-sm leading-relaxed text-zinc-600">
+        {capability.description}
+      </p>
+    </article>
+  );
+}
 
 export default function SystemsFeatures() {
   return (
     <section
-      className="w-full border-t border-zinc-200/70 bg-white py-18 md:py-24"
+      id="capabilities"
+      className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-16 md:py-20"
       aria-labelledby="systems-features-heading"
     >
-      <div className="container">
-        <ScrollReveal className="mb-10 text-center md:mb-12">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">
+      <SectionAmbient variant="light" />
+      <div className="container relative z-10">
+        <ScrollReveal className="mx-auto mb-10 max-w-2xl text-center md:mb-12">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
             Our Capabilities
           </p>
           <h2
-            id="systems-features-heading"
-            className="mt-3 text-3xl font-semibold text-[#231143] md:text-[40px]"
           >
             RegTech Advisory Made Simpler
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 sm:text-base">
-            Help compliance teams choose the right systems, reduce manual work,
-            and stay audit-ready — from screening evaluation to monitoring
-            optimisation and implementation support.
+          <p className="text-body mt-4 text-zinc-600">
+            Vendor-neutral guidance from evaluation through implementation —
+            structured for teams that need clarity, not more noise.
           </p>
         </ScrollReveal>
 
         <StaggerContainer
-          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid gap-px overflow-hidden rounded-sm border border-zinc-200/90 bg-zinc-200/90 sm:grid-cols-2 lg:grid-cols-3"
           staggerChildren={0.05}
         >
-          {features.map((feature) => {
-            const Icon = feature.icon;
-            return (
-              <StaggerItem key={feature.title}>
-                <article className="group flex h-full flex-col items-center rounded-2xl border border-zinc-200/80 bg-[#fbfafd] px-5 py-7 text-center transition duration-300 hover:-translate-y-1 hover:border-primary/25 hover:bg-white hover:shadow-[0_20px_50px_rgba(35,17,67,0.08)]">
-                  <span className="mb-4 flex size-12 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-[#231143] shadow-[0_8px_24px_rgba(35,17,67,0.06)] transition duration-300 group-hover:border-primary/30 group-hover:bg-primary group-hover:text-white">
-                    <Icon className="size-5" strokeWidth={1.75} />
-                  </span>
-                  <h3 className="text-sm font-semibold text-[#061525]">
-                    {feature.title}
-                  </h3>
-                </article>
-              </StaggerItem>
-            );
-          })}
+          {capabilities.map((capability) => (
+            <StaggerItem key={capability.title}>
+              <CapabilityCard capability={capability} />
+            </StaggerItem>
+          ))}
         </StaggerContainer>
       </div>
     </section>

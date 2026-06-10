@@ -430,7 +430,9 @@ export default function PartnerApplicationForm() {
   const onStep1Submit = step1Form.handleSubmit((data) => {
     setStep1Data(data);
     setStep(2);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    document
+      .getElementById("partner-form")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
   const onStep2Submit = step2Form.handleSubmit(async (data) => {
@@ -474,7 +476,7 @@ export default function PartnerApplicationForm() {
   }
 
   return (
-    <div className="p-6 sm:p-10 w-full rounded-3xl bg-primary/3 border border-zinc-200 border-t-4 border-t-primary">
+    <div className="w-full rounded-2xl bg-white p-6 sm:p-8 md:p-10">
       {/* Step indicator */}
       <StepIndicator step={step} category={category} />
 

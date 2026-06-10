@@ -1,7 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
+import SectionAmbient from "@/components/ui/SectionAmbient";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const steps = [
   {
@@ -29,7 +36,7 @@ const steps = [
 export default function PartnerProcess() {
   return (
     <section
-      className="relative w-full overflow-hidden py-20 md:py-28"
+      className="section-dark section-particles-animated relative isolate w-full overflow-hidden py-20 md:py-28"
       aria-labelledby="partner-process-heading"
     >
       <div className="absolute inset-0">
@@ -41,15 +48,19 @@ export default function PartnerProcess() {
           className="object-cover"
           aria-hidden
         />
+        <div className="overlay-consultancy-feature-base absolute inset-0" aria-hidden />
         <div
-          className="absolute inset-0 bg-[rgba(13,13,18,0.52)]"
+          className="overlay-consultancy-feature-side absolute inset-0"
           aria-hidden
         />
         <div
-          className="absolute inset-0 bg-linear-to-r from-[rgba(13,13,18,0.72)] via-[rgba(13,13,18,0.55)] to-[rgba(13,13,18,0.86)] lg:via-[rgba(13,13,18,0.35)]"
+          className="hero-home-overlay-accent absolute inset-0 opacity-80"
           aria-hidden
         />
       </div>
+
+      <SectionAmbient variant="dark" />
+      <ParticleNetwork id="partner-process-particles" />
 
       <div className="container relative z-10">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-14">
@@ -63,15 +74,15 @@ export default function PartnerProcess() {
             >
               From Application to Partnership
             </h2>
-            <p className="text-body mt-5 max-w-lg text-white/75">
+            <p className="text-body mt-5 max-w-lg text-white/80">
               A streamlined collaboration journey designed to connect experts,
               trainers, and technology providers with meaningful opportunities.
             </p>
           </ScrollReveal>
 
           <ScrollReveal xOffset={16}>
-            <div className="consultancy-approach-panel rounded-2xl border border-white/10 p-6 md:p-8">
-              <ol className="divide-y divide-white/10">
+            <div className="consultancy-approach-panel rounded-2xl border border-white/10 p-6 backdrop-blur-sm md:p-8">
+              <ol className="consultancy-approach-steps relative divide-y divide-white/10">
                 {steps.map((step, index) => (
                   <li
                     key={step.title}

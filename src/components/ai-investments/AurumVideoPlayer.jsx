@@ -10,10 +10,14 @@ const ReactPlayer = dynamic(() => import("react-player/youtube"), {
   ssr: false,
 });
 
-const DEFAULT_VIDEO_ID = "iSDJ68Z-8sU";
+export const AURUM_VIDEO_IDS = {
+  overview: "iSDJ68Z-8sU",
+  ecosystem: "uKgSgGClewc",
+  platform: "iSDJ68Z-8sU",
+};
 
 export default function AurumVideoPlayer({
-  videoId = DEFAULT_VIDEO_ID,
+  videoId = AURUM_VIDEO_IDS.overview,
   className,
   playLabel = "Play video",
 }) {
@@ -23,7 +27,7 @@ export default function AurumVideoPlayer({
   return (
     <div
       className={cn(
-        "relative aspect-video overflow-hidden rounded-2xl border border-zinc-200 bg-aurum-dark shadow-[0_16px_48px_rgba(10,10,0,0.1)]",
+        "relative aspect-video overflow-hidden rounded-2xl border border-zinc-200/90 bg-proteq-dark shadow-[0_20px_60px_rgba(35,17,67,0.14)]",
         className
       )}
     >
@@ -39,13 +43,13 @@ export default function AurumVideoPlayer({
             alt=""
             fill
             className="object-cover transition duration-500 group-hover:scale-[1.02]"
-            sizes="(min-width: 1024px) 50vw, 100vw"
+            sizes="(min-width: 1024px) 45vw, 100vw"
             unoptimized
           />
-          <div className="absolute inset-0 bg-[rgba(20,8,0,0.55)] transition group-hover:bg-[rgba(20,8,0,0.65)]" />
+          <div className="absolute inset-0 bg-[rgba(35,17,67,0.55)] transition group-hover:bg-[rgba(35,17,67,0.65)]" />
 
-          <span className="relative z-10 flex size-14 items-center justify-center rounded-full border border-white/35 bg-white/20 text-[var(--aurum-gold-muted)] shadow-[0_8px_30px_rgba(10,10,0,0.25)] transition group-hover:scale-105">
-            <Play className="ml-0.5 size-6 fill-aurum-dark" aria-hidden />
+          <span className="relative z-10 flex size-14 items-center justify-center rounded-full border border-white/35 bg-white/15 text-white shadow-[0_8px_30px_rgba(35,17,67,0.25)] transition group-hover:scale-105 group-hover:bg-primary group-hover:border-primary">
+            <Play className="ml-0.5 size-6 fill-white" aria-hidden />
           </span>
         </button>
       ) : (

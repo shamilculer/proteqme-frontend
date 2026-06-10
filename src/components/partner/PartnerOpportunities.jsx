@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,11 @@ import {
   StaggerContainer,
   StaggerItem,
 } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const partnerTypes = [
   {
@@ -55,9 +61,11 @@ export default function PartnerOpportunities() {
   return (
     <section
       id="partnership-opportunities"
-      className="section-dark w-full py-20 md:py-28"
+      className="section-dark section-particles-animated relative isolate w-full overflow-hidden py-20 md:py-28"
       aria-labelledby="partner-opportunities-heading"
     >
+      <ParticleNetwork id="partner-opportunities-particles" />
+
       <div className="container relative z-10">
         <div className="mb-10 flex flex-col gap-6 md:mb-12 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
@@ -86,16 +94,17 @@ export default function PartnerOpportunities() {
         >
           {partnerTypes.map((item) => (
             <StaggerItem key={item.heading}>
-              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.2)]">
+              <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/20 bg-white shadow-[0_24px_70px_rgba(0,0,0,0.35)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_32px_90px_rgba(0,0,0,0.45)]">
                 <div className="relative h-[200px] shrink-0 overflow-hidden sm:h-[220px]">
                   <Image
                     src={item.image}
                     alt={item.heading}
                     fill
                     sizes="(min-width: 1024px) 33vw, 100vw"
-                    className="object-cover"
+                    className="object-cover transition duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-[rgba(13,13,18,0.55)]" />
+                  <div className="absolute inset-0 bg-proteq-dark/55" />
+                  <div className="absolute inset-0 bg-linear-to-t from-proteq-dark/60 via-transparent to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-5">
                     <h3 className="text-lg font-semibold leading-snug text-white md:text-xl">
                       {item.heading}
@@ -115,7 +124,10 @@ export default function PartnerOpportunities() {
                         className="flex items-start gap-2.5 text-sm text-zinc-700"
                       >
                         <span className="icon-ghost-pink mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full">
-                          <Check className="size-3 text-primary" strokeWidth={2.5} />
+                          <Check
+                            className="size-3 text-primary"
+                            strokeWidth={2.5}
+                          />
                         </span>
                         <span className="leading-snug">{detail}</span>
                       </li>

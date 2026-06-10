@@ -1,7 +1,14 @@
-import React from "react";
+"use client";
+
+import dynamic from "next/dynamic";
 import Image from "next/image";
 
 import { Button } from "../ui/button";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 import { ScrollReveal } from "../ui/scroll-reveal";
 import { cn } from "@/lib/utils";
 
@@ -27,10 +34,15 @@ const MainCTA = ({
   heading = "Secure Your Compliance. Elevate Your Trust.",
   description = "Partner with Proteq to implement intelligent anti-fraud systems, strategic regulatory advisory, and professional compliance learning frameworks designed for modern risk environments.",
   buttons = defaultButtons,
+  className,
 }) => {
   return (
-    <section className="section-dark section-bg-pattern w-full py-24 md:py-30 relative flex flex-col items-center justify-center overflow-hidden text-center">
-      
+    <section
+      className={cn(
+        "section-dark section-particles-animated relative isolate flex w-full flex-col items-center justify-center overflow-hidden py-20 text-center md:py-20",
+        className
+      )}
+    >
       {/* Full-bleed image reserved for CTA sections only */}
       <div className="absolute inset-0 z-0 h-full w-full pointer-events-none select-none">
         <Image
@@ -45,8 +57,7 @@ const MainCTA = ({
         <div className="absolute inset-0 bg-[rgba(13,13,18,0.65)]" />
       </div>
 
-      {/* Glow */}
-      <div className="absolute left-1/2 top-1/2 z-[1] -translate-x-1/2 -translate-y-1/2 w-140 h-140 bg-primary/25 rounded-full blur-[140px] pointer-events-none" />
+      <ParticleNetwork id="main-cta-particles" />
 
       {/* Content */}
       <div className="container relative z-10 mx-auto max-w-4xl px-4">
@@ -86,6 +97,8 @@ const MainCTA = ({
                 arrowDirection={button.arrowDirection}
                 icon={button.icon}
                 iconPosition={button.iconPosition}
+                target={button.target}
+                rel={button.rel}
                 className={cn("w-full sm:w-auto", button.className)}
                 style={button.style}
               >

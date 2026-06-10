@@ -38,12 +38,10 @@ export default function TestimonialsSection({
     <section
       id={id}
       className={cn(
-        "section-light relative w-full overflow-hidden border-t border-zinc-200/60 py-14 md:py-18",
+        "section-light relative isolate w-full overflow-hidden border-t border-zinc-200/60 py-14 md:py-18",
         className
       )}
     >
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-140 w-140 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[140px]" />
-
       <div className="relative z-10 w-full">
         <ScrollReveal className="mx-auto mb-8 px-4 text-center">
           <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100 px-4 py-1.5 shadow-xs">
@@ -80,7 +78,7 @@ export default function TestimonialsSection({
             )}
           />
 
-          <div className="animate-marquee flex gap-6">
+          <div className="animate-marquee flex gap-6 [animation-duration:38s]">
             {marqueeItems.map((testimonial, idx) => (
               <div
                 key={`${testimonial.initials ?? testimonial.name}-${idx}`}

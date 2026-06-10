@@ -1,6 +1,6 @@
 import MainCTA from "@/components/global/MainCTA";
-import SystemsHero from "@/components/systems/SystemsHero";
-import SystemsMetrics from "@/components/systems/SystemsMetrics";
+import MediumHero from "@/components/global/MediumHero";
+import SystemsOverview from "@/components/systems/SystemsOverview";
 import SystemsIntelligence from "@/components/systems/SystemsIntelligence";
 import SystemsWhyChoose from "@/components/systems/SystemsWhyChoose";
 import SystemsApproach from "@/components/systems/SystemsApproach";
@@ -15,14 +15,44 @@ export const metadata = {
 
 const SystemsPage = () => {
   return (
-    <main>
-      <SystemsHero />
-      <SystemsMetrics />
+    <>
+      <MediumHero
+        eyebrow="RegTech Systems"
+        heading="The Right Systems for the Right Risks"
+        description="We evaluate, recommend, and help implement AML screening, transaction monitoring, and regulatory technology solutions tailored to your risk profile and operational scale."
+        bgImage="/systems-bg.webp"
+        imageAlt="RegTech systems and compliance technology advisory"
+        enableParticles
+        animatedPattern
+        particleId="systems-hero-particles"
+        buttons={[
+          {
+            label: "Request a Systems Assessment",
+            href: "/contact",
+            variant: "default",
+            glowingDot: true,
+            showArrow: true,
+          },
+          {
+            label: "Book a Demo",
+            href: "/contact",
+            variant: "white",
+            showArrow: true,
+          },
+        ]}
+        highlights={[
+          "AML Screening & Sanctions",
+          "Transaction Monitoring",
+          "KYC & Due Diligence",
+          "Regulatory Reporting",
+        ]}
+      />
+      <SystemsOverview />
       <SystemsIntelligence />
-      <SystemsWhyChoose />
+      <SystemsFeatures />
       <SystemsApproach />
       <SystemsBenefits />
-      <SystemsFeatures />
+      <SystemsWhyChoose />
 
       <MainCTA
         bgImage="/systems.webp"
@@ -44,7 +74,7 @@ const SystemsPage = () => {
           },
         ]}
       />
-    </main>
+    </>
   );
 };
 
