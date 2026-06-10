@@ -20,7 +20,7 @@ export const heroParticleOptions = {
   },
   particles: {
     number: {
-      value: 50,
+      value: 56,
       density: {
         enable: true,
         width: 1200,
@@ -35,8 +35,8 @@ export const heroParticleOptions = {
     },
     opacity: {
       value: {
-        min: 0.28,
-        max: 0.48,
+        min: 0.38,
+        max: 0.58,
       },
       animation: {
         enable: true,
@@ -48,8 +48,8 @@ export const heroParticleOptions = {
     },
     size: {
       value: {
-        min: 2,
-        max: 3.5,
+        min: 2.5,
+        max: 4,
       },
       animation: {
         enable: false,
@@ -59,12 +59,12 @@ export const heroParticleOptions = {
       enable: true,
       distance: 155,
       color: "#ffffff",
-      opacity: 0.2,
-      width: 1,
+      opacity: 0.32,
+      width: 1.15,
       triangles: {
         enable: true,
         color: "#E8185A",
-        opacity: 0.04,
+        opacity: 0.07,
       },
     },
     move: {
@@ -106,7 +106,7 @@ export const heroParticleOptions = {
         links: {
           blink: false,
           consent: false,
-          opacity: 0.42,
+          opacity: 0.55,
           color: "#E8185A",
         },
       },
