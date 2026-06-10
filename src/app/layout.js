@@ -3,7 +3,6 @@ import "./globals.css";
 import Header from "@/components/global/Header";
 import Footer from "@/components/global/Footer";
 import SkipToContent from "@/components/global/SkipToContent";
-import MobileStickyCTA from "@/components/global/MobileStickyCTA";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -33,7 +32,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${geist.variable} ${dmSans.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col overflow-x-clip pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
+      <body className="flex min-h-full flex-col overflow-x-clip">
         <SkipToContent />
         <Header />
         <main
@@ -44,7 +43,6 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
-        <MobileStickyCTA />
       </body>
     </html>
   );

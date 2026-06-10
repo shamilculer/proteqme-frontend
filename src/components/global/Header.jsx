@@ -14,6 +14,12 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   Sheet,
   SheetContent,
   SheetHeader,
@@ -52,6 +58,14 @@ const menu = [
   { title: "Contact", url: "/contact" },
 ];
 
+const mobileNavLinkClass = (active) =>
+  cn(
+    "block rounded-lg px-3 py-2.5 text-base font-medium transition-colors",
+    active
+      ? "bg-zinc-100 font-semibold text-primary"
+      : "text-zinc-700 hover:bg-zinc-50"
+  );
+
 const Header = ({
   logo = {
     url: "/",
@@ -66,6 +80,7 @@ const Header = ({
 }) => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 520);
@@ -73,6 +88,10 @@ const Header = ({
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   const isActive = (url) => {
     if (url === "/") return pathname === "/";
@@ -192,13 +211,15 @@ const Header = ({
           <Link href={logo.url} className="flex items-center gap-2">
             <Image
               src={isScrolled ? "/proteq-white.png" : logo.src}
-              width={120}
-              height={35}
+              width={148}
+              height={43}
               alt={logo.alt}
               priority
+              className="h-auto w-[148px]"
             />
           </Link>
-          <Sheet>
+
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <Button
                 variant="outline"
@@ -214,71 +235,111 @@ const Header = ({
                 <Menu className="size-5" strokeWidth={2} />
               </Button>
             </SheetTrigger>
-            <SheetContent className="overflow-y-auto">
-              <SheetHeader>
+
+            <SheetContent
+              side="right"
+              className="w-full max-w-sm overflow-y-auto border-l border-zinc-200 bg-white text-foreground shadow-2xl sm:max-w-sm [&>button]:text-zinc-600 [&>button]:hover:bg-zinc-100"
+            >
+              <SheetHeader className="border-b border-zinc-200/80 pb-4">
                 <SheetTitle className="text-left">
-                  <Link href={logo.url} className="flex items-center gap-2">
-                    <Image src={logo.src} width={120} height={35} alt={logo.alt} />
+                  <Link
+                    href={logo.url}
+                    className="flex items-center gap-2"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <Image
+                      src={logo.src}
+                      width={148}
+                      height={43}
+                      alt={logo.alt}
+                      className="h-auto w-[148px]"
+                    />
                   </Link>
                 </SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col gap-6 p-4">
+
+              <div className="flex flex-col gap-6 px-4 pb-6 pt-2">
                 <nav className="flex flex-col gap-1" aria-label="Mobile primary">
                   <Link
                     href="/"
-                    className={cn(
-                      "rounded-md px-3 py-2 text-base font-medium transition-colors",
-                      isActive("/")
-                        ? "bg-zinc-100 font-semibold text-primary"
-                        : "text-zinc-600 hover:bg-zinc-50"
-                    )}
+                    className={mobileNavLinkClass(isActive("/"))}
+                    onClick={() => setMobileOpen(false)}
                   >
                     Home
                   </Link>
 
-                  <div className="mt-2">
-                    <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                      Solutions
-                    </p>
-                    {solutionsPillars.map((pillar) => {
-                      const Icon = pillar.icon;
-                      return (
-                        <Link
-                          key={pillar.href}
-                          href={pillar.href}
-                          className={cn(
-                            "flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors",
-                            isActive(pillar.href)
-                              ? "bg-zinc-100 font-semibold text-primary"
-                              : "text-zinc-600 hover:bg-zinc-50"
-                          )}
-                        >
-                          <div className="icon-ghost-pink flex size-9 items-center justify-center rounded-lg">
-                            <Icon className="size-4 text-primary" strokeWidth={1.75} />
-                          </div>
-                          <span className="text-sm font-medium">{pillar.title}</span>
-                        </Link>
-                      );
-                    })}
-                  </div>
+                  <Accordion
+                    type="single"
+                    collapsible
+                    defaultValue={isSolutionsActive ? "solutions" : undefined}
+                    className="w-full"
+                  >
+                    <AccordionItem
+                      value="solutions"
+                      className="border-b border-zinc-200/80"
+                    >
+                      <AccordionTrigger
+                        className={cn(
+                          "px-3 py-3 text-base font-medium hover:bg-zinc-50 hover:no-underline",
+                          isSolutionsActive
+                            ? "font-semibold text-primary"
+                            : "text-zinc-800"
+                        )}
+                      >
+                        Solutions
+                      </AccordionTrigger>
+                      <AccordionContent className="px-1 pb-2">
+                        <ul className="space-y-1">
+                          {solutionsPillars.map((pillar) => {
+                            const Icon = pillar.icon;
+                            return (
+                              <li key={pillar.href}>
+                                <Link
+                                  href={pillar.href}
+                                  onClick={() => setMobileOpen(false)}
+                                  className={cn(
+                                    "flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors",
+                                    isActive(pillar.href)
+                                      ? "bg-zinc-100 font-semibold text-primary"
+                                      : "text-zinc-700 hover:bg-zinc-50"
+                                  )}
+                                >
+                                  <div className="icon-ghost-pink flex size-9 shrink-0 items-center justify-center rounded-lg">
+                                    <Icon
+                                      className="size-4 text-primary"
+                                      strokeWidth={1.75}
+                                    />
+                                  </div>
+                                  <span className="text-sm font-medium">
+                                    {pillar.title}
+                                  </span>
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
 
                   {menu.slice(1).map((item) => (
                     <Link
                       key={item.title}
                       href={item.url}
-                      className={cn(
-                        "rounded-md px-3 py-2 text-base font-medium transition-colors",
-                        isActive(item.url)
-                          ? "bg-zinc-100 font-semibold text-primary"
-                          : "text-zinc-600 hover:bg-zinc-50"
-                      )}
+                      className={mobileNavLinkClass(isActive(item.url))}
+                      onClick={() => setMobileOpen(false)}
                     >
                       {item.title}
                     </Link>
                   ))}
                 </nav>
 
-                <Button href={cta.url} showArrow className="btn-cta-nav w-full">
+                <Button
+                  href={cta.url}
+                  showArrow
+                  className="btn-cta-nav w-full"
+                  onClick={() => setMobileOpen(false)}
+                >
                   {cta.title}
                 </Button>
               </div>

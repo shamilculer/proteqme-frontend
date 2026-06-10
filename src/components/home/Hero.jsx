@@ -30,7 +30,7 @@ const Hero = () => {
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"]);
 
   return (
-    <section ref={heroRef} className="relative w-full overflow-hidden">
+    <section ref={heroRef} className="relative w-full overflow-hidden px-3 md:px-0">
       <div className="hero-home-pattern hero-home-pattern-animated container relative isolate min-h-[min(92vh,680px)] overflow-hidden rounded-[12px] bg-proteq-dark shadow-[0_24px_70px_rgba(17,24,39,0.22)] sm:min-h-[580px] md:min-h-[640px] lg:min-h-[680px]">
         <motion.div
           className="absolute inset-0"
@@ -57,7 +57,7 @@ const Hero = () => {
         />
 
         <motion.div
-          className="relative z-20 grid items-center gap-12 px-5 py-14 sm:px-6 sm:py-16 md:py-20 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:gap-14 lg:px-10 lg:py-20 xl:gap-16"
+          className="relative z-20 grid items-center gap-12 px-1 py-14 sm:px-6 sm:py-16 md:py-20 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:gap-14 lg:px-10 lg:py-20 xl:gap-16"
           style={reduceMotion ? undefined : { y: contentY }}
         >
           <motion.div
@@ -77,16 +77,10 @@ const Hero = () => {
             </div>
 
             <h1 className="mb-7 max-w-5xl text-[1.85rem] font-bold leading-[1.18] text-white sm:text-4xl md:text-5xl lg:text-6xl">
-              <span className="sm:hidden">
-                Compliance Expertise.
-                <br />
-                Systems That Work.
-              </span>
-              <span className="hidden sm:inline">
+
                 Compliance Expertise.
                 Intelligent Learning.
                 Systems That Work.
-              </span>
             </h1>
 
             <p className="mb-9 max-w-lg text-sm! leading-[1.8] text-white/90 sm:text-base md:mb-10 md:text-lg lg:max-w-xl">
@@ -95,39 +89,39 @@ const Hero = () => {
               need to operate with confidence.
             </p>
 
-            <div className="flex w-full flex-col gap-4 sm:w-auto sm:flex-row sm:items-center">
+            <div className="flex w-full flex-row items-stretch gap-2.5 sm:w-auto sm:items-center sm:gap-4">
               <Button
                 href="/contact"
                 glowingDot
                 showArrow
-                className="h-13 w-full px-8 text-base font-semibold shadow-[0_8px_30px_rgba(232,24,90,0.35)] sm:w-auto"
+                className="h-12 min-w-0 flex-1 px-3 text-xs font-semibold leading-tight shadow-[0_8px_30px_rgba(232,24,90,0.35)] sm:h-13 sm:flex-none sm:px-8 sm:text-base"
               >
-                Book a Free Consultation
+                <span className="sm:hidden">Free Consultation</span>
+                <span className="hidden sm:inline">Book a Free Consultation</span>
               </Button>
               <Button
                 href="#services"
                 variant="white"
                 showArrow
-                className="h-13 w-full px-8 text-base font-semibold sm:w-auto"
+                className="h-12 min-w-0 flex-1 px-3 text-xs font-semibold leading-tight sm:h-13 sm:flex-none sm:px-8 sm:text-base"
               >
-                Explore Our Services
+                <span className="sm:hidden">Our Services</span>
+                <span className="hidden sm:inline">Explore Our Services</span>
               </Button>
             </div>
 
-
-
-            <ul className="mt-10 flex flex-col gap-3 text-sm leading-relaxed text-white/80 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-0 sm:gap-y-2 md:mb-11 md:text-base">
+            <ul className="mt-8 flex flex-row flex-wrap items-center gap-x-3 gap-y-2 text-[11px] leading-snug text-white/80 sm:gap-x-0 sm:text-sm md:mb-11 md:text-base">
               {trustSignals.map((signal, index) => (
                 <li
                   key={signal.label}
-                  className={`flex items-center ${
+                  className={`flex shrink-0 items-center whitespace-nowrap ${
                     index > 0
-                      ? "sm:border-l sm:border-white/20 sm:pl-8 md:pl-10"
+                      ? "border-l border-white/20 pl-3 sm:pl-8 md:pl-10"
                       : ""
                   }`}
                 >
                   <span className="font-semibold text-white">{signal.value}</span>
-                  <span className="ml-1.5">{signal.label}</span>
+                  <span className="ml-1">{signal.label}</span>
                 </li>
               ))}
             </ul>

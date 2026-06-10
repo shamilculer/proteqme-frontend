@@ -161,7 +161,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1{
-  @apply text-[40px] md:text-6xl lg:text-[68px] font-semibold leading-[1.15]!
+  @apply text-[38px] md:text-6xl lg:text-[68px] font-semibold leading-[1.15]!
 }
 
 h2{
