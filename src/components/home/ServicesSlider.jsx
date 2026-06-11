@@ -10,12 +10,13 @@ const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
   { ssr: false }
 );
+import SectionAmbient from "@/components/ui/SectionAmbient";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { ScrollReveal } from "../ui/scroll-reveal";
+import { SectionReveal, ScrollReveal } from "../ui/scroll-reveal";
 import { cn } from "@/lib/utils";
 
 const services = [
@@ -123,24 +124,25 @@ export default function ServicesSlider() {
   }, [api]);
 
   return (
-    <section
+    <SectionReveal
       id="services"
-      className="section-dark section-particles-animated relative isolate overflow-hidden py-14 md:py-20"
+      className="section-light-white relative isolate overflow-hidden border-t border-zinc-200/70 py-14 md:py-20"
     >
-      <ParticleNetwork id="services-particles" />
+      <SectionAmbient variant="light" />
+      <ParticleNetwork id="services-particles" variant="light" />
       <div className="container relative z-10">
         <div className="mb-8 flex flex-col gap-5 md:mb-10 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-white/65">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
               Solutions Blueprint
             </p>
-            <h2 className="text-section-heading max-w-2xl text-white">
+            <h2 className="text-section-heading max-w-2xl text-foreground">
               Integrated Advisory, Learning, and RegTech
             </h2>
           </ScrollReveal>
 
           <ScrollReveal xOffset={12} className="max-w-lg">
-            <p className="text-sm leading-relaxed text-white/75 md:text-base">
+            <p className="text-sm leading-relaxed text-zinc-600 md:text-base">
               Three integrated capabilities — advisory, learning, and RegTech —
               each scoped to your regulatory obligations, risk appetite, and
               operational scale.
@@ -159,10 +161,10 @@ export default function ServicesSlider() {
                 const Icon = service.icon;
                 return (
                   <CarouselItem key={service.title} className="pl-0">
-                    <article className="group overflow-hidden rounded-2xl border border-white/20 bg-white shadow-[0_40px_120px_rgba(0,0,0,0.45),0_0_0_1px_rgba(255,255,255,0.08)] transition-transform duration-500 md:grid md:min-h-[480px] md:h-[480px] lg:h-[520px] md:grid-cols-[1.05fr_1fr]">
+                    <article className="group overflow-hidden rounded-2xl border border-zinc-200/80 bg-zinc-100 shadow-[0_24px_60px_rgba(17,24,39,0.06),0_0_0_1px_rgba(17,24,39,0.02)] transition-transform duration-500 md:grid md:min-h-[480px] md:h-[480px] lg:h-[520px] md:grid-cols-[1.05fr_1fr]">
                       <div className="relative flex flex-col justify-between p-7 sm:p-10 lg:p-12">
                         <span
-                          className="font-serif-quote pointer-events-none absolute right-5 top-4 text-6xl leading-none text-zinc-100 md:text-7xl"
+                          className="font-serif-quote pointer-events-none absolute right-5 top-4 text-6xl leading-none text-zinc-200/60 md:text-7xl"
                           aria-hidden
                         >
                           {service.number}
@@ -200,7 +202,7 @@ export default function ServicesSlider() {
 
                           <Link
                             href={service.href}
-                            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-zinc-300 bg-zinc-50 px-5 py-3 text-sm font-semibold text-proteq-dark transition hover:bg-zinc-100 sm:w-auto"
+                            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-proteq-dark transition hover:bg-zinc-50 sm:w-auto"
                           >
                             Learn more
                             <ArrowRight className="size-4" />
@@ -255,12 +257,12 @@ export default function ServicesSlider() {
                 "h-1.5 rounded-full transition-all duration-300",
                 current === index
                   ? "w-8 bg-primary"
-                  : "w-1.5 bg-white/35 hover:bg-white/55"
+                  : "w-1.5 bg-zinc-300 hover:bg-zinc-400"
               )}
             />
           ))}
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

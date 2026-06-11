@@ -1,12 +1,14 @@
 "use client";
 
 import { FileCheck2, GraduationCap, MonitorPlay, Users } from "lucide-react";
+import dynamic from "next/dynamic";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const points = [
   {
@@ -39,27 +41,28 @@ function WhyCard({ point }) {
   const Icon = point.icon;
 
   return (
-    <article className="group flex h-full flex-col rounded-2xl border border-white/10 bg-proteq-dark p-6 transition duration-300 hover:border-primary/30 hover:shadow-[0_20px_50px_rgba(232,24,90,0.2)] md:p-7">
-      <div className="icon-stat-circle mb-5 size-12 shrink-0 transition duration-300 group-hover:border-primary/40">
+    <article className="group flex h-full flex-col rounded-2xl border border-zinc-200/80 bg-white p-6 transition duration-300 hover:border-primary/30 hover:shadow-[0_20px_50px_rgba(232,24,90,0.08)] md:p-7 shadow-xs">
+      <div className="icon-stat-circle mb-5 size-12! shrink-0 transition duration-300 group-hover:border-primary/40">
         <Icon className="size-5 text-primary" strokeWidth={1.75} />
       </div>
 
-      <h3 className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-white">
+      <h3 className="mb-2 text-2xl font-semibold text-foreground">
         {point.title}
       </h3>
 
-      <p className="text-sm leading-[1.65] text-white/70">{point.description}</p>
+      <p className="text-sm leading-[1.65] text-zinc-600">{point.description}</p>
     </article>
   );
 }
 
 export default function LearningWhyChoose() {
   return (
-    <section
+    <SectionReveal
       className="section-light-white relative isolate w-full overflow-hidden py-20 md:py-28"
       aria-labelledby="learning-why-heading"
     >
       <SectionAmbient variant="light" />
+      <ParticleNetwork variant="light" id="learning-why-particles" />
       <div className="container relative z-10">
         <ScrollReveal className="mx-auto mb-12 max-w-2xl text-center md:mb-14">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
@@ -86,6 +89,6 @@ export default function LearningWhyChoose() {
           ))}
         </StaggerContainer>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

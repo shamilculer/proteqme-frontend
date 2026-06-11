@@ -128,6 +128,129 @@ export const heroParticleOptions = {
   },
 };
 
+/** @type {import("@tsparticles/engine").ISourceOptions} */
+export const lightParticleOptions = {
+  fullScreen: {
+    enable: false,
+    zIndex: 0,
+  },
+  fpsLimit: 60,
+  detectRetina: true,
+  background: {
+    color: {
+      value: "transparent",
+    },
+  },
+  particles: {
+    number: {
+      value: 45,
+      density: {
+        enable: true,
+        width: 1200,
+        height: 700,
+      },
+    },
+    color: {
+      value: ["#0d0d14", "#E8185A", "#6b7280", "#E8185A"],
+    },
+    shape: {
+      type: "circle",
+    },
+    opacity: {
+      value: {
+        min: 0.15,
+        max: 0.35,
+      },
+      animation: {
+        enable: true,
+        speed: 0.3,
+        sync: false,
+        destroy: "none",
+        startValue: "random",
+      },
+    },
+    size: {
+      value: {
+        min: 2,
+        max: 3.5,
+      },
+      animation: {
+        enable: false,
+      },
+    },
+    links: {
+      enable: true,
+      distance: 140,
+      color: "#0d0d14",
+      opacity: 0.14,
+      width: 1.0,
+      triangles: {
+        enable: true,
+        color: "#E8185A",
+        opacity: 0.03,
+      },
+    },
+    move: {
+      enable: true,
+      speed: {
+        min: 0.2,
+        max: 0.8,
+      },
+      direction: "none",
+      random: true,
+      straight: false,
+      outModes: {
+        default: "bounce",
+      },
+      attract: {
+        enable: true,
+        rotate: {
+          x: 800,
+          y: 1600,
+        },
+      },
+    },
+  },
+  interactivity: {
+    detectsOn: "parent",
+    events: {
+      onHover: {
+        enable: true,
+        mode: ["grab", "repulse"],
+      },
+      onClick: {
+        enable: true,
+        mode: "push",
+      },
+    },
+    modes: {
+      grab: {
+        distance: 180,
+        links: {
+          blink: false,
+          consent: false,
+          opacity: 0.25,
+          color: "#E8185A",
+        },
+      },
+      repulse: {
+        distance: 100,
+        duration: 0.5,
+        factor: 0.6,
+        speed: 0.6,
+      },
+      push: {
+        quantity: 2,
+      },
+      attract: {
+        distance: 180,
+        duration: 0.4,
+        factor: 0.6,
+      },
+    },
+  },
+};
+
 export async function initHeroParticles(engine) {
   await loadSlim(engine);
   await loadInteractivityPlugin(engine);

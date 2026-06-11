@@ -1,23 +1,23 @@
 "use client";
 
 import PartnerApplicationForm from "@/components/forms/PartnerApplicationForm";
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { SectionReveal, ScrollReveal } from "@/components/ui/scroll-reveal";
 
 export default function PartnerFormSection() {
   return (
-    <section
+    <SectionReveal
       id="partner-form"
-      className="section-dark relative isolate scroll-mt-24 w-full overflow-hidden border-t border-white/10 py-16 md:py-24"
+      className="section-light-white relative isolate scroll-mt-24 w-full overflow-hidden border-t border-zinc-200/70 py-16 md:py-24"
       aria-labelledby="partner-form-heading"
     >
       <div className="container relative z-10">
         <ScrollReveal className="mx-auto mb-8 max-w-[1000px] text-center md:mb-10">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-white/65">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
             Partnership Application
           </p>
           <h2
             id="partner-form-heading"
-            className="text-section-heading text-white"
+            className="text-section-heading text-foreground"
           >
             Apply to Partner With Proteq
           </h2>
@@ -29,6 +29,6 @@ export default function PartnerFormSection() {
           </div>
         </ScrollReveal>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

@@ -3,9 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Building2, GraduationCap, Globe, Shield } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 function ProgressiveCounter({ value, duration = 2000, shouldAnimate }) {
   const endValue = parseInt(value, 10);
@@ -80,7 +86,7 @@ function StatCard({ stat, inView }) {
   const Icon = stat.icon;
 
   return (
-    <article className="flex h-full flex-col rounded-[calc(1rem-3px)] bg-white p-5 sm:p-6">
+    <article className="flex h-full flex-col rounded-[calc(1rem-1.5px)] bg-white p-5 sm:p-6">
       <div className="mb-4 flex items-center gap-3">
         <div className="icon-stat-circle size-10 shrink-0">
           <Icon className="size-4.5 text-primary" strokeWidth={1.75} />
@@ -130,12 +136,13 @@ const ValuePropositionStrip = () => {
   }, []);
 
   return (
-    <section
+    <SectionReveal
       ref={sectionRef}
       id="values"
       className="section-light-white relative isolate w-full overflow-hidden pb-20 md:pb-28"
       aria-labelledby="values-heading"
     >
+      <ParticleNetwork variant="light" id="value-prop-particles" />
       <div className="container relative z-10">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-10 xl:gap-16">
           <ScrollReveal
@@ -178,10 +185,10 @@ const ValuePropositionStrip = () => {
                 <StaggerItem key={stat.title}>
                   <div
                     className={cn(
-                      "group relative h-full rounded-2xl p-[3px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(232,24,90,0.2)]",
+                       "group relative h-full rounded-2xl p-[1.5px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(232,24,90,0.1)]",
                       reduceMotion
                         ? "border-2 border-primary bg-transparent"
-                        : "border-beam-card"
+                        : "border-beam-card-light"
                     )}
                     style={
                       reduceMotion
@@ -197,7 +204,7 @@ const ValuePropositionStrip = () => {
           </div>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 };
 

@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import {
   Activity,
   Coins,
@@ -7,11 +8,13 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
+
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
 
 const reasons = [
   {
@@ -34,11 +37,12 @@ const reasons = [
 
 export default function AurumWhyAI() {
   return (
-    <section
+    <SectionReveal
       className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-12 md:py-16"
       aria-labelledby="aurum-why-heading"
     >
       <SectionAmbient variant="light" />
+      <ParticleNetwork id="aurum-why-particles" variant="light" />
       <div className="container relative z-10">
         <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-start lg:gap-10">
           <ScrollReveal>
@@ -76,6 +80,6 @@ export default function AurumWhyAI() {
           </StaggerContainer>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

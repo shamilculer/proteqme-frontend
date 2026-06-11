@@ -4,7 +4,15 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShieldCheck, GraduationCap, Layers, ArrowRight } from "lucide-react";
+import dynamic from "next/dynamic";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
+
+import SectionAmbient from "../ui/SectionAmbient";
 
 const PANEL_GRADIENT =
   "linear-gradient(90deg, rgba(13,13,18,0.92) 0%, rgba(13,13,18,0.78) 68%, rgba(13,13,18,0.18) 100%)";
@@ -59,20 +67,22 @@ const pillars = [
 
 const ServicePillars = () => {
   return (
-    <section className="section-dark py-18 md:py-24">
+    <section className="section-light-white relative overflow-hidden border-t border-zinc-200/70 py-18 md:py-24">
+      <SectionAmbient variant="light" />
+      <ParticleNetwork id="service-pillars-particles" variant="light" />
       <div className="container relative z-10">
         <ScrollReveal className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
             </span>
-            <span className="text-xs font-semibold uppercase tracking-wider text-white/80">
+            <span className="text-xs font-semibold uppercase tracking-wider text-zinc-600">
               Our Solutions Blueprint
             </span>
           </div>
 
-          <h2 className="text-section-heading text-white">
+          <h2 className="text-section-heading text-foreground">
             Integrated Advisory, Learning, and RegTech Services
           </h2>
         </ScrollReveal>

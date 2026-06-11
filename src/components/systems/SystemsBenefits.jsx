@@ -1,12 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const impactStats = [
   {
@@ -49,11 +51,12 @@ function ImpactStat({ stat }) {
 
 export default function SystemsBenefits() {
   return (
-    <section
-      className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
+    <SectionReveal
+      className="section-light-white relative isolate w-full overflow-hidden border-y border-zinc-200/70 py-16 md:py-20"
       aria-labelledby="systems-impact-heading"
     >
       <SectionAmbient variant="light" />
+      <ParticleNetwork id="systems-benefits-particles" variant="light" />
 
       <div className="container relative z-10">
         <ScrollReveal className="mb-10 text-center md:mb-12">
@@ -61,6 +64,8 @@ export default function SystemsBenefits() {
             Impact at Scale
           </p>
           <h2
+            id="systems-impact-heading"
+            className="text-section-heading text-foreground"
           >
             RegTech Advisory Built for Regulated Operations
           </h2>
@@ -83,6 +88,6 @@ export default function SystemsBenefits() {
           </Button>
         </ScrollReveal>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

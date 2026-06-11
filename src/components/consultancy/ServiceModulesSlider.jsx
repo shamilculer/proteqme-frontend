@@ -197,7 +197,7 @@ const ServiceModulesSlider = () => {
                   key={module.number}
                   className="h-auto basis-full pl-3 sm:pl-4 md:basis-1/2 md:pl-6 xl:basis-1/3"
                 >
-                  <Card className="group flex h-full flex-col gap-0 overflow-hidden rounded-2xl border border-white/20 bg-white p-3 shadow-[0_24px_70px_rgba(0,0,0,0.35)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_32px_90px_rgba(0,0,0,0.45)] sm:p-4">
+                  <Card className="group flex h-full flex-col gap-0 overflow-hidden rounded-2xl border border-zinc-200 bg-white p-3 shadow-xl transition duration-300 hover:-translate-y-1 hover:shadow-2xl sm:p-4">
                     <div className="relative h-48 overflow-hidden rounded-xl bg-zinc-100 sm:h-56">
                       <Image
                         src={module.image}
@@ -297,7 +297,7 @@ const ServiceModulesSlider = () => {
               "h-1.5 rounded-full transition-all duration-300",
               current === index
                 ? "w-8 bg-primary"
-                : "w-1.5 bg-white/35 hover:bg-white/55"
+                : "w-1.5 bg-zinc-300 hover:bg-zinc-400"
             )}
           />
         ))}

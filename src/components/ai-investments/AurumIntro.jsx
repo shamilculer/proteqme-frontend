@@ -1,15 +1,23 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { SectionReveal, ScrollReveal } from "@/components/ui/scroll-reveal";
+import SectionAmbient from "@/components/ui/SectionAmbient";
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 import AurumVideoPlayer, { AURUM_VIDEO_IDS } from "./AurumVideoPlayer";
 
 export default function AurumIntro() {
   return (
-    <section
+    <SectionReveal
       id="aurum-intro"
-      className="w-full overflow-hidden bg-[#f6f4f8] py-12 md:py-16"
+      className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-12 md:py-16"
     >
+      <SectionAmbient variant="light" />
+      <ParticleNetwork id="aurum-intro-particles" variant="light" />
       <div className="container">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-10 xl:gap-12">
           <ScrollReveal className="relative z-10 lg:max-w-xl lg:py-4 xl:max-w-none">
@@ -76,6 +84,6 @@ export default function AurumIntro() {
           </ScrollReveal>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

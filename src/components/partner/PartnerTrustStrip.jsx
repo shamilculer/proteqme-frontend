@@ -2,12 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
+
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
 
 function ProgressiveCounter({ value, duration = 2000, shouldAnimate }) {
   const endValue = Number(value);
@@ -76,12 +79,13 @@ export default function PartnerTrustStrip() {
   }, []);
 
   return (
-    <section
+    <SectionReveal
       ref={sectionRef}
       className="section-light relative isolate w-full overflow-hidden border-y border-zinc-200/70 py-14 md:py-16"
       aria-label="Partnership trust signals"
     >
       <SectionAmbient variant="light" />
+      <ParticleNetwork id="partner-trust-particles" variant="light" />
 
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.55]"
@@ -136,6 +140,6 @@ export default function PartnerTrustStrip() {
           ))}
         </StaggerContainer>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

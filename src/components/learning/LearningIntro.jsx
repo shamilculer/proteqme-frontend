@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import {
   BookOpen,
   ClipboardCheck,
@@ -11,11 +12,12 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const learningJourney = [
   {
@@ -50,8 +52,9 @@ const learningFormats = [
 
 const LearningIntro = () => {
   return (
-    <section className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28">
+    <SectionReveal className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28">
       <SectionAmbient variant="light" />
+      <ParticleNetwork variant="light" id="learning-intro-particles" />
       <div className="pointer-events-none absolute -right-24 top-20 hidden text-[180px] font-semibold leading-none tracking-tighter text-proteq-dark/[0.03] lg:block">
         LEARN
       </div>
@@ -158,7 +161,7 @@ const LearningIntro = () => {
                     key={item.step}
                     className="group relative grid gap-4 border-b border-zinc-150 py-6 last:border-b-0 md:grid-cols-[3.25rem_1fr] md:items-start md:gap-5"
                   >
-                    <div className="icon-stat-circle relative z-10 size-13 transition duration-300 group-hover:border-primary/40 group-hover:bg-proteq-dark group-hover:text-white">
+                    <div className="icon-stat-circle relative z-10 size-13 transition duration-300 group-hover:border-primary/40 group-hover:bg-primary group-hover:text-white">
                       <Icon className="size-5" />
                     </div>
 
@@ -207,7 +210,7 @@ const LearningIntro = () => {
           ))}
         </StaggerContainer>
       </div>
-    </section>
+    </SectionReveal>
   );
 };
 

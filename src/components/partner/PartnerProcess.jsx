@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import SectionAmbient from "@/components/ui/SectionAmbient";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
@@ -36,69 +35,49 @@ const steps = [
 export default function PartnerProcess() {
   return (
     <section
-      className="section-dark section-particles-animated relative isolate w-full overflow-hidden py-20 md:py-28"
+      className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
       aria-labelledby="partner-process-heading"
     >
-      <div className="absolute inset-0">
-        <Image
-          src="/who-we-are.webp"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover"
-          aria-hidden
-        />
-        <div className="overlay-consultancy-feature-base absolute inset-0" aria-hidden />
-        <div
-          className="overlay-consultancy-feature-side absolute inset-0"
-          aria-hidden
-        />
-        <div
-          className="hero-home-overlay-accent absolute inset-0 opacity-80"
-          aria-hidden
-        />
-      </div>
-
-      <SectionAmbient variant="dark" />
-      <ParticleNetwork id="partner-process-particles" />
+      <SectionAmbient variant="light" />
+      <ParticleNetwork id="partner-process-particles" variant="light" />
 
       <div className="container relative z-10">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-14">
           <ScrollReveal>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-white/70">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
               How It Works
             </p>
             <h2
               id="partner-process-heading"
-              className="text-section-heading max-w-lg text-white"
+              className="text-section-heading max-w-lg text-foreground"
             >
               From Application to Partnership
             </h2>
-            <p className="text-body mt-5 max-w-lg text-white/80">
+            <p className="text-body mt-5 max-w-lg text-zinc-600">
               A streamlined collaboration journey designed to connect experts,
               trainers, and technology providers with meaningful opportunities.
             </p>
           </ScrollReveal>
 
           <ScrollReveal xOffset={16}>
-            <div className="consultancy-approach-panel rounded-2xl border border-white/10 p-6 backdrop-blur-sm md:p-8">
-              <ol className="consultancy-approach-steps relative divide-y divide-white/10">
+            <div className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-[0_16px_48px_rgba(13,13,20,0.06)] md:p-8">
+              <ol className="relative divide-y divide-zinc-100">
                 {steps.map((step, index) => (
                   <li
                     key={step.title}
                     className="grid gap-4 py-6 first:pt-0 last:pb-0 md:grid-cols-[3.5rem_1fr]"
                   >
-                    <span className="step-number-circle size-12 text-sm">
+                    <span className="flex size-12 items-center justify-center rounded-full border border-zinc-200 bg-zinc-50 text-sm font-semibold tabular-nums text-zinc-500">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div>
                       <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
                         Step {String(index + 1).padStart(2, "0")}
                       </p>
-                      <h3 className="mb-2 text-lg font-semibold text-white md:text-xl">
+                      <h3 className="mb-2 text-lg font-semibold text-foreground md:text-xl">
                         {step.title}
                       </h3>
-                      <p className="text-sm font-medium leading-relaxed text-white/80">
+                      <p className="text-sm font-medium leading-relaxed text-zinc-600">
                         {step.description}
                       </p>
                     </div>

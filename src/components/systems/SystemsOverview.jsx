@@ -8,6 +8,7 @@ import {
   UserCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SectionReveal, ScrollReveal } from "@/components/ui/scroll-reveal";
 
 const systemsFocusAreas = [
   { label: "AML screening & sanctions", icon: SearchCheck },
@@ -18,10 +19,10 @@ const systemsFocusAreas = [
 
 export default function SystemsOverview() {
   return (
-    <section className="w-full overflow-hidden bg-[#f6f4f8] py-18 md:py-24">
+    <SectionReveal className="w-full overflow-hidden border-b border-zinc-200/70 bg-[#f6f4f8] py-18 md:py-24">
       <div className="container">
         <div className="relative grid gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-18">
-          <div className="relative z-10">
+          <ScrollReveal xOffset={-16} className="relative z-10">
             <div className="relative">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100 px-4 py-1.5">
                 <span className="relative flex h-2 w-2">
@@ -64,9 +65,9 @@ export default function SystemsOverview() {
                 </Button>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
-          <div className="relative min-h-0 lg:min-h-[600px]">
+          <ScrollReveal xOffset={16} delay={0.08} className="relative min-h-0 lg:min-h-[600px]">
             <div className="absolute left-0 top-10 hidden h-[78%] w-px bg-[#231143]/15 lg:block" />
             <div className="absolute left-0 top-10 hidden h-24 w-px bg-[#E25C8F] lg:block" />
 
@@ -117,9 +118,9 @@ export default function SystemsOverview() {
                 </p>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

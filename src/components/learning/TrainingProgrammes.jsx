@@ -9,11 +9,8 @@ const ParticleNetwork = dynamic(
   { ssr: false }
 );
 import { Check } from "lucide-react";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+import SectionAmbient from "@/components/ui/SectionAmbient";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
 import { cn } from "@/lib/utils";
 
 const programmes = [
@@ -95,7 +92,7 @@ function ProgrammeCard({
   imageClass = "",
 }) {
   return (
-    <article className="group relative flex h-full min-h-[520px] flex-col overflow-hidden rounded-[12px] bg-white shadow-[0_22px_70px_rgba(6,21,37,0.14)] ring-1 ring-white/20 transition duration-500 hover:-translate-y-2 hover:shadow-[0_36px_90px_rgba(226,92,143,0.2)]">
+    <article className="group relative flex h-full min-h-[520px] flex-col overflow-hidden rounded-[12px] bg-white shadow-[0_22px_70px_rgba(6,21,37,0.06)] ring-1 ring-zinc-200/80 transition duration-500 hover:-translate-y-2 hover:shadow-[0_36px_90px_rgba(226,92,143,0.15)]">
       <div className="relative h-[min(52vw,280px)] min-h-[240px] shrink-0 overflow-hidden sm:min-h-[260px] md:h-[280px]">
         <Image
           src={image}
@@ -243,25 +240,26 @@ const TrainingProgrammes = () => {
   };
 
   return (
-    <section
+    <SectionReveal
       id="training-programmes"
-      className="section-dark section-particles-animated relative isolate w-full overflow-hidden py-20 md:py-28"
+      className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
     >
-      <ParticleNetwork id="learning-programmes-particles" />
+      <SectionAmbient variant="light" />
+      <ParticleNetwork id="learning-programmes-particles" variant="light" />
 
       <div className="container relative z-10">
         <div className="mb-12 flex flex-col gap-6 md:mb-14 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-white/65">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
               Training Programmes
             </p>
-            <h2 className="text-section-heading max-w-3xl text-white">
+            <h2 className="text-section-heading max-w-3xl text-foreground">
               A comprehensive portfolio for every professional
             </h2>
           </ScrollReveal>
 
           <ScrollReveal xOffset={12} className="max-w-lg lg:max-w-sm">
-            <p className="border-l border-white/25 pl-6 text-body text-white/75">
+            <p className="border-l border-zinc-200/80 pl-6 text-body text-zinc-600">
               From standardised certifications to fully customised corporate
               programmes — we design learning that fits your goals.
             </p>
@@ -296,7 +294,7 @@ const TrainingProgrammes = () => {
                   "size-2 rounded-full transition",
                   activeIndex === index
                     ? "scale-110 bg-primary"
-                    : "bg-white/30 hover:bg-white/50"
+                    : "bg-zinc-300 hover:bg-zinc-400"
                 )}
               />
             ))}
@@ -317,7 +315,7 @@ const TrainingProgrammes = () => {
           ))}
         </StaggerContainer>
       </div>
-    </section>
+    </SectionReveal>
   );
 };
 

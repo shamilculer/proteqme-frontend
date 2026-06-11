@@ -4,14 +4,17 @@ import React from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { useIsMobile } from "@/lib/use-media-query";
 import {
+  revealDuration,
   revealEase,
-  revealSpring,
+  revealSpringSoft,
+  staggerChildrenDelay,
+  staggerDuration,
   staggerHidden,
   staggerSpring,
   staggerVisible,
 } from "@/lib/motion-presets";
 
-function buildRevealState({ yOffset, xOffset, scale, blur = 8, compact = false }) {
+function buildRevealState({ yOffset, xOffset, scale, blur = 6, compact = false }) {
   const effectiveBlur = compact ? 0 : blur;
   return {
     opacity: 0,
@@ -32,6 +35,16 @@ function buildRevealTarget() {
   };
 }
 
+function buildRevealTransition({ spring, delay, duration }) {
+  return spring
+    ? { ...revealSpringSoft, delay }
+    : {
+        duration: duration ?? revealDuration,
+        delay,
+        ease: revealEase,
+      };
+}
+
 /**
  * ScrollReveal — single block entrance on scroll (blur + lift + scale).
  */
@@ -40,24 +53,16 @@ export const ScrollReveal = ({
   className = "",
   delay = 0,
   duration,
-  yOffset = 28,
+  yOffset = 18,
   xOffset = 0,
-  scale = 0.97,
-  blur = 8,
+  scale = 0.99,
+  blur = 4,
   once = true,
-  amount = 0.18,
-  spring = true,
+  amount = 0.15,
+  spring = false,
 }) => {
   const reduceMotion = useReducedMotion();
   const isMobile = useIsMobile();
-
-  const transition = spring
-    ? { ...revealSpring, delay }
-    : {
-        duration: duration ?? 0.65,
-        delay,
-        ease: revealEase,
-      };
 
   return (
     <motion.div
@@ -69,10 +74,51 @@ export const ScrollReveal = ({
       }
       whileInView={reduceMotion ? undefined : buildRevealTarget()}
       viewport={{ once, amount, margin: "0px 0px -40px 0px" }}
-      transition={transition}
+      transition={buildRevealTransition({ spring, delay, duration })}
     >
       {children}
     </motion.div>
+  );
+};
+
+/**
+ * SectionReveal — full-width section entrance on scroll.
+ */
+export const SectionReveal = ({
+  children,
+  className = "",
+  delay = 0,
+  duration,
+  yOffset = 14,
+  blur = 2,
+  once = true,
+  amount = 0.08,
+  ...props
+}) => {
+  const reduceMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+
+  return (
+    <motion.section
+      className={className}
+      initial={
+        reduceMotion
+          ? false
+          : buildRevealState({
+              yOffset,
+              xOffset: 0,
+              scale: 0.99,
+              blur: isMobile ? 0 : blur,
+              compact: isMobile,
+            })
+      }
+      whileInView={reduceMotion ? undefined : buildRevealTarget()}
+      viewport={{ once, amount, margin: "0px 0px -48px 0px" }}
+      transition={buildRevealTransition({ spring: false, delay, duration })}
+      {...props}
+    >
+      {children}
+    </motion.section>
   );
 };
 
@@ -83,7 +129,7 @@ export const StaggerContainer = ({
   children,
   className = "",
   delay = 0,
-  staggerChildren = 0.1,
+  staggerChildren = staggerChildrenDelay,
   once = true,
   amount = 0.12,
 }) => {
@@ -120,12 +166,12 @@ export const StaggerContainer = ({
 export const StaggerItem = ({
   children,
   className = "",
-  yOffset = 22,
+  yOffset = 18,
   xOffset = 0,
-  scale = 0.96,
-  blur = 6,
+  scale = 0.98,
+  blur = 4,
   duration,
-  spring = true,
+  spring = false,
 }) => {
   const reduceMotion = useReducedMotion();
   const isMobile = useIsMobile();
@@ -147,7 +193,7 @@ export const StaggerItem = ({
     transition: spring
       ? staggerSpring
       : {
-          duration: duration ?? 0.55,
+          duration: duration ?? staggerDuration,
           ease: revealEase,
         },
   };

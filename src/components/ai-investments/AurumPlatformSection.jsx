@@ -1,8 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
+
+import { SectionReveal, ScrollReveal } from "@/components/ui/scroll-reveal";
 import AurumVideoPlayer, { AURUM_VIDEO_IDS } from "./AurumVideoPlayer";
 
 const stats = [
@@ -62,12 +69,13 @@ export default function AurumPlatformSection() {
   }, []);
 
   return (
-    <section
+    <SectionReveal
       ref={sectionRef}
       className="section-light relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-10 md:py-12"
       aria-labelledby="aurum-platform-heading"
     >
       <SectionAmbient variant="light" />
+      <ParticleNetwork id="aurum-platform-particles" variant="light" />
       <div className="container relative z-10">
         <ScrollReveal className="mb-6 max-w-2xl md:mb-8">
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
@@ -126,6 +134,6 @@ export default function AurumPlatformSection() {
           </ScrollReveal>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

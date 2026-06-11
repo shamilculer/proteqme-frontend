@@ -1,15 +1,16 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useReducedMotion } from "motion/react";
 import { ChevronRight, Mail, MapPin, Phone } from "lucide-react";
 import ContactForm from "@/components/forms/ContactForm";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
 import { cn } from "@/lib/utils";
 import {
   OFFICE_ADDRESS,
@@ -57,8 +58,9 @@ export default function ContactMainSection() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28">
+    <SectionReveal className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28">
       <SectionAmbient variant="light" />
+      <ParticleNetwork id="contact-main-particles" variant="light" />
       <div className="container relative z-10">
         <div className="mb-12 flex flex-col gap-6 md:mb-14 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
@@ -87,10 +89,10 @@ export default function ContactMainSection() {
                 <StaggerItem key={item.id}>
                   <div
                     className={cn(
-                      "rounded-2xl p-[3px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_50px_rgba(232,24,90,0.15)]",
+                      "rounded-2xl p-[1.5px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_50px_rgba(232,24,90,0.15)]",
                       reduceMotion
                         ? "border-2 border-primary bg-transparent"
-                        : "border-beam-card"
+                        : "border-beam-card-light"
                     )}
                     style={
                       reduceMotion
@@ -102,7 +104,7 @@ export default function ContactMainSection() {
                       href={item.link}
                       target={item.external ? "_blank" : undefined}
                       rel={item.external ? "noopener noreferrer" : undefined}
-                      className="group flex items-center justify-between gap-3 rounded-[calc(1rem-3px)] bg-white p-4 sm:gap-4 sm:p-5"
+                      className="group flex items-center justify-between gap-3 rounded-[calc(1rem-1.5px)] bg-white p-4 sm:gap-4 sm:p-5"
                     >
                       <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-5">
                         <div className="icon-stat-circle flex size-12 shrink-0 sm:size-14">
@@ -137,6 +139,6 @@ export default function ContactMainSection() {
           </ScrollReveal>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

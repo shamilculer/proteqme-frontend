@@ -2,14 +2,16 @@
 
 import { Globe, Scale, Users } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+import dynamic from "next/dynamic";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import SectionAmbient from "../ui/SectionAmbient";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "../ui/scroll-reveal";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const pillars = [
   {
@@ -42,11 +44,13 @@ const Intro = () => {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section
+    <SectionReveal
       className="section-light relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
       aria-labelledby="who-we-are-heading"
     >
       <SectionAmbient variant="light" />
+      <ParticleNetwork variant="light" id="intro-particles" />
+      
       <div className="container relative z-10">
         <div className="mb-12 flex flex-col gap-6 md:mb-16 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
@@ -80,10 +84,10 @@ const Intro = () => {
               <StaggerItem key={pillar.title}>
                 <div
                   className={cn(
-                    "group relative h-full rounded-2xl p-[3px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(232,24,90,0.35)]",
+                    "group relative h-full rounded-2xl p-[1.5px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(232,24,90,0.15)]",
                     reduceMotion
                       ? "border-2 border-primary bg-transparent"
-                      : "border-beam-card"
+                      : "border-beam-card-light"
                   )}
                   style={
                     reduceMotion
@@ -91,7 +95,7 @@ const Intro = () => {
                       : { animationDelay: `${index * 0.35}s` }
                   }
                 >
-                  <article className="flex h-full flex-col rounded-[calc(1rem-3px)] bg-proteq-dark p-7 md:p-8">
+                  <article className="flex h-full flex-col rounded-[calc(1rem-1.5px)] bg-white border border-zinc-200/50 p-7 md:p-8 shadow-xs">
                     <motion.div
                       className="icon-stat-circle mb-6 size-14"
                       whileHover={{ scale: 1.08, rotate: 4 }}
@@ -106,10 +110,10 @@ const Intro = () => {
                         strokeWidth={1.75}
                       />
                     </motion.div>
-                    <h3 className="mb-2.5 text-base font-semibold text-white md:text-lg">
+                    <h3 className="mb-2.5 text-base font-semibold text-foreground md:text-lg">
                       {pillar.title}
                     </h3>
-                    <p className="text-sm leading-relaxed text-white/70 md:text-[15px]">
+                    <p className="text-sm leading-relaxed text-zinc-600 md:text-[15px]">
                       {pillar.description}
                     </p>
                   </article>
@@ -140,7 +144,7 @@ const Intro = () => {
           </div>
         </ScrollReveal>
       </div>
-    </section>
+    </SectionReveal>
   );
 };
 

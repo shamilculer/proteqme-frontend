@@ -1,9 +1,15 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useReducedMotion } from "motion/react";
 import SectionAmbient from "@/components/ui/SectionAmbient";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
 import { cn } from "@/lib/utils";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const metrics = [
   {
@@ -30,7 +36,7 @@ const metrics = [
 
 function MetricCard({ metric }) {
   return (
-    <article className="flex h-full flex-col rounded-[calc(1rem-3px)] bg-white p-6 md:p-7">
+    <article className="flex h-full flex-col rounded-[calc(1rem-1.5px)] bg-white p-6 md:p-7">
       <p className="text-4xl font-bold tracking-tight text-primary md:text-5xl">
         {metric.value}
       </p>
@@ -51,6 +57,7 @@ export default function SystemsMetrics() {
       aria-label="RegTech advisory outcomes"
     >
       <SectionAmbient variant="light" />
+      <ParticleNetwork id="systems-metrics-particles" variant="light" />
       <div className="container relative z-10">
         <ScrollReveal className="mb-8 text-center md:mb-10">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
@@ -69,10 +76,10 @@ export default function SystemsMetrics() {
             <StaggerItem key={metric.label}>
               <div
                 className={cn(
-                  "h-full rounded-2xl p-[3px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(232,24,90,0.15)]",
+                  "h-full rounded-2xl p-[1.5px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(232,24,90,0.15)]",
                   reduceMotion
                     ? "border-2 border-primary bg-transparent"
-                    : "border-beam-card"
+                    : "border-beam-card-light"
                 )}
                 style={
                   reduceMotion

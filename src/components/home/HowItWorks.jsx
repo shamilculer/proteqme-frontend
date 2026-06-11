@@ -1,8 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { Button } from "../ui/button";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const steps = [
   {
@@ -37,6 +43,7 @@ const HowItWorks = () => {
       className="section-light-white w-full border-t border-zinc-200/70 py-20 md:py-28"
       aria-label="How it works process"
     >
+      <ParticleNetwork variant="light" id="how-it-works-particles" />
       <div className="container relative z-10">
         <div className="mb-8 flex flex-col gap-6 md:mb-10 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>

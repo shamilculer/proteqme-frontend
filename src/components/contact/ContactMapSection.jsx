@@ -1,11 +1,11 @@
 "use client";
 
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { SectionReveal, ScrollReveal } from "@/components/ui/scroll-reveal";
 import { OFFICE_MAP_EMBED } from "@/data/siteContact";
 
 export default function ContactMapSection() {
   return (
-    <section className="relative w-full overflow-hidden border-t border-zinc-200/70">
+    <SectionReveal className="relative w-full overflow-hidden border-t border-zinc-200/70">
       <ScrollReveal yOffset={0} duration={0.8}>
         <div className="relative aspect-[4/3] w-full sm:aspect-[21/9] md:aspect-[2.4/1]">
           <iframe
@@ -18,6 +18,6 @@ export default function ContactMapSection() {
           />
         </div>
       </ScrollReveal>
-    </section>
+    </SectionReveal>
   );
 }

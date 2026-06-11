@@ -27,6 +27,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { pageEnterTransition } from "@/lib/motion-presets";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -119,12 +120,12 @@ const Header = ({
 
   return (
     <motion.header
-      initial={{ y: -16, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.21, 1.02, 0.43, 1.01] }}
+      initial={{ y: -12, opacity: 0, filter: "blur(6px)" }}
+      animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+      transition={pageEnterTransition(0)}
       className={cn(
         "top-0 z-50 w-full py-4 transition-all duration-300",
-        isScrolled ? "sticky nav-sticky-glass border-b border-white/10" : "bg-white",
+        isScrolled ? "sticky nav-sticky-glass border-b border-white/10" : "bg-white border-b border-zinc-200/70",
         className
       )}
     >

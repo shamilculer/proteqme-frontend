@@ -1,11 +1,20 @@
 import * as z from "zod";
 
-export const heroLeadFormSchema = z.object({
+export const heroLeadStep1Schema = z.object({
+  phone: z
+    .string()
+    .min(8, "Please enter a valid phone number")
+    .regex(/^[\d\s+()-]+$/, "Please enter a valid phone number"),
+});
+
+export const heroLeadStep2Schema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Please enter a valid email"),
   company: z.string().optional(),
   service: z.string().min(1, "Please select a service"),
 });
+
+export const heroLeadFormSchema = heroLeadStep1Schema.merge(heroLeadStep2Schema);
 
 export const contactFormSchema = z.object({
   "full-name": z.string({ error: "This field is required" }),

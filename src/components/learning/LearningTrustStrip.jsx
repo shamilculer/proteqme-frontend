@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 function ProgressiveCounter({ value, duration = 2000, shouldAnimate }) {
   const endValue = Number(value);
@@ -79,12 +81,13 @@ const LearningTrustStrip = () => {
   }, []);
 
   return (
-    <section
+    <SectionReveal
       ref={sectionRef}
       className="section-light relative isolate w-full overflow-hidden border-y border-zinc-200/70 py-14 md:py-16"
       aria-label="Learning impact statistics"
     >
       <SectionAmbient variant="light" />
+      <ParticleNetwork variant="light" id="learning-trust-particles" />
 
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.55]"
@@ -133,7 +136,7 @@ const LearningTrustStrip = () => {
           ))}
         </StaggerContainer>
       </div>
-    </section>
+    </SectionReveal>
   );
 };
 

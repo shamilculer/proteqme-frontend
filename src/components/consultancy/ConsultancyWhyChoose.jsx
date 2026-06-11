@@ -1,9 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useReducedMotion } from "motion/react";
 import { ClipboardCheck, FileCheck2, ShieldCheck, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const points = [
   {
@@ -40,10 +47,11 @@ export default function ConsultancyWhyChoose() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="w-full overflow-hidden bg-white py-18 md:py-24">
+    <SectionReveal className="w-full overflow-hidden bg-white py-18 md:py-24 relative">
+      <ParticleNetwork variant="light" id="consultancy-why-particles" />
       <div className="container">
         <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch lg:gap-14">
-          <div className="flex flex-col items-start">
+          <ScrollReveal xOffset={-16} className="flex flex-col items-start">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100 px-4 py-1.5">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
@@ -106,20 +114,20 @@ export default function ConsultancyWhyChoose() {
                 </div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <StaggerContainer className="grid gap-4 sm:grid-cols-2" staggerChildren={0.1}>
             {points.map((point, index) => {
               const Icon = point.icon;
 
               return (
-                <div
+                <StaggerItem
                   key={point.title}
                   className={cn(
-                    "group relative h-full rounded-2xl p-[3px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(232,24,90,0.2)]",
+                    "group relative h-full rounded-2xl p-[1.5px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(232,24,90,0.1)]",
                     reduceMotion
                       ? "border-2 border-primary bg-transparent"
-                      : "border-beam-card"
+                      : "border-beam-card-light"
                   )}
                   style={
                     reduceMotion
@@ -127,7 +135,7 @@ export default function ConsultancyWhyChoose() {
                       : { animationDelay: `${index * 0.35}s` }
                   }
                 >
-                  <article className="group relative flex min-h-[260px] h-full flex-col overflow-hidden rounded-[calc(1rem-3px)] bg-[#fbfafd] p-6 transition duration-300 hover:bg-white">
+                  <article className="group relative flex min-h-[260px] h-full flex-col overflow-hidden rounded-[calc(1rem-1.5px)] bg-zinc-100 p-6 transition duration-300 hover:bg-white">
                     <div className="absolute right-6 top-6 text-[64px] font-medium leading-none text-[#231143]/5 transition group-hover:text-primary/10">
                       {String(index + 1).padStart(2, "0")}
                     </div>
@@ -148,12 +156,12 @@ export default function ConsultancyWhyChoose() {
                       </div>
                     </div>
                   </article>
-                </div>
+                </StaggerItem>
               );
             })}
-          </div>
+          </StaggerContainer>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

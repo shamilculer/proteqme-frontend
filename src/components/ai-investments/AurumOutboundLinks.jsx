@@ -1,12 +1,16 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+import SectionAmbient from "@/components/ui/SectionAmbient";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
+
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
 
 const outboundLinks = [
   {
@@ -29,11 +33,13 @@ const outboundLinks = [
 
 export default function AurumOutboundLinks() {
   return (
-    <section
+    <SectionReveal
       id="aurum-links"
       className="section-light relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-12 md:py-16"
       aria-labelledby="aurum-links-heading"
     >
+      <SectionAmbient variant="light" />
+      <ParticleNetwork id="aurum-links-particles" variant="light" />
       <div className="container relative z-10">
         <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center md:mb-9">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
@@ -83,6 +89,6 @@ export default function AurumOutboundLinks() {
           ))}
         </StaggerContainer>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

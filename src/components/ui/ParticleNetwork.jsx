@@ -3,7 +3,7 @@
 import { Component, useEffect, useMemo, useRef, useState } from "react";
 import Particles from "@tsparticles/react";
 import { cn } from "@/lib/utils";
-import { heroParticleOptions } from "@/lib/hero-particles";
+import { heroParticleOptions, lightParticleOptions } from "@/lib/hero-particles";
 
 class ParticleErrorBoundary extends Component {
   state = { hasError: false };
@@ -18,8 +18,8 @@ class ParticleErrorBoundary extends Component {
   }
 }
 
-function ParticleCanvas({ id, className }) {
-  const options = useMemo(() => heroParticleOptions, []);
+function ParticleCanvas({ id, className, variant }) {
+  const options = useMemo(() => (variant === "light" ? lightParticleOptions : heroParticleOptions), [variant]);
 
   return (
     <Particles
@@ -33,6 +33,7 @@ function ParticleCanvas({ id, className }) {
 export default function ParticleNetwork({
   id = "hero-particles",
   className,
+  variant = "dark",
 }) {
   const hostRef = useRef(null);
   const [enabled, setEnabled] = useState(true);
@@ -79,7 +80,7 @@ export default function ParticleNetwork({
         className="pointer-events-none absolute inset-0 z-[2] overflow-hidden [clip-path:inset(0)]"
         aria-hidden
       >
-        {inView ? <ParticleCanvas id={id} className={className} /> : null}
+        {inView ? <ParticleCanvas id={id} className={className} variant={variant} /> : null}
       </div>
     </ParticleErrorBoundary>
   );

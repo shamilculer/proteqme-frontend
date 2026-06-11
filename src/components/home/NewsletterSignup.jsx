@@ -3,8 +3,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Check, ArrowUpRight, ShieldAlert, Sparkles, BookOpen } from "lucide-react";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import { ScrollReveal } from "../ui/scroll-reveal";
+import { SectionReveal, ScrollReveal } from "../ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const benefits = [
   {
@@ -51,28 +57,29 @@ const NewsletterSignup = () => {
   };
 
   return (
-    <section className="bg-panel-dark border-b border-zinc-700 pt-20 pb-16 relative overflow-hidden">
+    <SectionReveal className="section-light border-b border-zinc-200/70 pt-20 pb-16 relative overflow-hidden">
+      <ParticleNetwork variant="light" id="newsletter-particles" />
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-16">
           
           {/* Left Column: Heading, Subtext, Demo CTA, and Benefits */}
           <ScrollReveal className="w-full lg:w-[50%] flex flex-col items-center lg:items-start text-center lg:text-left" xOffset={-16} yOffset={0}>
             {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 mb-5 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 shadow-xs">
+            <div className="inline-flex items-center gap-2 mb-5 bg-primary/5 border border-primary/10 rounded-full px-4 py-1.5 shadow-xs">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              <span className="text-xs text-zinc-300 uppercase font-semibold tracking-wider">Stay Informed</span>
+              <span className="text-xs text-primary uppercase font-semibold tracking-wider">Stay Informed</span>
             </div>
 
             {/* Heading */}
-            <h2 className="text-section-heading font-bold text-white tracking-tight leading-[1.15] mb-4">
+            <h2 className="text-section-heading font-bold text-foreground tracking-tight leading-[1.15] mb-4">
               Stay Ahead of Compliance
             </h2>
             
             {/* Subtext */}
-            <p className="text-zinc-400 text-sm md:text-base leading-relaxed mb-6 max-w-xl">
+            <p className="text-zinc-600 text-sm md:text-base leading-relaxed mb-6 max-w-xl">
               Regulatory updates, training releases, and industry insights delivered to your inbox.
             </p>
 
@@ -80,7 +87,7 @@ const NewsletterSignup = () => {
             <div className="mb-10 w-full sm:w-auto flex justify-center lg:justify-start">
               <Button
                 href="/contact"
-                variant="white"
+                variant="default"
                 glowingDot
                 showArrow
                 className="w-full sm:w-auto"
@@ -92,16 +99,16 @@ const NewsletterSignup = () => {
 
           {/* Right Column: Premium Boxed Subscription Card */}
           <ScrollReveal className="w-full lg:w-[50%] shrink-0" xOffset={16} yOffset={0}>
-            <div className="bg-panel-dark/40 border border-white/10 rounded-[32px] p-8 md:p-10 shadow-2xl relative overflow-hidden backdrop-blur-md">
+            <div className="bg-white border border-zinc-200/80 rounded-[32px] p-8 md:p-10 shadow-xl relative overflow-hidden backdrop-blur-md">
               <div className="relative z-10">
-                <h3 className="mb-2 text-lg font-bold tracking-tight text-white">
+                <h3 className="mb-2 text-lg font-bold tracking-tight text-foreground">
                   Get Monthly Compliance Briefings
                 </h3>
-                <p className="mb-4 text-xs text-zinc-400">Unsubscribe anytime.</p>
+                <p className="mb-4 text-xs text-zinc-500">Unsubscribe anytime.</p>
 
                 {subscribed ? (
-                  <div className="inline-flex w-full items-center gap-2.5 px-5 py-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/20 text-emerald-300 text-sm font-semibold animate-fade-in justify-center">
-                    <Check className="size-5 stroke-[3] text-emerald-400 shrink-0" />
+                  <div className="inline-flex w-full items-center gap-2.5 px-5 py-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold animate-fade-in justify-center">
+                    <Check className="size-5 stroke-[3] text-emerald-600 shrink-0" />
                     <span>Subscribed successfully! Welcome to Proteq.</span>
                   </div>
                 ) : (
@@ -113,12 +120,11 @@ const NewsletterSignup = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       disabled={isSubmitting}
-                      className="bg-panel-dark text-white placeholder-zinc-500 border border-white/10 focus:border-primary focus:ring-2 focus:ring-primary/15 rounded-full px-5 py-3 h-13 text-sm focus:outline-none w-full transition-all disabled:opacity-50"
+                      className="bg-zinc-50 text-zinc-900 placeholder-zinc-400 border border-zinc-200 focus:border-primary focus:ring-2 focus:ring-primary/15 rounded-full px-5 py-3 h-13 text-sm focus:outline-none w-full transition-all disabled:opacity-50"
                     />
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      variant="secondary"
                       className="shrink-0"
                     >
                       {isSubmitting ? "Subscribing..." : "Get Briefings"}
@@ -127,21 +133,21 @@ const NewsletterSignup = () => {
                 )}
 
                 <p className="text-[10px] text-zinc-500 mt-4 leading-relaxed">
-                  By signing up you agree to our Privacy Policy. Tagged as <span className="text-primary">Newsletter</span>.
+                  By signing up you agree to our Privacy Policy. Tagged as <span className="text-primary font-medium">Newsletter</span>.
                 </p>
 
-                <div className="h-px bg-[#2B183E] my-6" />
+                <div className="h-px bg-zinc-200 my-6" />
 
                 {/* Covered Topics Pills */}
                 <div>
-                  <h4 className="text-zinc-500 uppercase text-[9px] font-bold tracking-widest mb-3 select-none">
+                  <h4 className="text-zinc-400 uppercase text-[9px] font-bold tracking-widest mb-3 select-none">
                     Topics We Cover
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {topics.map((t, idx) => (
                       <span
                         key={idx}
-                        className="inline-block bg-white/5 border border-white/10 hover:border-primary/30 hover:text-white transition-all text-zinc-300 text-xs px-3.5 py-1.5 rounded-full cursor-default"
+                        className="inline-block bg-zinc-50 border border-zinc-200/80 hover:border-primary/30 hover:text-primary transition-all text-zinc-700 text-xs px-3.5 py-1.5 rounded-full cursor-default font-medium"
                       >
                         {t}
                       </span>
@@ -154,7 +160,7 @@ const NewsletterSignup = () => {
 
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 };
 

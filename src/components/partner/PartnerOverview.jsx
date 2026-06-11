@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import {
   BadgeCheck,
   BriefcaseBusiness,
@@ -11,11 +12,12 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const focusPills = [
   {
@@ -64,8 +66,9 @@ const focusPills = [
 
 export default function PartnerOverview() {
   return (
-    <section className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28">
+    <SectionReveal className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28">
       <SectionAmbient variant="light" />
+      <ParticleNetwork id="partner-overview-particles" variant="light" />
       <div className="container relative z-10">
         <ScrollReveal className="mb-8 md:mb-10">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100 px-4 py-1.5">
@@ -130,6 +133,6 @@ export default function PartnerOverview() {
           </ScrollReveal>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

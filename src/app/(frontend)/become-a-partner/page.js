@@ -27,7 +27,7 @@ const PartnerPage = () => {
           {
             label: "Become a Partner",
             href: "#partner-form",
-            variant: "white",
+            variant: "default",
             glowingDot: true,
             showArrow: true,
           },

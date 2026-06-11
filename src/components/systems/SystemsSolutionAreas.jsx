@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import {
   Activity,
@@ -7,11 +8,17 @@ import {
   SearchCheck,
   UserCheck,
 } from "lucide-react";
+import SectionAmbient from "@/components/ui/SectionAmbient";
 import {
   ScrollReveal,
   StaggerContainer,
   StaggerItem,
 } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const solutionAreas = [
   {
@@ -48,9 +55,11 @@ export default function SystemsSolutionAreas() {
   return (
     <section
       id="solution-areas"
-      className="section-light w-full border-t border-zinc-200/70 py-20 md:py-28"
+      className="section-light w-full border-t border-zinc-200/70 py-20 md:py-28 relative isolate overflow-hidden"
       aria-labelledby="systems-solutions-heading"
     >
+      <SectionAmbient variant="light" />
+      <ParticleNetwork id="systems-solution-areas-particles" variant="light" />
       <div className="container">
         <div className="mb-12 flex flex-col gap-6 md:mb-14 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>

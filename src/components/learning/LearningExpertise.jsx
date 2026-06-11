@@ -8,8 +8,14 @@ import {
   ShieldCheck,
   UserCheck,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { SectionReveal, ScrollReveal } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const facultyStats = [
   { value: "15+", label: "Years in compliance" },
@@ -85,11 +91,12 @@ export default function LearningExpertise() {
   return (
     <>
       {/* Section 1 — Lead faculty */}
-      <section
+      <SectionReveal
         className="section-light-white relative isolate w-full overflow-hidden pb-20 md:pb-28"
         aria-labelledby="learning-expertise-heading"
       >
         <SectionAmbient variant="light" />
+        <ParticleNetwork variant="light" id="learning-expertise-particles" />
         <div className="container relative z-10">
           <div className="relative grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
             <ScrollReveal className="relative z-10">
@@ -188,7 +195,7 @@ export default function LearningExpertise() {
             </ScrollReveal>
           </div>
         </div>
-      </section>
+      </SectionReveal>
 
     </>
   );

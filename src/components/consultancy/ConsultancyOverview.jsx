@@ -1,8 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { CheckCircle2, SearchCheck, ShieldCheck, UserCheck } from "lucide-react";
 import { Button } from "../ui/button";
+import { SectionReveal, ScrollReveal } from "../ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const advisoryFocusAreas = [
   { label: "AML frameworks", icon: ShieldCheck },
@@ -13,10 +20,11 @@ const advisoryFocusAreas = [
 
 export default function ConsultancyOverview() {
   return (
-<section className="w-full overflow-hidden bg-[#f6f4f8] py-18 md:py-24">
+<SectionReveal className="w-full overflow-hidden bg-[#f6f4f8] py-18 md:py-24 relative">
+  <ParticleNetwork variant="light" id="consultancy-overview-particles" />
         <div className="container">
           <div className="relative grid gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-18">
-            <div className="relative z-10">
+            <ScrollReveal xOffset={-16} className="relative z-10">
               <div className="relative">
                 <div className="inline-flex items-center gap-2 mb-4 bg-zinc-100 border border-zinc-200 rounded-full px-4 py-1.5">
                   <span className="relative flex h-2 w-2">
@@ -60,9 +68,9 @@ export default function ConsultancyOverview() {
                   </Button>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
-            <div className="relative min-h-0 lg:min-h-[600px]">
+            <ScrollReveal xOffset={16} delay={0.08} className="relative min-h-0 lg:min-h-[600px]">
               <div className="absolute left-0 top-10 hidden h-[78%] w-px bg-[#231143]/15 lg:block" />
               <div className="absolute left-0 top-10 hidden h-24 w-px bg-[#E25C8F] lg:block" />
 
@@ -114,9 +122,9 @@ export default function ConsultancyOverview() {
                   </p>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
-      </section>
+      </SectionReveal>
   );
 }

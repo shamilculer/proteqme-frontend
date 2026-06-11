@@ -1,13 +1,16 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Bot, Coins, Landmark, Sparkles } from "lucide-react";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
+
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
 
 const offerings = [
   {
@@ -99,12 +102,13 @@ function OfferingCard({ offering, index }) {
 
 export default function AurumCoreOfferings() {
   return (
-    <section
+    <SectionReveal
       id="core-offerings"
       className="section-light relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-12 md:py-16"
       aria-labelledby="aurum-offerings-heading"
     >
       <SectionAmbient variant="light" />
+      <ParticleNetwork id="aurum-core-particles" variant="light" />
       <div className="container relative z-10">
         <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center md:mb-9">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
@@ -134,6 +138,6 @@ export default function AurumCoreOfferings() {
           ))}
         </StaggerContainer>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

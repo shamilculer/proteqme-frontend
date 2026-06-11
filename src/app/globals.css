@@ -330,6 +330,24 @@ h2{
   box-shadow: 0 0 18px rgba(232, 24, 90, 0.15);
 }
 
+.border-beam-card-light {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 30%,
+    #e8185a 44%,
+    #ff6b9d 50%,
+    #e8185a 56%,
+    #ffffff 70%,
+    #ffffff 100%
+  );
+  background-size: 250% 100%;
+  background-position: 0% 50%;
+  animation: border-beam-slide 2.8s linear infinite;
+  animation-fill-mode: both;
+  box-shadow: 0 0 18px rgba(232, 24, 90, 0.1);
+}
+
 .border-beam-card-reverse {
   animation-direction: reverse;
   animation-fill-mode: both;
@@ -337,6 +355,7 @@ h2{
 
 @media (prefers-reduced-motion: reduce) {
   .border-beam-card,
+  .border-beam-card-light,
   .border-beam-card-reverse {
     animation: none;
     background: transparent;

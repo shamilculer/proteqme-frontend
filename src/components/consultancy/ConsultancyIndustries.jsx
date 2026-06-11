@@ -10,9 +10,15 @@ import {
   Landmark,
   WalletCards,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import SectionAmbient from "../ui/SectionAmbient";
-import { ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
 import { cn } from "@/lib/utils";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const industries = [
   {
@@ -127,11 +133,12 @@ export default function ConsultancyIndustries() {
   };
 
   return (
-    <section
+    <SectionReveal
       className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
       aria-labelledby="consultancy-industries-heading"
     >
       <SectionAmbient variant="light" />
+      <ParticleNetwork variant="light" id="consultancy-industries-particles" />
       <div className="container relative z-10">
         <div className="mb-12 flex flex-col gap-6 md:mb-14 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
@@ -200,7 +207,7 @@ export default function ConsultancyIndustries() {
           })}
         </StaggerContainer>
       </div>
-    </section>
+    </SectionReveal>
   );
 }
 

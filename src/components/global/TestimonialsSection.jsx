@@ -1,7 +1,13 @@
 "use client";
 
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import dynamic from "next/dynamic";
+import { SectionReveal, ScrollReveal } from "@/components/ui/scroll-reveal";
 import { cn } from "@/lib/utils";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 /**
  * @typedef {Object} Testimonial
@@ -35,13 +41,14 @@ export default function TestimonialsSection({
   const marqueeItems = [...testimonials, ...testimonials];
 
   return (
-    <section
+    <SectionReveal
       id={id}
       className={cn(
         "section-light relative isolate w-full overflow-hidden border-t border-zinc-200/60 py-14 md:py-18",
         className
       )}
     >
+      <ParticleNetwork variant="light" id="testimonials-particles" />
       <div className="relative z-10 w-full">
         <ScrollReveal className="mx-auto mb-8 px-4 text-center">
           <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100 px-4 py-1.5 shadow-xs">
@@ -132,6 +139,6 @@ export default function TestimonialsSection({
           </div>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

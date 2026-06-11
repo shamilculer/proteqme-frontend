@@ -4,11 +4,8 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+import SectionAmbient from "@/components/ui/SectionAmbient";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
@@ -59,29 +56,30 @@ const partnerTypes = [
 
 export default function PartnerOpportunities() {
   return (
-    <section
+    <SectionReveal
       id="partnership-opportunities"
-      className="section-dark section-particles-animated relative isolate w-full overflow-hidden py-20 md:py-28"
+      className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
       aria-labelledby="partner-opportunities-heading"
     >
-      <ParticleNetwork id="partner-opportunities-particles" />
+      <SectionAmbient variant="light" />
+      <ParticleNetwork id="partner-opportunities-particles" variant="light" />
 
       <div className="container relative z-10">
         <div className="mb-10 flex flex-col gap-6 md:mb-12 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-white/65">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
               Collaboration Opportunities
             </p>
             <h2
               id="partner-opportunities-heading"
-              className="text-section-heading max-w-2xl text-white"
+              className="text-section-heading max-w-2xl text-foreground"
             >
               Choose the Partnership Path That Fits Your Expertise
             </h2>
           </ScrollReveal>
 
           <ScrollReveal xOffset={12} className="max-w-lg">
-            <p className="text-body text-white/75">
+            <p className="text-body text-zinc-600">
               Three ways to collaborate — advisory partnerships, expert training,
               and compliance technology provider relationships.
             </p>
@@ -94,7 +92,7 @@ export default function PartnerOpportunities() {
         >
           {partnerTypes.map((item) => (
             <StaggerItem key={item.heading}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/20 bg-white shadow-[0_24px_70px_rgba(0,0,0,0.35)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_32px_90px_rgba(0,0,0,0.45)]">
+              <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-[0_20px_50px_rgba(17,24,39,0.05)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_60px_rgba(232,24,90,0.08)]">
                 <div className="relative h-[200px] shrink-0 overflow-hidden sm:h-[220px]">
                   <Image
                     src={item.image}
@@ -148,6 +146,6 @@ export default function PartnerOpportunities() {
           ))}
         </StaggerContainer>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

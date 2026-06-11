@@ -1,7 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { ScrollReveal } from "../ui/scroll-reveal";
+import dynamic from "next/dynamic";
+import { SectionReveal, ScrollReveal } from "../ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const partners = [
   {
@@ -53,10 +59,11 @@ const Partners = () => {
   const marqueeItems = [...partners, ...partners, ...partners];
 
   return (
-    <section
+    <SectionReveal
       className="section-light-white relative isolate w-full overflow-hidden py-16 md:py-24"
       aria-labelledby="partners-heading"
     >
+      <ParticleNetwork variant="light" id="partners-particles" />
       <div className="container relative z-10">
         <div className="mb-12 flex flex-col gap-6 md:mb-14 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
@@ -93,7 +100,7 @@ const Partners = () => {
           </div>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 };
 

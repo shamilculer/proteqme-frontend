@@ -1,15 +1,17 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useReducedMotion } from "motion/react";
 import { Cpu, Scale, ShieldCheck, Workflow } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/scroll-reveal";
+import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
+
+const ParticleNetwork = dynamic(
+  () => import("@/components/ui/ParticleNetwork"),
+  { ssr: false }
+);
 
 const points = [
   {
@@ -42,7 +44,7 @@ function WhyCard({ point, index }) {
   const Icon = point.icon;
 
   return (
-    <article className="group relative flex min-h-[260px] h-full flex-col overflow-hidden rounded-[calc(1rem-3px)] bg-[#fbfafd] p-6 transition duration-300 hover:bg-white">
+    <article className="group relative flex min-h-[260px] h-full flex-col overflow-hidden rounded-[calc(1rem-1.5px)] bg-zinc-100 p-6 transition duration-300 hover:bg-white">
       <div className="absolute right-6 top-6 text-[64px] font-medium leading-none text-proteq-dark/5 transition group-hover:text-primary/10">
         {String(index + 1).padStart(2, "0")}
       </div>
@@ -68,11 +70,12 @@ export default function SystemsWhyChoose() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section
+    <SectionReveal
       className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
       aria-labelledby="systems-why-heading"
     >
       <SectionAmbient variant="light" />
+      <ParticleNetwork id="systems-why-particles" variant="light" />
       <div className="container relative z-10">
         <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch lg:gap-14">
           <ScrollReveal className="flex flex-col items-start">
@@ -158,10 +161,10 @@ export default function SystemsWhyChoose() {
               <StaggerItem key={point.title}>
                 <div
                   className={cn(
-                    "h-full rounded-2xl p-[3px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(232,24,90,0.2)]",
+                    "h-full rounded-2xl p-[1.5px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(232,24,90,0.12)]",
                     reduceMotion
                       ? "border-2 border-primary bg-transparent"
-                      : "border-beam-card"
+                      : "border-beam-card-light"
                   )}
                   style={
                     reduceMotion
@@ -176,6 +179,6 @@ export default function SystemsWhyChoose() {
           </StaggerContainer>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }
