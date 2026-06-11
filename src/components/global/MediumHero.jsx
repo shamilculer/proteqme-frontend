@@ -8,7 +8,12 @@ import { useRef } from "react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { pageEnterTransition } from "@/lib/motion-presets";
+import {
+  pageEnterHidden,
+  pageEnterHiddenX,
+  pageEnterTransition,
+  pageEnterVisible,
+} from "@/lib/motion-presets";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
@@ -88,9 +93,9 @@ const MediumHero = ({
       <div className="container relative z-10 grid items-center gap-10 py-14 sm:py-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14 lg:py-20 xl:gap-16">
         <motion.div
           className="flex flex-col items-start"
-          initial={reduceMotion ? false : { opacity: 0, y: 32, filter: "blur(10px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={pageEnterTransition(0.05)}
+          initial={reduceMotion ? false : pageEnterHidden}
+          animate={pageEnterVisible}
+          transition={pageEnterTransition(0.1)}
         >
           {eyebrow ? (
             <div className="mb-5 inline-flex max-w-full items-center gap-2.5 rounded-full border border-zinc-200/80 bg-zinc-50 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] md:mb-6">
@@ -139,9 +144,9 @@ const MediumHero = ({
           {highlights?.length ? (
             <motion.div
               className="mt-7 flex w-full flex-wrap gap-2 sm:mt-8 md:gap-3"
-              initial={reduceMotion ? false : { opacity: 0, y: 20, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={pageEnterTransition(0.35)}
+              initial={reduceMotion ? false : { ...pageEnterHidden, y: 28 }}
+              animate={pageEnterVisible}
+              transition={pageEnterTransition(0.45)}
             >
               {highlights.map((highlight) => (
                 <div
@@ -157,9 +162,9 @@ const MediumHero = ({
         </motion.div>
 
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 32, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={pageEnterTransition(reduceMotion ? 0 : 0.2)}
+          initial={reduceMotion ? false : pageEnterHiddenX(32)}
+          animate={pageEnterVisible}
+          transition={pageEnterTransition(reduceMotion ? 0 : 0.25)}
           className="relative w-full"
         >
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-zinc-200/70 shadow-[0_24px_70px_rgba(13,13,20,0.1)] sm:aspect-[16/10] lg:aspect-[4/3]">

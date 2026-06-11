@@ -7,6 +7,7 @@ import {
   revealDuration,
   revealEase,
   revealSpringSoft,
+  revealTransition,
   staggerChildrenDelay,
   staggerDuration,
   staggerHidden,
@@ -15,12 +16,14 @@ import {
 } from "@/lib/motion-presets";
 
 function buildRevealState({ yOffset, xOffset, scale, blur = 6, compact = false }) {
-  const effectiveBlur = compact ? 0 : blur;
+  const travel = compact ? yOffset * 0.82 : yOffset;
+  const effectiveBlur = compact ? Math.max(3, blur * 0.65) : blur;
+
   return {
     opacity: 0,
-    y: compact ? yOffset * 0.65 : yOffset,
+    y: travel,
     x: xOffset,
-    scale: compact ? 0.99 : scale,
+    scale: compact ? Math.max(scale, 0.98) : scale,
     filter: effectiveBlur > 0 ? `blur(${effectiveBlur}px)` : "blur(0px)",
   };
 }
@@ -36,13 +39,8 @@ function buildRevealTarget() {
 }
 
 function buildRevealTransition({ spring, delay, duration }) {
-  return spring
-    ? { ...revealSpringSoft, delay }
-    : {
-        duration: duration ?? revealDuration,
-        delay,
-        ease: revealEase,
-      };
+  if (spring) return { ...revealSpringSoft, delay };
+  return revealTransition(duration ?? revealDuration, delay);
 }
 
 /**
@@ -53,12 +51,12 @@ export const ScrollReveal = ({
   className = "",
   delay = 0,
   duration,
-  yOffset = 18,
+  yOffset = 28,
   xOffset = 0,
-  scale = 0.99,
-  blur = 4,
+  scale = 0.98,
+  blur = 5,
   once = true,
-  amount = 0.15,
+  amount = 0.08,
   spring = false,
 }) => {
   const reduceMotion = useReducedMotion();
@@ -73,7 +71,7 @@ export const ScrollReveal = ({
           : buildRevealState({ yOffset, xOffset, scale, blur, compact: isMobile })
       }
       whileInView={reduceMotion ? undefined : buildRevealTarget()}
-      viewport={{ once, amount, margin: "0px 0px -40px 0px" }}
+      viewport={{ once, amount, margin: "0px 0px -100px 0px" }}
       transition={buildRevealTransition({ spring, delay, duration })}
     >
       {children}
@@ -89,10 +87,10 @@ export const SectionReveal = ({
   className = "",
   delay = 0,
   duration,
-  yOffset = 14,
-  blur = 2,
+  yOffset = 24,
+  blur = 4,
   once = true,
-  amount = 0.08,
+  amount = 0.05,
   ...props
 }) => {
   const reduceMotion = useReducedMotion();
@@ -107,13 +105,13 @@ export const SectionReveal = ({
           : buildRevealState({
               yOffset,
               xOffset: 0,
-              scale: 0.99,
-              blur: isMobile ? 0 : blur,
+              scale: 0.98,
+              blur: isMobile ? Math.max(3, blur * 0.65) : blur,
               compact: isMobile,
             })
       }
       whileInView={reduceMotion ? undefined : buildRevealTarget()}
-      viewport={{ once, amount, margin: "0px 0px -48px 0px" }}
+      viewport={{ once, amount, margin: "0px 0px -120px 0px" }}
       transition={buildRevealTransition({ spring: false, delay, duration })}
       {...props}
     >
@@ -131,7 +129,7 @@ export const StaggerContainer = ({
   delay = 0,
   staggerChildren = staggerChildrenDelay,
   once = true,
-  amount = 0.12,
+  amount = 0.08,
 }) => {
   const reduceMotion = useReducedMotion();
 
@@ -139,17 +137,19 @@ export const StaggerContainer = ({
     return <div className={className}>{children}</div>;
   }
 
+  const effectiveStagger = Math.max(staggerChildren, staggerChildrenDelay);
+
   return (
     <motion.div
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once, amount, margin: "0px 0px -32px 0px" }}
+      viewport={{ once, amount, margin: "0px 0px -100px 0px" }}
       variants={{
         hidden: {},
         show: {
           transition: {
-            staggerChildren,
+            staggerChildren: effectiveStagger,
             delayChildren: delay,
           },
         },
@@ -166,7 +166,7 @@ export const StaggerContainer = ({
 export const StaggerItem = ({
   children,
   className = "",
-  yOffset = 18,
+  yOffset = 24,
   xOffset = 0,
   scale = 0.98,
   blur = 4,
@@ -182,20 +182,21 @@ export const StaggerItem = ({
 
   const hidden = {
     ...staggerHidden,
-    y: isMobile ? yOffset * 0.65 : yOffset,
+    y: isMobile ? yOffset * 0.82 : yOffset,
     x: xOffset,
-    scale: isMobile ? 0.99 : scale,
-    filter: isMobile ? "blur(0px)" : blur > 0 ? `blur(${blur}px)` : "blur(0px)",
+    scale: isMobile ? Math.max(scale, 0.98) : scale,
+    filter: isMobile
+      ? `blur(${Math.max(3, blur * 0.65)}px)`
+      : blur > 0
+        ? `blur(${blur}px)`
+        : "blur(0px)",
   };
 
   const show = {
     ...staggerVisible,
     transition: spring
       ? staggerSpring
-      : {
-          duration: duration ?? staggerDuration,
-          ease: revealEase,
-        },
+      : revealTransition(duration ?? staggerDuration),
   };
 
   return (

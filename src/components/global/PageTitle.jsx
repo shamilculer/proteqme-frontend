@@ -4,7 +4,11 @@ import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
-import { pageEnterTransition } from "@/lib/motion-presets";
+import {
+  pageEnterHidden,
+  pageEnterTransition,
+  pageEnterVisible,
+} from "@/lib/motion-presets";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
@@ -38,9 +42,9 @@ const PageTitle = ({
         {eyebrow ? (
           <motion.div
             className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-zinc-200/80 bg-zinc-50 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
-            initial={reduceMotion ? false : { opacity: 0, y: 20, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={pageEnterTransition(0.1)}
+            initial={reduceMotion ? false : { ...pageEnterHidden, y: 28 }}
+            animate={pageEnterVisible}
+            transition={pageEnterTransition(0.2)}
           >
             <span className="relative flex h-2 w-2 shrink-0">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
@@ -54,9 +58,9 @@ const PageTitle = ({
 
         <motion.h1
           className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
-          initial={reduceMotion ? false : { opacity: 0, y: 28, filter: "blur(10px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={pageEnterTransition(0.2)}
+          initial={reduceMotion ? false : pageEnterHidden}
+          animate={pageEnterVisible}
+          transition={pageEnterTransition(0.4)}
         >
           {title}
         </motion.h1>

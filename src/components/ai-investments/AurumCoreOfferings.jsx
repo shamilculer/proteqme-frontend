@@ -115,8 +115,6 @@ export default function AurumCoreOfferings() {
             Core Offerings
           </p>
           <h2
-            id="aurum-offerings-heading"
-            className="section-heading-accent text-section-heading text-foreground"
           >
             The Building Blocks of the Aurum Ecosystem
           </h2>

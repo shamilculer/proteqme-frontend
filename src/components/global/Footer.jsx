@@ -10,10 +10,6 @@ import Image from "next/image";
 
 import { Mail, Phone, MapPin } from "lucide-react";
 
-import { ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
-
-
-
 import {
   PHONE_PRIMARY,
   PHONE_PRIMARY_DISPLAY,
@@ -57,11 +53,9 @@ const Footer = () => {
 
         
 
-        <StaggerContainer className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start mb-12" staggerChildren={0.12}>
+        <div className="mb-12 grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-8">
 
-          
-
-          <StaggerItem className="lg:col-span-7 flex flex-col items-start space-y-8">
+          <div className="flex flex-col items-start space-y-8 lg:col-span-7">
 
             <Link href="/" className="flex items-center gap-2">
 
@@ -257,11 +251,9 @@ const Footer = () => {
 
             </div>
 
-          </StaggerItem>
+          </div>
 
-
-
-          <StaggerItem className="lg:col-span-5 flex flex-col items-start lg:items-end w-full">
+          <div className="flex w-full flex-col items-start lg:col-span-5 lg:items-end">
 
             <div className="w-full max-w-md">
 
@@ -327,15 +319,11 @@ const Footer = () => {
 
             </div>
 
-          </StaggerItem>
+          </div>
 
+        </div>
 
-
-        </StaggerContainer>
-
-
-
-        <ScrollReveal className="border-t border-white/10 pt-8 space-y-6" yOffset={12}>
+        <div className="space-y-6 border-t border-white/10 pt-8">
 
           <p className="text-[11px] leading-relaxed text-zinc-500 max-w-3xl">
 
@@ -387,7 +375,7 @@ const Footer = () => {
 
           </div>
 
-        </ScrollReveal>
+        </div>
 
 
 

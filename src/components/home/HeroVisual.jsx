@@ -10,7 +10,12 @@ import {
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { pageEnterTransition, revealEase } from "@/lib/motion-presets";
+import {
+  pageEnterHidden,
+  pageEnterHiddenX,
+  pageEnterTransition,
+  pageEnterVisible,
+} from "@/lib/motion-presets";
 
 const pillars = [
   {
@@ -20,7 +25,7 @@ const pillars = [
     href: "/consultancy-advisory",
     icon: ShieldCheck,
     className: "top-[6%] right-0 sm:right-1",
-    delay: 0.28,
+    delay: 0.35,
   },
   {
     tag: "02",
@@ -29,7 +34,7 @@ const pillars = [
     href: "/learning",
     icon: GraduationCap,
     className: "bottom-[24%] left-0 sm:left-1",
-    delay: 0.42,
+    delay: 0.55,
   },
   {
     tag: "03",
@@ -38,7 +43,7 @@ const pillars = [
     href: "/systems",
     icon: Layers,
     className: "bottom-[4%] right-0 sm:right-2",
-    delay: 0.56,
+    delay: 0.75,
   },
 ];
 
@@ -47,13 +52,13 @@ function PillarCard({ pillar, reduceMotion }) {
 
   return (
     <motion.div
-      initial={reduceMotion ? false : { opacity: 0, y: 20, scale: 0.97, filter: "blur(6px)" }}
-      animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-      transition={{
-        duration: 0.75,
-        delay: pillar.delay,
-        ease: revealEase,
-      }}
+      initial={
+        reduceMotion
+          ? false
+          : { ...pageEnterHidden, y: 32, scale: 0.97 }
+      }
+      animate={{ ...pageEnterVisible, scale: 1 }}
+      transition={pageEnterTransition(pillar.delay)}
       className={cn(
         "absolute z-20 hidden max-w-[188px] lg:block lg:max-w-[200px]",
         pillar.className
@@ -88,9 +93,9 @@ export default function HeroVisual() {
 
   return (
     <motion.div
-      initial={reduceMotion ? false : { opacity: 0, x: 28, filter: "blur(8px)" }}
-      animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-      transition={pageEnterTransition(0.12)}
+      initial={reduceMotion ? false : pageEnterHiddenX(36)}
+      animate={pageEnterVisible}
+      transition={pageEnterTransition(0.2)}
       className="relative mx-auto w-full max-w-xl lg:max-w-none lg:justify-self-end"
     >
       <div className="relative w-full h-[280px] sm:h-[320px] lg:h-[550px]">

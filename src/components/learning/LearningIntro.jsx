@@ -74,8 +74,7 @@ const LearningIntro = () => {
             className="relative mx-auto w-full max-w-lg lg:max-w-none"
             xOffset={-16}
             yOffset={0}
-            scale={0.98}
-            duration={0.75}
+            scale={0.995}
           >
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-proteq-dark shadow-[0_28px_80px_rgba(13,13,20,0.12)] sm:aspect-[5/6] lg:aspect-auto lg:min-h-[800px]">
               <Image

@@ -6,7 +6,11 @@ import { motion, useReducedMotion } from "motion/react";
 import HeroLeadPopup from "@/components/forms/HeroLeadPopup";
 import HeroVisual from "@/components/home/HeroVisual";
 import { Button } from "@/components/ui/button";
-import { pageEnterTransition } from "@/lib/motion-presets";
+import {
+  pageEnterHidden,
+  pageEnterTransition,
+  pageEnterVisible,
+} from "@/lib/motion-presets";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
@@ -41,9 +45,9 @@ const Hero = () => {
 
       <div className="container relative z-10 grid items-center gap-10 py-12 sm:py-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12 lg:py-16">
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 32, filter: "blur(10px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={pageEnterTransition(0.05)}
+          initial={reduceMotion ? false : pageEnterHidden}
+          animate={pageEnterVisible}
+          transition={pageEnterTransition(0.15)}
           className="relative flex flex-col items-start lg:pr-4"
         >
           <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-zinc-200/80 bg-zinc-50 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
