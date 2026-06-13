@@ -1,8 +1,8 @@
 import React from 'react'
 import Hero from '@/components/home/Hero'
 import Intro from '@/components/home/Intro'
-import HowItWorks from '@/components/home/HowItWorks'
 import ServicesSlider from '@/components/home/ServicesSlider'
+import HowItWorks from '@/components/home/HowItWorks'
 import Partners from '@/components/home/Partners'
 import Clients from '@/components/home/Clients'
 import ValuePropositionStrip from '@/components/home/ValuePropositionStrip'
@@ -15,7 +15,7 @@ const HomePage = () => {
     <>
       <Hero />
       <Intro />
-      <ServicesSlider />
+      {/* <ServicesSlider /> */}
       <Partners />
       <ValuePropositionStrip />
       {/* <AurumFeature /> */}

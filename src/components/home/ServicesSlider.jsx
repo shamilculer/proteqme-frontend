@@ -4,7 +4,13 @@ import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, GraduationCap, Layers, ShieldCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  GraduationCap,
+  Layers,
+  ShieldCheck,
+} from "lucide-react";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
@@ -161,7 +167,7 @@ export default function ServicesSlider() {
                 const Icon = service.icon;
                 return (
                   <CarouselItem key={service.title} className="pl-0">
-                    <article className="group overflow-hidden rounded-2xl border border-zinc-200/80 bg-zinc-100 shadow-[0_24px_60px_rgba(17,24,39,0.06),0_0_0_1px_rgba(17,24,39,0.02)] transition-transform duration-500 md:grid md:min-h-[480px] md:h-[480px] lg:h-[520px] md:grid-cols-[1.05fr_1fr]">
+                    <article className="group overflow-hidden rounded-2xl border border-zinc-200/80 bg-zinc-100 shadow-[0_24px_60px_rgba(17,24,39,0.06),0_0_0_1px_rgba(17,24,39,0.02)] transition-transform duration-500 md:grid md:h-[480px] md:min-h-[480px] md:grid-cols-[1.05fr_1fr] lg:h-[520px]">
                       <div className="relative flex flex-col justify-between p-7 sm:p-10 lg:p-12">
                         <span
                           className="font-serif-quote pointer-events-none absolute right-5 top-4 text-6xl leading-none text-zinc-200/60 md:text-7xl"
@@ -210,7 +216,7 @@ export default function ServicesSlider() {
                         </div>
                       </div>
 
-                      <div className="relative h-56 border-t border-zinc-200 sm:h-64 md:h-full md:border-t-0 md:border-l">
+                      <div className="relative h-56 border-t border-zinc-200 sm:h-64 md:h-full md:border-l md:border-t-0">
                         <Image
                           src={service.image}
                           alt={service.imageAlt}
