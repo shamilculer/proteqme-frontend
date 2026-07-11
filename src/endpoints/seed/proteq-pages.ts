@@ -1453,7 +1453,7 @@ const proteqPages = [
 async function upsertPopup(
   payload: Payload,
   req: PayloadRequest,
-  data: Record<string, unknown>,
+  data: RequiredDataFromCollectionSlug<'popups'>,
 ): Promise<string> {
   const slug = String(data.slug)
   const existing = await payload.find({
