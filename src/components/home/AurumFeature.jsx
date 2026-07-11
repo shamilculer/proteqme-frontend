@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -85,7 +86,7 @@ const AurumFeature = () => {
             <ul className="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
               {stats.map((stat, index) => (
                 <li
-                  key={stat.label}
+                  key={itemKey(stat, index)}
                   className={
                     index > 0
                       ? "sm:border-l sm:border-white/25 sm:pl-6 md:pl-7"
@@ -134,7 +135,7 @@ const AurumFeature = () => {
                 {offerings.map((item, index) => {
                   const Icon = item.icon;
                   return (
-                    <StaggerItem key={item.title}>
+                    <StaggerItem key={itemKey(item, index)}>
                       <article
                         className={`flex h-full flex-col px-4 py-4 sm:px-5 sm:py-5 ${
                           index >= 2 ? "sm:border-t sm:border-white/10" : ""

@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -11,11 +12,13 @@ import {
 import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import {
-  pageEnterHidden,
   pageEnterHiddenX,
-  pageEnterTransition,
+  pageEnterSpring,
   pageEnterVisible,
+  popHidden,
+  staggerDirectionX,
 } from "@/lib/motion-presets";
+import { useSlideMetrics } from "@/lib/use-slide-metrics";
 
 const pillars = [
   {
@@ -47,7 +50,7 @@ const pillars = [
   },
 ];
 
-function PillarCard({ pillar, reduceMotion }) {
+function PillarCard({ pillar, index, reduceMotion, slideX }) {
   const Icon = pillar.icon;
 
   return (
@@ -55,10 +58,10 @@ function PillarCard({ pillar, reduceMotion }) {
       initial={
         reduceMotion
           ? false
-          : { ...pageEnterHidden, y: 32, scale: 0.97 }
+          : popHidden(staggerDirectionX(index, false, slideX))
       }
-      animate={{ ...pageEnterVisible, scale: 1 }}
-      transition={pageEnterTransition(pillar.delay)}
+      animate={pageEnterVisible}
+      transition={pageEnterSpring(pillar.delay)}
       className={cn(
         "absolute z-20 hidden max-w-[188px] lg:block lg:max-w-[200px]",
         pillar.className
@@ -90,12 +93,13 @@ function PillarCard({ pillar, reduceMotion }) {
 
 export default function HeroVisual() {
   const reduceMotion = useReducedMotion();
+  const { x: slideX } = useSlideMetrics();
 
   return (
     <motion.div
-      initial={reduceMotion ? false : pageEnterHiddenX(36)}
+      initial={reduceMotion ? false : pageEnterHiddenX(slideX)}
       animate={pageEnterVisible}
-      transition={pageEnterTransition(0.2)}
+      transition={pageEnterSpring(0.18)}
       className="relative mx-auto w-full max-w-xl lg:max-w-none lg:justify-self-end"
     >
       <div className="relative w-full h-[280px] sm:h-[320px] lg:h-[550px]">
@@ -126,11 +130,11 @@ export default function HeroVisual() {
       </div>
 
       <div className="mt-4 grid grid-cols-3 gap-2 lg:hidden">
-        {pillars.map((pillar) => {
+        {pillars.map((pillar, index) => {
           const Icon = pillar.icon;
           return (
             <Link
-              key={pillar.href}
+              key={itemKey(pillar, index, ["href", "title"])}
               href={pillar.href}
               className="flex flex-col items-center rounded-xl border border-zinc-200/90 bg-white p-3 text-center shadow-xs transition-colors hover:border-primary/25"
             >

@@ -42,7 +42,7 @@ const PageTitle = ({
         {eyebrow ? (
           <motion.div
             className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-zinc-200/80 bg-zinc-50 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
-            initial={reduceMotion ? false : { ...pageEnterHidden, y: 28 }}
+            initial={reduceMotion ? false : { x: -72 }}
             animate={pageEnterVisible}
             transition={pageEnterTransition(0.2)}
           >
@@ -57,7 +57,7 @@ const PageTitle = ({
         ) : null}
 
         <motion.h1
-          className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
+          className="text-center text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl"
           initial={reduceMotion ? false : pageEnterHidden}
           animate={pageEnterVisible}
           transition={pageEnterTransition(0.4)}

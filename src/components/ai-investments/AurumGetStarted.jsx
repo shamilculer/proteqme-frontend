@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import Link from "next/link";
 import { BarChart3, FileCheck, UserPlus } from "lucide-react";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
@@ -38,10 +39,10 @@ export default function AurumGetStarted() {
           className="grid gap-6 md:grid-cols-3"
           staggerChildren={0.08}
         >
-          {steps.map((step) => {
+          {steps.map((step, index) => {
             const Icon = step.icon;
             return (
-              <StaggerItem key={step.title}>
+              <StaggerItem key={itemKey(step, index)}>
                 <article className="h-full rounded-2xl border border-zinc-200/80 bg-white p-7 text-center shadow-sm md:p-8">
                   <div className="mx-auto mb-5 flex size-14 items-center justify-center rounded-full bg-[#003b49] text-white">
                     <Icon className="size-6" strokeWidth={1.75} />

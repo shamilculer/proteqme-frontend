@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import Image from "next/image";
 import Link from "next/link";
 import { Headphones, ShieldCheck, Users } from "lucide-react";
@@ -51,10 +52,10 @@ export default function AurumWhyChoose() {
           className="grid gap-6 md:grid-cols-3"
           staggerChildren={0.07}
         >
-          {features.map((item) => {
+          {features.map((item, index) => {
             const Icon = item.icon;
             return (
-              <StaggerItem key={item.title}>
+              <StaggerItem key={itemKey(item, index)}>
                 <article className="flex h-full flex-col rounded-2xl border border-zinc-200/80 bg-white p-7 shadow-sm">
                   <div className="mb-5 flex size-12 items-center justify-center rounded-full bg-[#eef3f6] text-[#003b49]">
                     <Icon className="size-6" strokeWidth={1.75} />
@@ -93,9 +94,9 @@ export default function AurumWhyChoose() {
           <ScrollReveal xOffset={12}>
             <h3 className="aurum-subheading">Official Partners</h3>
             <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              {partners.map((partner) => (
+              {partners.map((partner, index) => (
                 <div
-                  key={partner.name}
+                  key={itemKey(partner, index, ["name", "title"])}
                   className="flex h-16 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 px-3"
                 >
                   <Image

@@ -104,8 +104,10 @@ export default function HeroLeadPopup({ open, onOpenChange, manualOpenRef }) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-h-[min(92vh,720px)] gap-0 overflow-y-auto p-0 sm:max-w-md">
-        <HeroLeadForm embedded open={open} onSubmitted={handleSubmitted} />
+      <DialogContent className="max-h-[min(92vh,720px)] gap-0 overflow-visible p-0 sm:max-w-md">
+        <div className="max-h-[min(92vh,720px)] overflow-y-auto overflow-x-visible">
+          <HeroLeadForm embedded open={open} onSubmitted={handleSubmitted} />
+        </div>
       </DialogContent>
     </Dialog>
   );

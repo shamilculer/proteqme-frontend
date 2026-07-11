@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import dynamic from "next/dynamic";
 import { useReducedMotion } from "motion/react";
 import SectionAmbient from "@/components/ui/SectionAmbient";
@@ -73,7 +74,7 @@ export default function SystemsMetrics() {
           staggerChildren={0.07}
         >
           {metrics.map((metric, index) => (
-            <StaggerItem key={metric.label}>
+            <StaggerItem key={itemKey(metric, index)}>
               <div
                 className={cn(
                   "h-full rounded-2xl p-[1.5px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(232,24,90,0.15)]",

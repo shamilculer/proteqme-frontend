@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import { Bot, Shield, TrendingUp, Wallet } from "lucide-react";
 import {
   ScrollReveal,
@@ -56,7 +57,7 @@ export default function AurumHowItWorks() {
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
-              <StaggerItem key={step.title}>
+              <StaggerItem key={itemKey(step, index)}>
                 <article className="flex h-full flex-col bg-[var(--aurum-panel-elevated)] p-6 md:p-7">
                   <div className="mb-5 flex items-center justify-between">
                     <span className="text-xs font-semibold tabular-nums tracking-wider text-[var(--aurum-gold-on-dark)]">

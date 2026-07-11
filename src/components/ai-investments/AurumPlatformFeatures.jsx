@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Bot } from "lucide-react";
@@ -148,8 +149,8 @@ export default function AurumPlatformFeatures() {
         </ScrollReveal>
 
         <div className="space-y-12 md:space-y-14">
-          {features.map((feature) => (
-            <FeatureRow key={feature.eyebrow} {...feature} />
+          {features.map((feature, index) => (
+            <FeatureRow key={itemKey(feature, index, ["eyebrow", "title"])} {...feature} />
           ))}
         </div>
 
@@ -169,8 +170,8 @@ export default function AurumPlatformFeatures() {
             className="mb-8 grid gap-5 md:grid-cols-3"
             staggerChildren={0.06}
           >
-            {tradingBots.map((bot) => (
-              <StaggerItem key={bot.name}>
+            {tradingBots.map((bot, index) => (
+              <StaggerItem key={itemKey(bot, index, ["name", "title"])}>
                 <article className="aurum-corp-panel flex h-full flex-col rounded-2xl p-6">
                   <div className="mb-4 flex size-10 items-center justify-center rounded-full border border-[rgba(107,88,36,0.25)] bg-[rgba(107,88,36,0.08)]">
                     <Bot

@@ -1,78 +1,118 @@
 "use client";
 
-import React from "react";
+import React, { createContext, useContext } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { useIsMobile } from "@/lib/use-media-query";
+import { useRevealReady } from "@/components/providers/PageShell";
+import { useSlideMetrics } from "@/lib/use-slide-metrics";
+import { cn } from "@/lib/utils";
 import {
-  revealDuration,
-  revealEase,
-  revealSpringSoft,
-  revealTransition,
+  buildPopTransition,
+  popHidden,
+  popVisible,
+  resolveSlideOffsets,
   staggerChildrenDelay,
   staggerDuration,
-  staggerHidden,
   staggerSpring,
   staggerVisible,
 } from "@/lib/motion-presets";
 
-function buildRevealState({ yOffset, xOffset, scale, blur = 6, compact = false }) {
-  const travel = compact ? yOffset * 0.82 : yOffset;
-  const effectiveBlur = compact ? Math.max(3, blur * 0.65) : blur;
+const StaggerIndexContext = createContext(null);
 
-  return {
-    opacity: 0,
-    y: travel,
-    x: xOffset,
-    scale: compact ? Math.max(scale, 0.98) : scale,
-    filter: effectiveBlur > 0 ? `blur(${effectiveBlur}px)` : "blur(0px)",
-  };
+function useStaggerIndex() {
+  return useContext(StaggerIndexContext);
 }
 
-function buildRevealTarget() {
-  return {
-    opacity: 1,
-    y: 0,
-    x: 0,
-    scale: 1,
-    filter: "blur(0px)",
-  };
+function isContainerElement(child) {
+  if (!React.isValidElement(child)) return false;
+  const className = child.props?.className;
+  if (!className) return false;
+  return /\bcontainer\b/.test(cn(className));
 }
 
-function buildRevealTransition({ spring, delay, duration }) {
-  if (spring) return { ...revealSpringSoft, delay };
-  return revealTransition(duration ?? revealDuration, delay);
+function useRevealMotion({
+  delay = 0,
+  duration,
+  yOffset = 0,
+  xOffset: xOffsetProp = 0,
+  direction = "left",
+  spring = true,
+}) {
+  const reduceMotion = useReducedMotion();
+  const revealReady = useRevealReady();
+  const isMobile = useIsMobile();
+  const { x: slideX, y: slideY } = useSlideMetrics();
+
+  const xOffset =
+    xOffsetProp !== 0
+      ? xOffsetProp
+      : direction === "right"
+        ? slideX
+        : direction === "left"
+          ? -slideX
+          : 0;
+
+  const { x, y } = resolveSlideOffsets({
+    yOffset,
+    xOffset,
+    compact: isMobile,
+    slideX,
+    slideY,
+  });
+
+  return {
+    reduceMotion,
+    revealReady,
+    motionProps: {
+      initial: reduceMotion ? false : popHidden(x, y),
+      whileInView: reduceMotion || !revealReady ? undefined : popVisible,
+      transition: buildPopTransition({ spring, delay, duration }),
+    },
+  };
 }
 
 /**
- * ScrollReveal — single block entrance on scroll (blur + lift + scale).
+ * ScrollReveal — broad horizontal slide on scroll with scale pop.
  */
 export const ScrollReveal = ({
   children,
   className = "",
   delay = 0,
   duration,
-  yOffset = 28,
-  xOffset = 0,
-  scale = 0.98,
-  blur = 5,
+  yOffset = 0,
+  xOffset: xOffsetProp = 0,
+  direction,
   once = true,
   amount = 0.08,
-  spring = false,
+  spring = true,
 }) => {
   const reduceMotion = useReducedMotion();
+  const revealReady = useRevealReady();
   const isMobile = useIsMobile();
+  const { x: slideX, y: slideY } = useSlideMetrics();
+
+  const xOffset =
+    direction === "right"
+      ? slideX
+      : direction === "left"
+        ? -slideX
+        : xOffsetProp;
+
+  const { x, y } = resolveSlideOffsets({
+    yOffset,
+    xOffset,
+    compact: isMobile,
+    slideX,
+    slideY,
+  });
 
   return (
     <motion.div
       className={className}
-      initial={
-        reduceMotion
-          ? false
-          : buildRevealState({ yOffset, xOffset, scale, blur, compact: isMobile })
-      }
-      whileInView={reduceMotion ? undefined : buildRevealTarget()}
-      viewport={{ once, amount, margin: "0px 0px -100px 0px" }}
-      transition={buildRevealTransition({ spring, delay, duration })}
+      initial={reduceMotion ? false : popHidden(x, y)}
+      whileInView={reduceMotion || !revealReady ? undefined : popVisible}
+      viewport={{ once, amount, margin: "0px 0px -40px 0px" }}
+      transition={buildPopTransition({ spring, delay, duration })}
     >
       {children}
     </motion.div>
@@ -80,48 +120,63 @@ export const ScrollReveal = ({
 };
 
 /**
- * SectionReveal — full-width section entrance on scroll.
+ * SectionReveal — static section shell; animates `.container` children only.
  */
-export const SectionReveal = ({
-  children,
-  className = "",
-  delay = 0,
-  duration,
-  yOffset = 24,
-  blur = 4,
-  once = true,
-  amount = 0.05,
-  ...props
-}) => {
-  const reduceMotion = useReducedMotion();
-  const isMobile = useIsMobile();
+export const SectionReveal = React.forwardRef(function SectionReveal(
+  {
+    children,
+    className = "",
+    delay = 0,
+    duration,
+    yOffset = 0,
+    xOffset: xOffsetProp = 0,
+    direction = "left",
+    once = true,
+    amount = 0.06,
+    ...props
+  },
+  ref,
+) {
+  const { reduceMotion, motionProps } = useRevealMotion({
+    delay,
+    duration,
+    yOffset,
+    xOffset: xOffsetProp,
+    direction,
+  });
+
+  const viewport = { once, amount, margin: "0px 0px -48px 0px" };
 
   return (
-    <motion.section
-      className={className}
-      initial={
-        reduceMotion
-          ? false
-          : buildRevealState({
-              yOffset,
-              xOffset: 0,
-              scale: 0.98,
-              blur: isMobile ? Math.max(3, blur * 0.65) : blur,
-              compact: isMobile,
-            })
-      }
-      whileInView={reduceMotion ? undefined : buildRevealTarget()}
-      viewport={{ once, amount, margin: "0px 0px -120px 0px" }}
-      transition={buildRevealTransition({ spring: false, delay, duration })}
-      {...props}
-    >
-      {children}
-    </motion.section>
+    <section ref={ref} className={className} {...props}>
+      {React.Children.map(children, (child) => {
+        if (!isContainerElement(child)) return child;
+        if (reduceMotion) return child;
+
+        const {
+          className: childClassName,
+          children: innerChildren,
+          ...childRest
+        } = child.props;
+
+        return (
+          <motion.div
+            key={child.key}
+            className={childClassName}
+            {...childRest}
+            {...motionProps}
+            viewport={viewport}
+          >
+            {innerChildren}
+          </motion.div>
+        );
+      })}
+    </section>
   );
-};
+});
 
 /**
- * StaggerContainer — orchestrates staggered child reveals.
+ * StaggerContainer — children alternate slide from left / right.
  */
 export const StaggerContainer = ({
   children,
@@ -132,19 +187,21 @@ export const StaggerContainer = ({
   amount = 0.08,
 }) => {
   const reduceMotion = useReducedMotion();
+  const revealReady = useRevealReady();
 
   if (reduceMotion) {
     return <div className={className}>{children}</div>;
   }
 
   const effectiveStagger = Math.max(staggerChildren, staggerChildrenDelay);
+  const items = React.Children.toArray(children);
 
   return (
     <motion.div
       className={className}
       initial="hidden"
-      whileInView="show"
-      viewport={{ once, amount, margin: "0px 0px -100px 0px" }}
+      whileInView={revealReady ? "show" : undefined}
+      viewport={{ once, amount, margin: "0px 0px -40px 0px" }}
       variants={{
         hidden: {},
         show: {
@@ -155,48 +212,62 @@ export const StaggerContainer = ({
         },
       }}
     >
-      {children}
+      {items.map((child, index) => (
+        <StaggerIndexContext.Provider key={index} value={index}>
+          {child}
+        </StaggerIndexContext.Provider>
+      ))}
     </motion.div>
   );
 };
 
 /**
- * StaggerItem — child of StaggerContainer with matched reveal motion.
+ * StaggerItem — alternates left/right when inside StaggerContainer.
  */
 export const StaggerItem = ({
   children,
   className = "",
-  yOffset = 24,
+  yOffset = 0,
   xOffset = 0,
-  scale = 0.98,
-  blur = 4,
+  direction,
   duration,
-  spring = false,
+  spring = true,
 }) => {
   const reduceMotion = useReducedMotion();
   const isMobile = useIsMobile();
+  const staggerIndex = useStaggerIndex();
+  const { x: slideX, y: slideY } = useSlideMetrics();
 
   if (reduceMotion) {
     return <div className={className}>{children}</div>;
   }
 
-  const hidden = {
-    ...staggerHidden,
-    y: isMobile ? yOffset * 0.82 : yOffset,
-    x: xOffset,
-    scale: isMobile ? Math.max(scale, 0.98) : scale,
-    filter: isMobile
-      ? `blur(${Math.max(3, blur * 0.65)}px)`
-      : blur > 0
-        ? `blur(${blur}px)`
-        : "blur(0px)",
-  };
+  const resolvedX =
+    direction === "right"
+      ? slideX
+      : direction === "left"
+        ? -slideX
+        : xOffset;
+
+  const { x, y } = resolveSlideOffsets({
+    yOffset,
+    xOffset: resolvedX,
+    compact: isMobile,
+    staggerIndex:
+      resolvedX === 0 && yOffset === 0 && staggerIndex != null
+        ? staggerIndex
+        : null,
+    slideX,
+    slideY,
+  });
+
+  const hidden = popHidden(x, y);
 
   const show = {
     ...staggerVisible,
     transition: spring
       ? staggerSpring
-      : revealTransition(duration ?? staggerDuration),
+      : buildPopTransition({ spring: false, duration: duration ?? staggerDuration }),
   };
 
   return (

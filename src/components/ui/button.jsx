@@ -7,7 +7,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-full border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-full border border-transparent bg-clip-padding text-base font-medium whitespace-nowrap tracking-wide transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -18,6 +18,9 @@ const buttonVariants = cva(
 
         outline:
           "border-white/20 text-white hover:bg-white/5 bg-transparent border active:scale-[0.98] hover:scale-[1.02] shadow-sm transition-all duration-300 rounded-full cursor-pointer",
+
+        "outline-light":
+          "border border-zinc-300 text-foreground bg-transparent hover:bg-zinc-50 active:scale-[0.98] hover:scale-[1.02] shadow-sm transition-all duration-300 rounded-full cursor-pointer",
 
         ghost:
           "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground",
@@ -34,8 +37,8 @@ const buttonVariants = cva(
         default:
           "h-10 gap-1.5 px-4 in-data-[slot=button-group]:rounded-md has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
         xs: "h-6 gap-1 rounded-[min(var(--radius-md),8px)] px-2 text-xs in-data-[slot=button-group]:rounded-md has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-8 gap-1 rounded-[min(var(--radius-md),10px)] px-2.5 in-data-[slot=button-group]:rounded-md has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5",
-        lg: "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+        sm: "h-9 gap-1 rounded-[min(var(--radius-md),10px)] px-3 text-sm font-medium in-data-[slot=button-group]:rounded-md has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+        lg: "h-11 gap-1.5 px-4 text-lg font-medium has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
         icon: "size-9",
         "icon-xs":
           "size-6 rounded-[min(var(--radius-md),8px)] in-data-[slot=button-group]:rounded-md [&_svg:not([class*='size-'])]:size-3",
@@ -44,15 +47,15 @@ const buttonVariants = cva(
         "icon-lg": "size-10",
 
         // Brand Unified Pill sizes
-        pill: "h-13 px-6 text-sm font-semibold tracking-wide",
-        "pill-badge": "h-13 pl-5 pr-2 py-2 text-sm font-semibold tracking-wide",
+        pill: "h-12 px-5 text-lg font-medium tracking-wide",
+        "pill-badge": "h-12 pl-5 pr-2 py-2 text-lg font-medium tracking-wide",
       },
     },
     compoundVariants: [
       {
-        variant: ["default", "secondary", "white", "outline"],
+        variant: ["default", "secondary", "white", "outline", "outline-light"],
         size: "default",
-        class: "h-13 text-sm font-semibold tracking-wide",
+        class: "h-12 text-lg font-medium tracking-wide",
       }
     ],
     defaultVariants: {
@@ -76,7 +79,7 @@ function Button({
   children,
   ...props
 }) {
-  const isPill = ["default", "secondary", "white", "outline"].includes(variant);
+  const isPill = ["default", "secondary", "white", "outline", "outline-light"].includes(variant);
   
   // Dynamically determine the size based on badge presence
   let computedSize = size;
@@ -119,7 +122,7 @@ function Button({
       )}
 
       {/* Children text / element */}
-      <span className="font-semibold text-sm tracking-wide">
+      <span className="tracking-wide">
         {children}
       </span>
 
@@ -130,7 +133,7 @@ function Button({
               "flex items-center justify-center w-7 h-7 rounded-full transition-all duration-300 shrink-0 group-hover/button:scale-105",
               variant === "white"
                 ? "bg-zinc-950 text-zinc-100 group-hover/button:rotate-45 group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5"
-                : variant === "secondary"
+                : variant === "secondary" || variant === "outline-light"
                   ? "bg-primary text-primary-foreground group-hover/button:rotate-45 group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5"
                   : "bg-proteq-dark text-white group-hover/button:rotate-45 group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5"
             )}>

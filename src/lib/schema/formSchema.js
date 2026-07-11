@@ -1,10 +1,17 @@
 import * as z from "zod";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import { toE164Phone } from "@/lib/phone";
+
+const phoneSchema = z
+  .string()
+  .min(1, "Phone number is required")
+  .transform((value) => toE164Phone(value) || value.trim())
+  .refine((value) => isValidPhoneNumber(value), {
+    message: "Please enter a valid phone number",
+  });
 
 export const heroLeadStep1Schema = z.object({
-  phone: z
-    .string()
-    .min(8, "Please enter a valid phone number")
-    .regex(/^[\d\s+()-]+$/, "Please enter a valid phone number"),
+  phone: phoneSchema,
 });
 
 export const heroLeadStep2Schema = z.object({
@@ -17,14 +24,9 @@ export const heroLeadStep2Schema = z.object({
 export const heroLeadFormSchema = heroLeadStep1Schema.merge(heroLeadStep2Schema);
 
 export const contactFormSchema = z.object({
-  "full-name": z.string({ error: "This field is required" }),
-  email: z.email({ error: "Please enter a valid email" }),
-  phone: z.coerce
-    .number({ error: "Please enter a valid phone number" })
-    .optional(),
-  "company-name": z.string({ error: "This field is required" }).optional(),
-  "enquiry-type": z.string().min(1, "Please select an item"),
-  message: z.string({ error: "This field is required" }).optional(),
+  "full-name": z.string().min(1, "Name is required"),
+  email: z.string().email("Please enter a valid email"),
+  message: z.string().min(1, "Please enter your message"),
 });
 
 // ─── Partner Application Form ────────────────────────────────────────────────
@@ -32,7 +34,7 @@ export const contactFormSchema = z.object({
 export const partnerStep1Schema = z.object({
   fullName: z.string().min(1, "Full name is required"),
   email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(1, "Phone number is required"),
+  phone: phoneSchema,
   companyName: z.string().min(1, "Company / Organisation name is required"),
   websiteUrl: z.string().url("Please enter a valid URL").or(z.literal("")).optional(),
   partnershipCategory: z.enum(["partner", "trainer", "system-provider"], {

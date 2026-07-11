@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import { Bot, Coins, Landmark } from "lucide-react";
 import {
   ScrollReveal,
@@ -69,10 +70,10 @@ export default function AurumInvestmentPerformance() {
           className="mb-10 grid gap-5 md:grid-cols-3 lg:mb-12"
           staggerChildren={0.07}
         >
-          {ecosystemPillars.map((card) => {
+          {ecosystemPillars.map((card, index) => {
             const Icon = card.icon;
             return (
-              <StaggerItem key={card.title}>
+              <StaggerItem key={itemKey(card, index)}>
                 <article className="aurum-panel flex h-full flex-col rounded-2xl p-7">
                   <div className="mb-4 flex size-10 items-center justify-center rounded-md border border-white/20 bg-white/10">
                     <Icon className="size-5 text-white" strokeWidth={1.75} />
@@ -92,10 +93,10 @@ export default function AurumInvestmentPerformance() {
           })}
         </StaggerContainer>
 
-        <ScrollReveal yOffset={12}>
+        <ScrollReveal direction="left">
           <ul className="grid grid-cols-2 divide-y divide-white/10 rounded-lg border border-white/15 bg-white/5 md:grid-cols-4 md:divide-x md:divide-y-0">
-            {stats.map((stat) => (
-              <li key={stat.label} className="px-5 py-8 text-center md:py-9">
+            {stats.map((stat, index) => (
+              <li key={itemKey(stat, index)} className="px-5 py-8 text-center md:py-9">
                 <p className="aurum-stat-value text-2xl md:text-3xl">
                   {stat.value}
                 </p>

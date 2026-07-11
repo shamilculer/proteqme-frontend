@@ -2,66 +2,107 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import {
-  BadgeDollarSign,
-  Banknote,
-  Gem,
-  HandHeart,
-  Landmark,
-  WalletCards,
-} from "lucide-react";
 import dynamic from "next/dynamic";
 import SectionAmbient from "../ui/SectionAmbient";
-import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "../ui/scroll-reveal";
-import { cn } from "@/lib/utils";
+import { SectionReveal, ScrollReveal } from "../ui/scroll-reveal";
+import CmsIcon from "@/components/ui/CmsIcon";
+import SectionDescription from "@/components/ui/SectionDescription";
+import CardGridLayout from "@/components/ui/CardGridLayout";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
   { ssr: false }
 );
 
-const industries = [
+const DEFAULT_ITEMS = [
   {
     title: "Financial Institutions and Banks",
     tag: "AML governance, customer risk, and reporting controls",
-    icon: Landmark,
+    icon: "landmark",
     image: "/consultancy-services/industries/1.jpg",
   },
   {
     title: "Virtual Asset Service Providers",
     tag: "Digital asset compliance and VARA regulatory readiness",
-    icon: BadgeDollarSign,
+    icon: "badgeDollar",
     image: "/consultancy-services/industries/2.jpg",
   },
   {
     title: "Fintech and Payment Providers",
     tag: "Onboarding, monitoring, and payment risk programmes",
-    icon: WalletCards,
+    icon: "walletCards",
     image: "/consultancy-services/industries/3.jpg",
   },
   {
     title: "Insurance and Wealth Management",
     tag: "Client due diligence, suitability, and control documentation",
-    icon: Banknote,
+    icon: "banknote",
     image: "/consultancy-services/industries/4.jpg",
   },
   {
     title: "Real Estate and High-Value Dealers",
     tag: "Transaction screening and source-of-funds controls",
-    icon: Gem,
+    icon: "gem",
     image: "/consultancy-services/industries/5.jpg",
   },
   {
     title: "Non-Profit Organisations",
     tag: "Donor oversight, funds flow, and governance safeguards",
-    icon: HandHeart,
+    icon: "handHeart",
     image: "/consultancy-services/industries/6.jpg",
   },
 ];
 
-function IndustryCard({ industry, index }) {
-  const Icon = industry.icon;
+const DEFAULTS = {
+  eyebrow: "Industries We Serve",
+  heading: "Advisory for Regulated and High-Exposure Sectors",
+  description:
+    "We support organisations where customer risk, transaction activity, and documentation must withstand close internal and regulatory scrutiny.",
+  layout: "carousel-grid",
+  columns: 3,
+  items: DEFAULT_ITEMS,
+  ctaLabel: null,
+  ctaHref: null,
+  sectionId: null,
+};
 
+function StandardIndustryCard({ industry, index }) {
+  return (
+    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200/80 bg-white shadow-[0_18px_55px_rgba(13,13,20,0.06)] transition duration-300 hover:-translate-y-1 hover:border-primary/25">
+      <div className="relative h-48 shrink-0 overflow-hidden sm:h-52">
+        <Image
+          src={industry.image}
+          alt={industry.title}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 85vw"
+          className="object-cover transition duration-700 group-hover:scale-[1.03]"
+        />
+        <div className="absolute inset-0 bg-linear-to-t from-proteq-dark/55 via-proteq-dark/10 to-transparent" />
+        <div className="absolute left-4 top-4 flex size-10 items-center justify-center rounded-xl border border-white/80 bg-white/95 shadow-md">
+          <CmsIcon
+            lucide={industry.lucide || industry.icon}
+            src={industry.src}
+            alt={industry.alt}
+            className="size-5 text-primary"
+            strokeWidth={1.75}
+          />
+        </div>
+        <span className="absolute right-4 top-4 text-sm font-bold tabular-nums tracking-wider text-white/80">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="text-xl font-semibold text-foreground">{industry.title}</h3>
+        {industry.tag ? (
+          <p className="mt-2 text-sm leading-relaxed text-zinc-600">{industry.tag}</p>
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
+function IndustryCard({ industry, index }) {
   return (
     <article className="group relative h-full min-h-[320px] w-full overflow-hidden rounded-xl border border-zinc-200/80 bg-white shadow-[0_18px_55px_rgba(13,13,20,0.06)]">
       <Image
@@ -75,7 +116,13 @@ function IndustryCard({ industry, index }) {
 
       <div className="absolute left-5 right-5 top-5 flex items-start justify-between gap-3">
         <div className="icon-stat-circle size-14! bg-white/10">
-          <Icon className="size-10 text-white" strokeWidth={1.75} />
+          <CmsIcon
+            lucide={industry.lucide || industry.icon}
+            src={industry.src}
+            alt={industry.alt}
+            className="size-10 text-white"
+            strokeWidth={1.75}
+          />
         </div>
         <span className="text-sm font-bold tabular-nums tracking-wider text-white/55">
           {String(index + 1).padStart(2, "0")}
@@ -94,46 +141,31 @@ function IndustryCard({ industry, index }) {
   );
 }
 
-export default function ConsultancyIndustries() {
-  const trackRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+export default function ConsultancyIndustries({
+  eyebrow = DEFAULTS.eyebrow,
+  heading = DEFAULTS.heading,
+  description = DEFAULTS.description,
+  layout = DEFAULTS.layout,
+  columns = DEFAULTS.columns,
+  items = DEFAULTS.items,
+  sectionId = DEFAULTS.sectionId,
+}) {
+  const gridColsClass =
+    columns === 2
+      ? "lg:grid-cols-2"
+      : columns === 4
+        ? "lg:grid-cols-4"
+        : "lg:grid-cols-3";
 
-  const updateActiveIndex = useCallback(() => {
-    const track = trackRef.current;
-    if (!track?.firstElementChild) return;
-
-    const card = track.firstElementChild;
-    const cardWidth = card.getBoundingClientRect().width;
-    const gap = 16;
-    const index = Math.round(track.scrollLeft / (cardWidth + gap));
-    setActiveIndex(Math.min(Math.max(index, 0), industries.length - 1));
-  }, []);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    updateActiveIndex();
-    track.addEventListener("scroll", updateActiveIndex, { passive: true });
-    window.addEventListener("resize", updateActiveIndex);
-
-    return () => {
-      track.removeEventListener("scroll", updateActiveIndex);
-      window.removeEventListener("resize", updateActiveIndex);
-    };
-  }, [updateActiveIndex]);
-
-  const scrollToIndex = (index) => {
-    const track = trackRef.current;
-    if (!track?.firstElementChild) return;
-
-    const card = track.firstElementChild;
-    const cardWidth = card.getBoundingClientRect().width;
-    track.scrollTo({ left: index * (cardWidth + 16), behavior: "smooth" });
+  const renderCard = (industry, index) => {
+    const Card =
+      industry.appearance === "standard" ? StandardIndustryCard : IndustryCard;
+    return <Card industry={industry} index={index} />;
   };
 
   return (
     <SectionReveal
+      id={sectionId || undefined}
       className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
       aria-labelledby="consultancy-industries-heading"
     >
@@ -143,71 +175,30 @@ export default function ConsultancyIndustries() {
         <div className="mb-12 flex flex-col gap-6 md:mb-14 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-              Industries We Serve
+              {eyebrow}
             </p>
             <h2
               id="consultancy-industries-heading"
               className="text-section-heading max-w-2xl text-foreground"
             >
-              Advisory for Regulated and High-Exposure Sectors
+              {heading}
             </h2>
           </ScrollReveal>
 
           <ScrollReveal xOffset={12} className="max-w-lg">
-            <p className="text-body text-zinc-600">
-              We support organisations where customer risk, transaction activity,
-              and documentation must withstand close internal and regulatory
-              scrutiny.
-            </p>
+            <SectionDescription content={description} />
           </ScrollReveal>
         </div>
 
-        <div className="lg:hidden">
-          <div
-            ref={trackRef}
-            className="industries-snap-track -mx-1 px-1"
-            aria-label="Industries carousel"
-          >
-            {industries.map((industry, index) => (
-              <div key={industry.title} className="h-full min-h-[320px]">
-                <IndustryCard industry={industry} index={index} />
-              </div>
-            ))}
-          </div>
+        <CardGridLayout
+          items={items}
+          layout={layout}
+          gridClassName={`gap-4 ${gridColsClass}`}
+          renderCard={renderCard}
+          carouselAriaLabel="Industries carousel"
+        />
 
-          <div className="mt-5 flex items-center justify-center gap-2">
-            {industries.map((industry, index) => (
-              <button
-                key={industry.title}
-                type="button"
-                aria-label={`Go to ${industry.title}`}
-                aria-current={activeIndex === index ? "true" : undefined}
-                onClick={() => scrollToIndex(index)}
-                className={cn(
-                  "size-2 rounded-full transition",
-                  activeIndex === index
-                    ? "bg-primary scale-110"
-                    : "bg-zinc-300 hover:bg-zinc-400"
-                )}
-              />
-            ))}
-          </div>
-        </div>
-
-        <StaggerContainer
-          className="hidden gap-4 lg:grid lg:grid-cols-3"
-          staggerChildren={0.06}
-        >
-          {industries.map((industry, index) => {
-            return (
-              <StaggerItem key={industry.title}>
-                <IndustryCard industry={industry} index={index} />
-              </StaggerItem>
-            );
-          })}
-        </StaggerContainer>
       </div>
     </SectionReveal>
   );
 }
-

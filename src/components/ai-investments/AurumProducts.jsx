@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import Link from "next/link";
 import { ArrowUpRight, Bot, Coins, Landmark } from "lucide-react";
 import {
@@ -77,8 +78,8 @@ export default function AurumProducts() {
             className="mb-8 grid gap-px border border-zinc-200 bg-zinc-200 md:grid-cols-3"
             staggerChildren={0.06}
           >
-            {tradingBots.map((bot) => (
-              <StaggerItem key={bot.name}>
+            {tradingBots.map((bot, index) => (
+              <StaggerItem key={itemKey(bot, index, ["name", "title"])}>
                 <article className="flex h-full flex-col bg-white p-6">
                   <div className="mb-4 flex size-9 items-center justify-center border border-[rgba(107,88,36,0.25)] bg-[rgba(107,88,36,0.08)]">
                     <Bot
@@ -156,8 +157,8 @@ export default function AurumProducts() {
               className="grid gap-px border border-[rgba(201,168,76,0.22)] bg-[rgba(201,168,76,0.22)]"
               staggerChildren={0.05}
             >
-              {goldBenefits.map((item) => (
-                <StaggerItem key={item.title}>
+              {goldBenefits.map((item, index) => (
+                <StaggerItem key={itemKey(item, index)}>
                   <article className="flex gap-4 bg-[var(--aurum-panel-elevated)] p-5">
                     <div className="flex size-9 shrink-0 items-center justify-center border border-[rgba(201,168,76,0.3)] bg-[rgba(201,168,76,0.08)]">
                       <Coins
@@ -195,9 +196,9 @@ export default function AurumProducts() {
               </p>
 
               <ul className="mt-6 space-y-3 border-t border-zinc-200 pt-6">
-                {neobankFeatures.map((item) => (
+                {neobankFeatures.map((item, index) => (
                   <li
-                    key={item}
+                    key={listKey(item, index)}
                     className="flex gap-3 text-sm leading-relaxed text-zinc-700"
                   >
                     <span className="mt-2 size-1 shrink-0 bg-[var(--aurum-gold-muted)]" />

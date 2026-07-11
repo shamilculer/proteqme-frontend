@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -9,13 +10,16 @@ const ParticleNetwork = dynamic(
   { ssr: false }
 );
 import { Check } from "lucide-react";
+import ActionButton from "@/components/ui/ActionButton";
 import SectionAmbient from "@/components/ui/SectionAmbient";
 import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
+import SectionDescription from "@/components/ui/SectionDescription";
 
-const programmes = [
+const DEFAULT_ITEMS = [
   {
     title: "AML & Financial Crime Training",
+    anchorId: "aml-financial-crime-training",
     description:
       "Practical training programmes covering AML, CFT, fraud prevention, and regulatory compliance for modern organisations and compliance teams.",
     image: "/consultancy-services/1.webp",
@@ -27,6 +31,7 @@ const programmes = [
   },
   {
     title: "Certification Preparation",
+    anchorId: "certification-preparation",
     description:
       "Structured learning paths designed to support professionals preparing for industry-recognised compliance and anti-fraud certifications.",
     image: "/consultancy-services/2.webp",
@@ -38,6 +43,7 @@ const programmes = [
   },
   {
     title: "Corporate Compliance Training",
+    anchorId: "corporate-compliance-training",
     description:
       "Custom training programmes tailored to your organisation's regulatory environment, operational workflows, and internal risk profile.",
     image: "/trainer.webp",
@@ -49,6 +55,7 @@ const programmes = [
   },
   {
     title: "Webinar Learning Library",
+    anchorId: "webinar-learning-library",
     description:
       "On-demand webinar sessions designed for professionals seeking practical compliance insights, regulatory updates, and implementation guidance.",
     image: "/learning-5.webp",
@@ -60,6 +67,7 @@ const programmes = [
   },
   {
     title: "Team Upskilling & Workshops",
+    anchorId: "team-upskilling-workshops",
     description:
       "Interactive workshops and guided learning sessions that help teams strengthen operational awareness and compliance capabilities.",
     image: "/learning-3.webp",
@@ -71,6 +79,7 @@ const programmes = [
   },
   {
     title: "AI, VARA & Digital Asset Education",
+    anchorId: "ai-vara-digital-asset-education",
     description:
       "Specialised programmes focused on AI in finance, VARA frameworks, digital assets, and emerging regulatory technologies.",
     image: "/consultancy-services/5.webp",
@@ -83,16 +92,49 @@ const programmes = [
   },
 ];
 
+const DEFAULTS = {
+  eyebrow: "Training Programmes",
+  heading: "A comprehensive portfolio for every professional",
+  description:
+    "From standardised certifications to fully customised corporate programmes — we design learning that fits your goals.",
+  layout: "carousel-grid",
+  columns: 3,
+  items: DEFAULT_ITEMS,
+  cta: null,
+  sectionId: "training-programmes",
+};
+
+function resolveCardButton(item) {
+  if (item.button) return item.button;
+  if (item.buttonLabel && item.buttonHref) {
+    return {
+      label: item.buttonLabel,
+      href: item.buttonHref,
+      actionType: "link",
+    };
+  }
+  return null;
+}
+
 function ProgrammeCard({
   index,
   title,
   description,
   image,
   highlights,
+  button,
+  buttonLabel,
+  buttonHref,
+  anchorId,
+  id,
   imageClass = "",
 }) {
+  const cardButton = resolveCardButton({ button, buttonLabel, buttonHref });
   return (
-    <article className="group relative flex h-full min-h-[520px] flex-col overflow-hidden rounded-[12px] bg-white shadow-[0_22px_70px_rgba(6,21,37,0.06)] ring-1 ring-zinc-200/80 transition duration-500 hover:-translate-y-2 hover:shadow-[0_36px_90px_rgba(226,92,143,0.15)]">
+    <article
+      id={anchorId || id || undefined}
+      className="group relative flex h-full min-h-[520px] scroll-mt-28 flex-col overflow-hidden rounded-[12px] bg-white shadow-[0_22px_70px_rgba(6,21,37,0.06)] ring-1 ring-zinc-200/80 transition duration-500 hover:-translate-y-2 hover:shadow-[0_36px_90px_rgba(226,92,143,0.15)]"
+    >
       <div className="relative h-[min(52vw,280px)] min-h-[240px] shrink-0 overflow-hidden sm:min-h-[260px] md:h-[280px]">
         <Image
           src={image}
@@ -133,28 +175,52 @@ function ProgrammeCard({
         <div className="flex flex-1 flex-col rounded-[18px] bg-white p-5 shadow-[0_-12px_40px_rgba(6,21,37,0.1)] ring-1 ring-zinc-100/90 md:p-6">
           <div className="mb-4 h-px w-full bg-linear-to-r from-[#E25C8F] via-[#E25C8F]/40 to-transparent" />
 
-          <p className="text-sm leading-relaxed text-zinc-600">{description}</p>
+          {description ? (
+            <p className="text-sm leading-relaxed text-zinc-600">{description}</p>
+          ) : null}
 
-          <ul className="mt-5 space-y-3 rounded-xl border border-zinc-100 bg-linear-to-b from-zinc-50 to-white p-4">
-            {highlights.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-3 text-sm text-zinc-700 transition duration-300 group-hover:translate-x-0.5"
-              >
-                <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#E25C8F] text-white shadow-[0_4px_12px_rgba(226,92,143,0.35)]">
-                  <Check className="size-3 stroke-[3]" aria-hidden />
-                </span>
-                <span className="leading-snug">{item}</span>
-              </li>
-            ))}
-          </ul>
+          {highlights?.length > 0 ? (
+            <ul className="mt-5 space-y-3 rounded-xl border border-zinc-100 bg-linear-to-b from-zinc-50 to-white p-4">
+              {highlights.map((item, index) => (
+                <li
+                  key={listKey(item, index)}
+                  className="flex items-start gap-3 text-sm text-zinc-700 transition duration-300 group-hover:translate-x-0.5"
+                >
+                  <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#E25C8F] text-white shadow-[0_4px_12px_rgba(226,92,143,0.35)]">
+                    <Check className="size-3 stroke-[3]" aria-hidden />
+                  </span>
+                  <span className="leading-snug">{item}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          {cardButton ? (
+            <ActionButton
+              {...cardButton}
+              variant={cardButton.variant || "secondary"}
+              showArrow={cardButton.showArrow !== false}
+              className="mt-5 w-full sm:mt-6 sm:w-auto"
+            />
+          ) : null}
         </div>
       </div>
     </article>
   );
 }
 
-const TrainingProgrammes = () => {
+const TrainingProgrammes = ({
+  eyebrow = DEFAULTS.eyebrow,
+  heading = DEFAULTS.heading,
+  description = DEFAULTS.description,
+  layout = DEFAULTS.layout,
+  columns = DEFAULTS.columns,
+  items = DEFAULTS.items,
+  cta = DEFAULTS.cta,
+  ctaLabel,
+  ctaHref,
+  sectionId = DEFAULTS.sectionId,
+}) => {
   const trackRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -166,8 +232,8 @@ const TrainingProgrammes = () => {
     const cardWidth = card.getBoundingClientRect().width;
     const gap = 24;
     const index = Math.round(track.scrollLeft / (cardWidth + gap));
-    setActiveIndex(Math.min(Math.max(index, 0), programmes.length - 1));
-  }, []);
+    setActiveIndex(Math.min(Math.max(index, 0), items.length - 1));
+  }, [items.length]);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -239,9 +305,37 @@ const TrainingProgrammes = () => {
     track.scrollTo({ left: index * (cardWidth + 24), behavior: "smooth" });
   };
 
+  useEffect(() => {
+    const jumpToHash = () => {
+      const hash = window.location.hash.replace(/^#/, "");
+      if (!hash) return;
+
+      const index = items.findIndex(
+        (item) => item.anchorId === hash || item.id === hash,
+      );
+      if (index < 0) return;
+
+      // Bring the matching card into the mobile carousel viewport
+      if (trackRef.current) {
+        scrollToIndex(index);
+      }
+    };
+
+    jumpToHash();
+    window.addEventListener("hashchange", jumpToHash);
+    return () => window.removeEventListener("hashchange", jumpToHash);
+  }, [items]);
+
+  const gridColsClass =
+    columns === 2
+      ? "lg:grid-cols-2"
+      : columns === 4
+        ? "lg:grid-cols-4"
+        : "lg:grid-cols-3";
+
   return (
     <SectionReveal
-      id="training-programmes"
+      id={sectionId || undefined}
       className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
     >
       <SectionAmbient variant="light" />
@@ -251,64 +345,67 @@ const TrainingProgrammes = () => {
         <div className="mb-12 flex flex-col gap-6 md:mb-14 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-              Training Programmes
+              {eyebrow}
             </p>
             <h2 className="text-section-heading max-w-3xl text-foreground">
-              A comprehensive portfolio for every professional
+              {heading}
             </h2>
           </ScrollReveal>
 
           <ScrollReveal xOffset={12} className="max-w-lg lg:max-w-sm">
-            <p className="border-l border-zinc-200/80 pl-6 text-body text-zinc-600">
-              From standardised certifications to fully customised corporate
-              programmes — we design learning that fits your goals.
-            </p>
+            <SectionDescription content={description} className="border-l border-zinc-200/80 pl-6 text-body text-zinc-600" />
           </ScrollReveal>
         </div>
 
-        <div className="lg:hidden">
-          <div
-            ref={trackRef}
-            className="programmes-snap-track -mx-1 flex gap-6 px-1"
-            aria-label="Training programmes carousel"
-          >
-            {programmes.map((programme, i) => (
-              <div key={programme.title} className="h-full min-h-[520px]">
-                <ProgrammeCard
-                  index={String(i + 1).padStart(2, "0")}
-                  {...programme}
-                />
-              </div>
-            ))}
-          </div>
+        {layout !== "grid" ? (
+          <div className="lg:hidden">
+            <div
+              ref={trackRef}
+              className="programmes-snap-track -mx-1 flex gap-6 px-1"
+              aria-label="Training programmes carousel"
+            >
+              {items.map((programme, index) => (
+                <div key={itemKey(programme, index)} className="h-full min-h-[520px]">
+                  <ProgrammeCard
+                    index={String(index + 1).padStart(2, "0")}
+                    {...programme}
+                  />
+                </div>
+              ))}
+            </div>
 
-          <div className="mt-6 flex items-center justify-center gap-2">
-            {programmes.map((programme, index) => (
-              <button
-                key={programme.title}
-                type="button"
-                aria-label={`Go to ${programme.title}`}
-                aria-current={activeIndex === index ? "true" : undefined}
-                onClick={() => scrollToIndex(index)}
-                className={cn(
-                  "size-2 rounded-full transition",
-                  activeIndex === index
-                    ? "scale-110 bg-primary"
-                    : "bg-zinc-300 hover:bg-zinc-400"
-                )}
-              />
-            ))}
+            <div className="mt-6 flex items-center justify-center gap-2">
+              {items.map((programme, index) => (
+                <button
+                  key={itemKey(programme, index)}
+                  type="button"
+                  aria-label={`Go to ${programme.title}`}
+                  aria-current={activeIndex === index ? "true" : undefined}
+                  onClick={() => scrollToIndex(index)}
+                  className={cn(
+                    "size-2 rounded-full transition",
+                    activeIndex === index
+                      ? "scale-110 bg-primary"
+                      : "bg-zinc-300 hover:bg-zinc-400"
+                  )}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        ) : null}
 
         <StaggerContainer
-          className="hidden gap-6 sm:gap-7 lg:grid lg:grid-cols-3 lg:gap-8"
+          className={cn(
+            "gap-6 sm:gap-7 lg:gap-8",
+            layout === "carousel-grid" ? "hidden lg:grid" : "grid",
+            gridColsClass
+          )}
           staggerChildren={0.06}
         >
-          {programmes.map((programme, i) => (
-            <StaggerItem key={programme.title} className="h-full">
+          {items.map((programme, index) => (
+            <StaggerItem key={itemKey(programme, index)} className="h-full">
               <ProgrammeCard
-                index={String(i + 1).padStart(2, "0")}
+                index={String(index + 1).padStart(2, "0")}
                 {...programme}
               />
             </StaggerItem>

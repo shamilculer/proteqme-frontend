@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -92,7 +93,7 @@ export default function AurumEcosystemSection() {
               <div className="space-y-3">
                 {statBars.map((bar, index) => (
                   <AnimatedStatBar
-                    key={bar.label}
+                    key={itemKey(bar, index)}
                     label={bar.label}
                     targetWidth={bar.width}
                     delay={index * 180}
@@ -104,7 +105,7 @@ export default function AurumEcosystemSection() {
 
             <div className="space-y-8">
               {ecosystemBlocks.map((block, index) => (
-                <ScrollReveal key={block.title} delay={0.08 + index * 0.04}>
+                <ScrollReveal key={itemKey(block, index)} delay={0.08 + index * 0.04}>
                   <h3 className="aurum-subheading">{block.title}</h3>
                   <p className="aurum-body mt-3">{block.body}</p>
                 </ScrollReveal>
@@ -120,7 +121,7 @@ export default function AurumEcosystemSection() {
               />
             </ScrollReveal>
             {sideImages.map((img, index) => (
-              <ScrollReveal key={img.src} xOffset={12} delay={0.06 + index * 0.05}>
+              <ScrollReveal key={listKey(img.src, index, "image")} xOffset={12} delay={0.06 + index * 0.05}>
                 <div className="relative aspect-video overflow-hidden rounded-2xl shadow-[0_12px_40px_rgba(0,59,73,0.12)]">
                   <Image
                     src={img.src}

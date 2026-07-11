@@ -1,16 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "motion/react";
-import { Check, ChevronLeft, Phone } from "lucide-react";
+import { Check, ChevronLeft } from "lucide-react";
 import {
   heroLeadFormSchema,
   heroLeadStep1Schema,
 } from "@/lib/schema/formSchema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import PhoneInputField from "@/components/ui/PhoneInputField";
 import {
   Select,
   SelectContent,
@@ -28,13 +29,14 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { revealEase } from "@/lib/motion-presets";
-import { cn } from "@/lib/utils";
+import { slideDistance, slidePanelTransition } from "@/lib/motion-presets";
+import { getLeadSource, postLead } from "@/lib/leads/postLead";
 
 const serviceOptions = [
   { value: "advisory", label: "Consultancy & Advisory" },
-  { value: "learning", label: "Learning & Training" },
+  { value: "learning", label: "Proteq Learning" },
   { value: "systems", label: "RegTech Systems" },
+  { value: "ai-investments", label: "AI Investments" },
   { value: "general", label: "General Enquiry" },
 ];
 
@@ -75,6 +77,8 @@ export default function HeroLeadForm({
 }) {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmittingLead, setIsSubmittingLead] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(heroLeadFormSchema),
@@ -92,6 +96,8 @@ export default function HeroLeadForm({
     if (!open) {
       setStep(1);
       setSubmitted(false);
+      setSubmitError("");
+      setIsSubmittingLead(false);
       form.reset();
     }
   }, [open, form]);
@@ -105,14 +111,39 @@ export default function HeroLeadForm({
       });
       return;
     }
+    // Persist normalized E.164 so it survives step 1 unmounting the input.
+    form.setValue("phone", result.data.phone, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
     form.clearErrors("phone");
     setStep(2);
   };
 
   const onSubmit = form.handleSubmit(async (data) => {
-    console.log("Hero lead capture:", { ...data, source: "Homepage Hero" });
-    setSubmitted(true);
-    onSubmitted?.();
+    setSubmitError("");
+    setIsSubmittingLead(true);
+    try {
+      await postLead({
+        type: "contact",
+        source: getLeadSource(),
+        popup: "consultation",
+        form: {
+          ...data,
+          phone: form.getValues("phone") || data.phone,
+        },
+      });
+      setSubmitted(true);
+      onSubmitted?.();
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setIsSubmittingLead(false);
+    }
   });
 
   const wrapperClass = embedded ? "px-6 py-6 sm:px-6" : `${panelClass} p-6 sm:p-7`;
@@ -144,10 +175,10 @@ export default function HeroLeadForm({
         {step === 1 ? (
           <motion.div
             key="step-1"
-            initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 12 }}
-            transition={{ duration: 0.38, ease: revealEase }}
+            initial={{ x: -slideDistance.x }}
+            animate={{ x: 0 }}
+            exit={{ x: slideDistance.x }}
+            transition={slidePanelTransition()}
           >
             <div className="mb-5">
               <DialogTitle className="text-xl! sm:text-2xl!">
@@ -162,16 +193,21 @@ export default function HeroLeadForm({
             <FieldGroup className="gap-4">
               <Field>
                 <FieldLabel className="text-zinc-700">Phone number</FieldLabel>
-                <div className="relative">
-                  <Phone className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-zinc-400" />
-                  <Input
-                    {...form.register("phone")}
-                    type="tel"
-                    autoComplete="tel"
-                    placeholder="+44 20 7123 4567"
-                    className="h-11 border-zinc-200 bg-white pl-10 text-foreground placeholder:text-zinc-400"
-                  />
-                </div>
+                <Controller
+                  name="phone"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <PhoneInputField
+                      id="hero-phone"
+                      name={field.name}
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      placeholder="Enter phone number"
+                      aria-invalid={fieldState.invalid}
+                    />
+                  )}
+                />
                 {form.formState.errors.phone && (
                   <FieldError
                     className="mt-1 text-xs text-red-500"
@@ -198,10 +234,10 @@ export default function HeroLeadForm({
           <motion.form
             key="step-2"
             onSubmit={onSubmit}
-            initial={{ opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -12 }}
-            transition={{ duration: 0.38, ease: revealEase }}
+            initial={{ x: slideDistance.x }}
+            animate={{ x: 0 }}
+            exit={{ x: -slideDistance.x }}
+            transition={slidePanelTransition()}
           >
             <div className="mb-5">
               <DialogTitle className="text-xl! sm:text-2xl!">Almost done</DialogTitle>
@@ -211,6 +247,9 @@ export default function HeroLeadForm({
             </div>
 
             <FieldGroup className="gap-4">
+              {/* Keep phone registered while step 1 input is unmounted */}
+              <input type="hidden" {...form.register("phone")} />
+
               <Field>
                 <FieldLabel className="text-zinc-700">Full name</FieldLabel>
                 <Input
@@ -295,13 +334,16 @@ export default function HeroLeadForm({
                 </Button>
                 <Button
                   type="submit"
-                  disabled={form.formState.isSubmitting}
+                  disabled={isSubmittingLead}
                   className="h-12 flex-1"
                   showArrow
                 >
-                  {form.formState.isSubmitting ? "Sending…" : "Submit"}
+                  {isSubmittingLead ? "Sending…" : "Submit"}
                 </Button>
               </div>
+              {submitError ? (
+                <p className="text-sm text-primary">{submitError}</p>
+              ) : null}
             </FieldGroup>
           </motion.form>
         )}

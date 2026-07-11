@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import Image from "next/image";
 import { FileCheck, KeyRound, Lock } from "lucide-react";
 import { ScrollReveal } from "../ui/scroll-reveal";
@@ -56,11 +57,11 @@ export default function AurumCapitalProtection() {
             </p>
 
             <div className="mt-8 space-y-4">
-              {protections.map((item) => {
+              {protections.map((item, index) => {
                 const Icon = item.icon;
                 return (
                   <article
-                    key={item.title}
+                    key={itemKey(item, index)}
                     className="flex gap-4 rounded-2xl border border-zinc-200/80 bg-white p-5"
                   >
                     <div className="flex size-10 shrink-0 items-center justify-center rounded-full border border-[rgba(107,88,36,0.25)] bg-[rgba(107,88,36,0.08)]">

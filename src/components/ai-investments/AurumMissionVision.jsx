@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import Link from "next/link";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
 
@@ -34,8 +35,8 @@ export default function AurumMissionVision() {
           className="grid gap-6 md:grid-cols-3"
           staggerChildren={0.08}
         >
-          {cards.map((card) => (
-            <StaggerItem key={card.title}>
+          {cards.map((card, index) => (
+            <StaggerItem key={itemKey(card, index)}>
               <article className="h-full rounded-2xl border border-zinc-200/80 bg-white p-7 shadow-sm md:p-8">
                 <h3 className="aurum-subheading">{card.title}</h3>
                 <p className="aurum-body mt-4 text-sm md:text-base">{card.body}</p>

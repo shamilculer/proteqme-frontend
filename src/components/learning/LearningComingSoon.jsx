@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import { Bell, Clock, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -64,8 +65,8 @@ export default function LearningComingSoon() {
           className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5"
           staggerChildren={0.06}
         >
-          {upcomingCourses.map((course) => (
-            <StaggerItem key={course.title}>
+          {upcomingCourses.map((course, index) => (
+            <StaggerItem key={itemKey(course, index)}>
               <article className="flex h-full flex-col rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-[0_16px_50px_rgba(13,13,20,0.05)]">
                 <div className="mb-4 flex items-center justify-between">
                   <span className="icon-ghost-pink flex size-10 items-center justify-center rounded-xl">

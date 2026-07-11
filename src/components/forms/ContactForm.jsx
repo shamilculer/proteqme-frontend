@@ -1,10 +1,12 @@
 "use client";
 
 import { contactFormSchema } from "@/lib/schema/formSchema";
+import { getLeadSource, postLead } from "@/lib/leads/postLead";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { motion } from "motion/react";
-import { Check, ArrowUpRight } from "lucide-react";
+import { slideDistance, slidePanelTransition } from "@/lib/motion-presets";
+import { Check } from "lucide-react";
 import {
   Field,
   FieldGroup,
@@ -13,89 +15,102 @@ import {
 } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
 function ContactForm() {
   const form = useForm({
     resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      "full-name": "",
+      email: "",
+      message: "",
+    },
   });
 
-  const { formState: { isSubmitting, isSubmitSuccessful } } = form;
+  const {
+    formState: { isSubmitting, isSubmitSuccessful },
+    setError,
+  } = form;
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
-      console.log(data);
+      await postLead({
+        type: "contact",
+        source: getLeadSource(),
+        form: data,
+      });
       form.reset();
     } catch (error) {
-      // TODO: handle error
+      setError("root", {
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+      });
     }
   });
 
   if (isSubmitSuccessful) {
     return (
-      <div className="p-2 sm:p-5 md:p-8 w-full rounded-md gap-2 border">
+      <div className="w-full gap-2 rounded-3xl border border-primary/25 bg-white p-8 shadow-[0_20px_60px_rgba(35,17,67,0.08)] sm:p-10">
         <motion.div
-          initial={{ opacity: 0, y: -16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, stiffness: 300, damping: 25 }}
-          className="h-full py-6 px-3"
+          initial={{ x: -slideDistance.x }}
+          animate={{ x: 0 }}
+          transition={slidePanelTransition()}
+          className="py-4"
         >
           <motion.div
-            initial={{ scale: 0.5 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.3, type: "spring", stiffness: 500, damping: 15 }}
-            className="mb-4 flex justify-center border rounded-full w-fit mx-auto p-2"
+            initial={{ x: -slideDistance.x * 0.55 }}
+            animate={{ x: 0 }}
+            transition={slidePanelTransition(0.12)}
+            className="mx-auto mb-4 flex w-fit justify-center rounded-full border border-primary/20 bg-primary/10 p-2"
           >
-            <Check className="size-8" />
+            <Check className="size-8 text-primary" />
           </motion.div>
-          <h2 className="text-center text-2xl text-pretty font-bold mb-2">Thank you</h2>
+          <h2 className="mb-2 text-center text-2xl font-bold text-pretty">
+            Thank you
+          </h2>
           <p className="text-center text-lg text-pretty text-muted-foreground">
-            Form submitted successfully, we will get back to you soon
+            We&apos;ve received your enquiry and will be in touch soon.
           </p>
         </motion.div>
       </div>
     );
   }
 
-  const enquiryOptions = [
-    { value: "General Enquiry", label: "General Enquiry" },
-    { value: "request a quote", label: "Request a Quote" },
-    { value: "schedule a call", label: "Schedule a Call" },
-    { value: "consultancy", label: "Consultancy" },
-    { value: "learning", label: "Learning" },
-    { value: "systems", label: "Systems" },
-    { value: "partnership", label: "Partnership" },
-  ];
-
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 sm:p-10 w-full rounded-3xl bg-primary/1 border border-zinc-200 border-t-4 border-t-primary"
+      className="w-full rounded-3xl border-2 border-primary/20 bg-zinc-50 p-6 shadow-[0_24px_70px_rgba(35,17,67,0.1)] sm:p-10"
     >
-      <FieldGroup className="grid md:grid-cols-6 gap-x-8 gap-y-6 mb-6">
+      <p className="mb-6 text-sm leading-relaxed text-zinc-600 sm:text-base">
+        Tell us what you need — advisory, training, systems, or AI investments — and we&apos;ll get back to you soon.
+      </p>
+
+      <FieldGroup className="mb-6 grid gap-6">
         <Controller
           name="full-name"
           control={form.control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-1 md:col-span-3">
-              <FieldLabel className="text-zinc-700 mb-1" htmlFor="full-name">Full Name *</FieldLabel>
+            <Field data-invalid={fieldState.invalid} className="gap-1">
+              <FieldLabel className="mb-1 text-zinc-700" htmlFor="full-name">
+                Name *
+              </FieldLabel>
               <Input
                 {...field}
                 id="full-name"
                 type="text"
                 onChange={(e) => field.onChange(e.target.value)}
                 aria-invalid={fieldState.invalid}
-                placeholder="Enter your full name"
-                className="h-12 rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 placeholder:text-zinc-400 outline-none text-sm w-full"
+                placeholder="Your name"
+                className="h-12 w-full rounded-xl border border-zinc-300 bg-white px-4 text-sm text-zinc-900 shadow-xs outline-none placeholder:text-zinc-400 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
               />
-              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
+              {fieldState.invalid && (
+                <FieldError
+                  className="mt-1 text-xs font-semibold text-primary"
+                  errors={[fieldState.error]}
+                />
+              )}
             </Field>
           )}
         />
@@ -104,81 +119,25 @@ function ContactForm() {
           name="email"
           control={form.control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-1 md:col-span-3">
-              <FieldLabel className="text-zinc-700 mb-1" htmlFor="email">Email Address *</FieldLabel>
+            <Field data-invalid={fieldState.invalid} className="gap-1">
+              <FieldLabel className="mb-1 text-zinc-700" htmlFor="email">
+                Email *
+              </FieldLabel>
               <Input
                 {...field}
                 id="email"
-                type="text"
+                type="email"
                 onChange={(e) => field.onChange(e.target.value)}
                 aria-invalid={fieldState.invalid}
-                placeholder="Enter your email address"
-                className="h-12 rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 placeholder:text-zinc-400text-sm w-full"
+                placeholder="you@company.com"
+                className="h-12 w-full rounded-xl border border-zinc-300 bg-white px-4 text-sm text-zinc-900 shadow-xs outline-none placeholder:text-zinc-400 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
               />
-              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-
-        <Controller
-          name="phone"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-1 md:col-span-3">
-              <FieldLabel className="text-zinc-700 mb-1" htmlFor="phone">Phone Number</FieldLabel>
-              <Input
-                {...field}
-                id="phone"
-                type="text"
-                onChange={(e) => field.onChange(e.target.value)}
-                aria-invalid={fieldState.invalid}
-                placeholder="Enter your phone number"
-                className="h-12 rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 placeholder:text-zinc-400text-sm w-full"
-              />
-              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-
-        <Controller
-          name="company-name"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-1 md:col-span-3">
-              <FieldLabel className="text-zinc-700 mb-1" htmlFor="company-name">Company Name</FieldLabel>
-              <Input
-                {...field}
-                id="company-name"
-                type="text"
-                onChange={(e) => field.onChange(e.target.value)}
-                aria-invalid={fieldState.invalid}
-                placeholder="Enter your company name"
-                className="h-12 rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 placeholder:text-zinc-400text-sm w-full"
-              />
-              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-
-        <Controller
-          name="enquiry-type"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-1 col-span-full">
-              <FieldLabel className="text-zinc-700 mb-1" htmlFor="enquiry-type">Enquiry Type *</FieldLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger className="h-12! w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900shadow-xs text-sm">
-                  <SelectValue placeholder="Select the nature of your enquiry" />
-                </SelectTrigger>
-                <SelectContent>
-                  {enquiryOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
+              {fieldState.invalid && (
+                <FieldError
+                  className="mt-1 text-xs font-semibold text-primary"
+                  errors={[fieldState.error]}
+                />
+              )}
             </Field>
           )}
         />
@@ -187,29 +146,41 @@ function ContactForm() {
           name="message"
           control={form.control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="gap-1 col-span-full">
-              <FieldLabel className="text-zinc-700 mb-1" htmlFor="message">Message</FieldLabel>
+            <Field data-invalid={fieldState.invalid} className="gap-1">
+              <FieldLabel className="mb-1 text-zinc-700" htmlFor="message">
+                Message *
+              </FieldLabel>
               <Textarea
                 {...field}
                 aria-invalid={fieldState.invalid}
                 id="message"
-                placeholder="Tell us about your compliance requirements, training needs, or any questions you have...."
-                className="min-h-[140px] rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 placeholder:text-zinc-400shadow-xs text-sm resize-none w-full"
+                placeholder="How can we help?"
+                className="min-h-[120px] w-full resize-none rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 shadow-xs placeholder:text-zinc-400 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
               />
-              {fieldState.invalid && <FieldError className="text-xs text-primary font-semibold mt-1" errors={[fieldState.error]} />}
+              {fieldState.invalid && (
+                <FieldError
+                  className="mt-1 text-xs font-semibold text-primary"
+                  errors={[fieldState.error]}
+                />
+              )}
             </Field>
           )}
         />
       </FieldGroup>
 
-      <div className="flex justify-end items-center w-full mt-4">
-        <Button 
+      <div className="flex w-full flex-col items-end gap-2">
+        {form.formState.errors.root ? (
+          <p className="w-full text-sm text-primary">
+            {form.formState.errors.root.message}
+          </p>
+        ) : null}
+        <Button
           type="submit"
           disabled={isSubmitting}
           showArrow={!isSubmitting}
           className="w-full sm:w-auto"
         >
-          {isSubmitting ? "Submitting..." : "Submit Request"}
+          {isSubmitting ? "Sending..." : "Send Enquiry"}
         </Button>
       </div>
     </form>

@@ -2,56 +2,74 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { Bot, Coins, Landmark, Sparkles } from "lucide-react";
 import SectionAmbient from "@/components/ui/SectionAmbient";
+import CmsIcon from "@/components/ui/CmsIcon"
+import SectionDescription from "@/components/ui/SectionDescription";
+import CardGridLayout from "@/components/ui/CardGridLayout";
+import { SectionReveal, ScrollReveal } from "@/components/ui/scroll-reveal";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
   { ssr: false }
 );
 
-import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
-
-const offerings = [
+const DEFAULT_ITEMS = [
   {
     title: "EX-AI Bot",
+    anchorId: "ex-ai-bot",
     tag: "Autonomous AI trading intelligence",
     description:
       "AI powered trading bots that analyse market signals and execute strategies with defined risk parameters — operating around the clock.",
-    icon: Bot,
+    icon: "bot",
     image: "/ai-investment.webp",
   },
   {
     title: "Neyro",
+    anchorId: "neyro",
     tag: "Neural network investment tools",
     description:
       "Pattern recognition and allocation tools designed to support smarter portfolio decisions across volatile markets.",
-    icon: Sparkles,
+    icon: "sparkles",
     image: "/hero-new.webp",
   },
   {
     title: "Gold (XAU) Packages",
+    anchorId: "gold-xau-packages",
     tag: "Gold-backed digital investment",
     description:
       "Investment packages that combine digital access with the stability and inflation protection of gold exposure.",
-    icon: Coins,
+    icon: "coins",
     image: "/aurum/aurum.webp",
   },
   {
     title: "Web3 NeoBank",
+    anchorId: "web3-neobank",
     tag: "Fiat & crypto in one hub",
     description:
       "Manage fiat and crypto, execute payments, and access liquidity from a single secure Web3 financial environment.",
-    icon: Landmark,
+    icon: "landmark",
     image: "/aurum/aurum-2.webp",
   },
 ];
 
-function OfferingCard({ offering, index }) {
-  const Icon = offering.icon;
+const DEFAULTS = {
+  eyebrow: "Core Offerings",
+  heading: "The Building Blocks of the Aurum Ecosystem",
+  description:
+    "Four integrated products at the intersection of decentralised finance and traditional wealth management — designed to work together in one platform.",
+  layout: "grid",
+  columns: 4,
+  items: DEFAULT_ITEMS,
+  cta: null,
+  sectionId: "core-offerings",
+};
 
+function OfferingCard({ offering, index }) {
   return (
-    <article className="group relative min-h-[320px] overflow-hidden rounded-2xl border border-zinc-200/80 shadow-[0_22px_70px_rgba(13,13,20,0.1)] transition duration-500 hover:-translate-y-1.5 hover:border-primary/30 hover:shadow-[0_32px_90px_rgba(232,24,90,0.18)] sm:min-h-[400px]">
+    <article
+      id={offering.anchorId || offering.id || undefined}
+      className="group relative min-h-[320px] scroll-mt-28 overflow-hidden rounded-2xl border border-zinc-200/80 shadow-[0_22px_70px_rgba(13,13,20,0.1)] transition duration-500 hover:-translate-y-1.5 hover:border-primary/30 hover:shadow-[0_32px_90px_rgba(232,24,90,0.18)] sm:min-h-[400px]"
+    >
       <Image
         src={offering.image}
         alt={offering.title}
@@ -71,7 +89,10 @@ function OfferingCard({ offering, index }) {
 
       <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-5 md:p-6">
         <div className="flex size-12 items-center justify-center rounded-xl border border-white/20 bg-white/10 backdrop-blur-md transition duration-300 group-hover:border-primary/40 group-hover:bg-primary/90">
-          <Icon
+          <CmsIcon
+            lucide={offering.lucide || offering.icon}
+            src={offering.src}
+            alt={offering.alt}
             className="size-5 text-white transition duration-300 group-hover:scale-105"
             strokeWidth={1.75}
           />
@@ -100,10 +121,28 @@ function OfferingCard({ offering, index }) {
   );
 }
 
-export default function AurumCoreOfferings() {
+export default function AurumCoreOfferings({
+  eyebrow = DEFAULTS.eyebrow,
+  heading = DEFAULTS.heading,
+  description = DEFAULTS.description,
+  layout = DEFAULTS.layout,
+  columns = DEFAULTS.columns,
+  items = DEFAULT_ITEMS,
+  cta = DEFAULTS.cta,
+  ctaLabel,
+  ctaHref,
+  sectionId = DEFAULTS.sectionId,
+}) {
+  const gridColsClass =
+    columns === 2
+      ? "sm:grid-cols-2"
+      : columns === 3
+        ? "sm:grid-cols-2 lg:grid-cols-3"
+        : "sm:grid-cols-2 lg:grid-cols-4";
+
   return (
     <SectionReveal
-      id="core-offerings"
+      id={sectionId || undefined}
       className="section-light relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-12 md:py-16"
       aria-labelledby="aurum-offerings-heading"
     >
@@ -112,29 +151,26 @@ export default function AurumCoreOfferings() {
       <div className="container relative z-10">
         <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center md:mb-9">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-            Core Offerings
+            {eyebrow}
           </p>
           <h2
           >
-            The Building Blocks of the Aurum Ecosystem
+            {heading}
           </h2>
-          <p className="text-body mt-4 text-zinc-600">
-            Four integrated products at the intersection of decentralised finance
-            and traditional wealth management — designed to work together in one
-            platform.
-          </p>
+          <SectionDescription content={description} className="text-body mt-4 text-zinc-600" />
         </ScrollReveal>
 
-        <StaggerContainer
-          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6"
+        <CardGridLayout
+          items={items}
+          layout={layout}
+          gridClassName={`gap-5 lg:gap-6 ${gridColsClass}`}
           staggerChildren={0.07}
-        >
-          {offerings.map((offering, index) => (
-            <StaggerItem key={offering.title}>
-              <OfferingCard offering={offering} index={index} />
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+          carouselMinHeight="360px"
+          carouselAriaLabel="Core offerings carousel"
+          renderCard={(offering, index) => (
+            <OfferingCard offering={offering} index={index} />
+          )}
+        />
       </div>
     </SectionReveal>
   );

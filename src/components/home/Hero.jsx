@@ -2,11 +2,10 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import HeroLeadPopup from "@/components/forms/HeroLeadPopup";
-import { Button } from "@/components/ui/button";
+import ActionButton from "@/components/ui/ActionButton";
 import {
   Carousel,
   CarouselContent,
@@ -14,14 +13,14 @@ import {
 } from "@/components/ui/carousel";
 import { homeHeroSlides } from "@/data/homeHeroSlides";
 import {
-  pageEnterHidden,
   pageEnterHiddenX,
-  pageEnterTransition,
+  pageEnterSpring,
   pageEnterVisible,
-  revealTransition,
-  revealDuration,
+  popHidden,
 } from "@/lib/motion-presets";
+import { useSlideMetrics } from "@/lib/use-slide-metrics";
 import { cn } from "@/lib/utils";
+import { heroHeadingClass } from "@/lib/heroTypography";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
@@ -31,21 +30,19 @@ const ParticleNetwork = dynamic(
 const navBtnClass =
   "flex size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-foreground shadow-[0_8px_28px_rgba(13,13,20,0.1)] transition hover:scale-105 hover:border-primary/30 sm:size-12";
 
-const slideHeadingClass =
-  "max-w-xl font-heading font-semibold tracking-tight text-foreground lg:max-w-2xl text-[38px]! leading-[1.15]! md:text-6xl! lg:text-[68px]!";
+const slideHeadingClass = heroHeadingClass;
 
-const childReveal = {
-  hidden: { opacity: 0, y: 22, filter: "blur(5px)" },
-  visible: (delay = 0) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: revealTransition(revealDuration, delay),
-  }),
-};
-
-function HeroSlidePanel({ slide, index, isActive, openLeadPopup }) {
+function HeroSlidePanel({ slide, index, isActive, slideCount }) {
   const reduceMotion = useReducedMotion();
+  const { x: slideX } = useSlideMetrics();
+
+  const childReveal = {
+    hidden: popHidden(-slideX),
+    visible: (delay = 0) => ({
+      ...pageEnterVisible,
+      transition: pageEnterSpring(delay),
+    }),
+  };
   const [enterKey, setEnterKey] = useState(index === 0 ? 1 : 0);
   const Heading = index === 0 ? "h1" : "h2";
 
@@ -61,9 +58,9 @@ function HeroSlidePanel({ slide, index, isActive, openLeadPopup }) {
     <article
       className="relative w-full"
       aria-roledescription="slide"
-      aria-label={`${slide.tag} — slide ${index + 1} of ${homeHeroSlides.length}`}
+      aria-label={`${slide.tag} — slide ${index + 1} of ${slideCount}`}
     >
-      <div className="container grid min-h-[min(85svh,820px)] items-center gap-8 py-10 pb-20 sm:gap-10 sm:py-12 sm:pb-24 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14 lg:py-16 lg:pb-20">
+      <div className="container grid min-h-[min(calc(100svh-5.5rem),700px)] items-center gap-6 py-6 pb-14 sm:gap-8 sm:py-8 sm:pb-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-10 lg:py-8 lg:pb-14">
         <div className="relative z-10 flex flex-col items-start">
           <motion.div
             key={`eyebrow-${slide.id}-${enterKey}`}
@@ -98,7 +95,7 @@ function HeroSlidePanel({ slide, index, isActive, openLeadPopup }) {
             initial={shouldAnimate ? "hidden" : false}
             animate={shouldAnimate ? "visible" : false}
             variants={childReveal}
-            className="mt-5 max-w-lg text-sm leading-relaxed text-zinc-600 sm:mt-6 sm:text-base md:text-lg"
+            className="mt-5 max-w-lg text-sm leading-relaxed text-zinc-600 sm:mt-6 sm:text-sm md:text-base"
           >
             {slide.description}
           </motion.p>
@@ -109,37 +106,25 @@ function HeroSlidePanel({ slide, index, isActive, openLeadPopup }) {
             initial={shouldAnimate ? "hidden" : false}
             animate={shouldAnimate ? "visible" : false}
             variants={childReveal}
-            className="mt-8 w-full sm:mt-10"
+            className="mt-6 w-full sm:mt-8"
           >
-            {slide.opensConsultation ? (
-              <Button
-                type="button"
-                onClick={openLeadPopup}
-                glowingDot
-                showArrow
-                className="h-13 w-full px-8 text-base font-semibold shadow-[0_8px_30px_rgba(232,24,90,0.25)] sm:w-auto"
-              >
-                {slide.cta}
-              </Button>
-            ) : (
-              <Button
-                href={slide.href}
-                showArrow
-                glowingDot
-                className="h-13 w-full px-8 text-base font-semibold shadow-[0_8px_30px_rgba(232,24,90,0.25)] sm:w-auto"
-              >
-                {slide.cta}
-              </Button>
-            )}
+            {slide.cta ? (
+              <ActionButton
+                {...slide.cta}
+                glowingDot={slide.cta.glowingDot ?? true}
+                showArrow={slide.cta.showArrow ?? true}
+                className="w-full shadow-[0_8px_30px_rgba(232,24,90,0.25)] sm:w-auto"
+              />
+            ) : null}
           </motion.div>
         </div>
 
         <motion.div
           key={`image-${slide.id}-${enterKey}`}
           className="relative z-10 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-zinc-200/70 shadow-[0_24px_70px_rgba(13,13,20,0.1)] sm:aspect-[16/10] lg:aspect-[4/3]"
-          initial={shouldAnimate ? pageEnterHiddenX(36) : false}
+          initial={shouldAnimate ? pageEnterHiddenX(slideX) : false}
           animate={shouldAnimate ? pageEnterVisible : false}
-          transition={pageEnterTransition(0.14)}
+          transition={pageEnterSpring(0.12)}
         >
           <Image
             src={slide.image}
@@ -155,16 +140,10 @@ function HeroSlidePanel({ slide, index, isActive, openLeadPopup }) {
   );
 }
 
-export default function Hero() {
-  const [leadPopupOpen, setLeadPopupOpen] = useState(false);
-  const manualOpenRef = useRef(false);
+export default function Hero({ slides: slidesProp }) {
+  const slides = slidesProp?.length ? slidesProp : homeHeroSlides;
   const [api, setApi] = useState(null);
   const [current, setCurrent] = useState(0);
-
-  const openLeadPopup = () => {
-    manualOpenRef.current = true;
-    setLeadPopupOpen(true);
-  };
 
   const onSelect = useCallback(() => {
     if (!api) return;
@@ -230,25 +209,19 @@ export default function Hero() {
     >
       <ParticleNetwork variant="light" id="hero-particles" />
 
-      <HeroLeadPopup
-        open={leadPopupOpen}
-        onOpenChange={setLeadPopupOpen}
-        manualOpenRef={manualOpenRef}
-      />
-
       <Carousel
         setApi={setApi}
         opts={{ align: "start", loop: true, duration: 35 }}
         className="w-full"
       >
         <CarouselContent className="-ml-0">
-          {homeHeroSlides.map((slide, index) => (
+          {slides.map((slide, index) => (
             <CarouselItem key={slide.id} className="pl-0">
               <HeroSlidePanel
                 slide={slide}
                 index={index}
                 isActive={current === index}
-                openLeadPopup={openLeadPopup}
+                slideCount={slides.length}
               />
             </CarouselItem>
           ))}
@@ -256,9 +229,9 @@ export default function Hero() {
       </Carousel>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20">
-        <div className="container pointer-events-auto flex items-center justify-end gap-3 pb-6 sm:pb-8 md:pb-10">
+        <div className="container pointer-events-auto flex items-center justify-end gap-3 pb-4 sm:pb-5 md:pb-6">
           <div className="mr-auto flex items-center gap-2">
-            {homeHeroSlides.map((slide, index) => (
+            {slides.map((slide, index) => (
               <button
                 key={slide.id}
                 type="button"
@@ -277,7 +250,7 @@ export default function Hero() {
 
           <span className="text-xs font-medium tabular-nums text-zinc-500">
             {String(current + 1).padStart(2, "0")} /{" "}
-            {String(homeHeroSlides.length).padStart(2, "0")}
+            {String(slides.length).padStart(2, "0")}
           </span>
           <button
             type="button"

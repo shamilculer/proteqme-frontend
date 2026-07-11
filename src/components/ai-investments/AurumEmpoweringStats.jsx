@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import {
@@ -48,8 +49,8 @@ export default function AurumEmpoweringStats() {
           className="grid gap-px border border-[rgba(201,168,76,0.22)] bg-[rgba(201,168,76,0.22)] md:grid-cols-3"
           staggerChildren={0.06}
         >
-          {stats.map((stat) => (
-            <StaggerItem key={stat.label}>
+          {stats.map((stat, index) => (
+            <StaggerItem key={itemKey(stat, index)}>
               <article className="flex h-full flex-col bg-[var(--aurum-panel-elevated-alt)] p-7 md:p-8">
                 <p className="aurum-stat-value text-2xl md:text-3xl">
                   {stat.value}
@@ -65,7 +66,7 @@ export default function AurumEmpoweringStats() {
           ))}
         </StaggerContainer>
 
-        <ScrollReveal className="mt-10 flex flex-wrap items-center gap-3" yOffset={12}>
+        <ScrollReveal className="mt-10 flex flex-wrap items-center gap-3" direction="right">
           <Link href="/contact" className="btn-aurum">
             Request Investor Information
           </Link>

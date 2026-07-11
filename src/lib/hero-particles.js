@@ -251,6 +251,54 @@ export const lightParticleOptions = {
   },
 };
 
+/** Fewer, subtler particles for compact sections (CTA bands, register blocks). */
+export const sparseParticleOptions = {
+  ...heroParticleOptions,
+  particles: {
+    ...heroParticleOptions.particles,
+    number: {
+      value: 22,
+      density: {
+        enable: true,
+        width: 1600,
+        height: 480,
+      },
+    },
+    opacity: {
+      value: {
+        min: 0.2,
+        max: 0.38,
+      },
+      animation: {
+        enable: true,
+        speed: 0.25,
+        sync: false,
+        destroy: "none",
+        startValue: "random",
+      },
+    },
+    links: {
+      ...heroParticleOptions.particles.links,
+      distance: 130,
+      opacity: 0.18,
+      triangles: {
+        enable: false,
+      },
+    },
+  },
+  interactivity: {
+    ...heroParticleOptions.interactivity,
+    events: {
+      onHover: {
+        enable: false,
+      },
+      onClick: {
+        enable: false,
+      },
+    },
+  },
+};
+
 export async function initHeroParticles(engine) {
   await loadSlim(engine);
   await loadInteractivityPlugin(engine);

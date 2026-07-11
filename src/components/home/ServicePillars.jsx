@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey } from "@/lib/listKey";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -88,11 +89,11 @@ const ServicePillars = () => {
         </ScrollReveal>
 
         <StaggerContainer className="mx-auto grid max-w-7xl grid-cols-1 gap-5 lg:grid-cols-3 lg:gap-6">
-          {pillars.map((pillar) => {
+          {pillars.map((pillar, index) => {
             const Icon = pillar.icon;
             return (
               <StaggerItem
-                key={pillar.number}
+                key={itemKey(pillar, index, ["number", "title"])}
                 className={`group relative overflow-hidden rounded-2xl bg-proteq-dark ${pillar.gridClass}`}
               >
                 {/* Full-bleed background photography */}

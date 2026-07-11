@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 const pillars = [
@@ -31,9 +32,9 @@ export default function AurumEcosystemIntro() {
               </p>
 
               <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-                {pillars.map((item) => (
+                {pillars.map((item, index) => (
                   <li
-                    key={item}
+                    key={listKey(item, index)}
                     className="flex items-center gap-2.5 border border-[rgba(201,168,76,0.22)] bg-[rgba(201,168,76,0.06)] px-3 py-2.5 text-sm text-white/90"
                   >
                     <span className="size-1.5 shrink-0 bg-[var(--aurum-gold-on-dark)]" />

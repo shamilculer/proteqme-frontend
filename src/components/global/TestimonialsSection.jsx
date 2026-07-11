@@ -1,8 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import TestimonialAvatar from "@/components/global/TestimonialAvatar";
 import { SectionReveal, ScrollReveal } from "@/components/ui/scroll-reveal";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
+import SectionDescription from "@/components/ui/SectionDescription";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
@@ -12,12 +14,10 @@ const ParticleNetwork = dynamic(
 /**
  * @typedef {Object} Testimonial
  * @property {string} quote
- * @property {string} [attribution] - Role-based anonymized attribution
- * @property {string} [initials] - Initials for avatar circle
  * @property {string} [name]
  * @property {string} [role]
  * @property {string} [company]
- * @property {string} [avatar]
+ * @property {string|null} [avatar]
  */
 
 /**
@@ -49,8 +49,7 @@ export default function TestimonialsSection({
       )}
     >
       <ParticleNetwork variant="light" id="testimonials-particles" />
-      <div className="relative z-10 w-full">
-        <ScrollReveal className="mx-auto mb-8 px-4 text-center">
+      <div className="container relative z-10 mb-8 text-center">
           <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100 px-4 py-1.5 shadow-xs">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
@@ -65,12 +64,11 @@ export default function TestimonialsSection({
             {heading}
           </h2>
           {description && (
-            <p className="text-body mx-auto mt-4 max-w-2xl text-zinc-600">
-              {description}
-            </p>
+            <SectionDescription content={description} className="text-body mx-auto mt-4 max-w-2xl text-zinc-600" />
           )}
-        </ScrollReveal>
+      </div>
 
+      <ScrollReveal delay={0.12} direction="right" className="relative z-10 w-full">
         <div className="pause-marquee relative w-full overflow-hidden py-4">
           <div
             className={cn(
@@ -88,7 +86,7 @@ export default function TestimonialsSection({
           <div className="animate-marquee flex gap-6 [animation-duration:38s]">
             {marqueeItems.map((testimonial, idx) => (
               <div
-                key={`${testimonial.initials ?? testimonial.name}-${idx}`}
+                key={`${testimonial.name ?? testimonial.role ?? "testimonial"}-${idx}`}
                 className="group flex w-[380px] shrink-0 flex-col justify-between rounded-[24px] border border-zinc-200/60 bg-white p-6 shadow-xs transition-all duration-300 hover:scale-[1.01] hover:border-primary/40 hover:shadow-[0_12px_32px_rgba(232,24,90,0.06)] md:w-[420px] md:p-8"
               >
                 <div className="mb-6">
@@ -102,43 +100,16 @@ export default function TestimonialsSection({
                   </svg>
                 </div>
 
-                <p className="font-serif-quote mb-8 grow text-body text-zinc-600">
+                <p className="mb-8 grow text-body leading-relaxed text-zinc-600">
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
 
-                <div className="flex items-center gap-4 border-t border-zinc-100 pt-4">
-                  {testimonial.attribution ? (
-                    <>
-                      <div
-                        className="icon-ghost-pink flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-bold text-primary"
-                        aria-hidden
-                      >
-                        {testimonial.initials}
-                      </div>
-                      <p className="text-sm font-medium leading-snug text-foreground">
-                        {testimonial.attribution}
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <div className="relative size-11 shrink-0 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100" />
-                      <div>
-                        <h4 className="text-sm font-bold tracking-tight text-foreground">
-                          {testimonial.name}
-                        </h4>
-                        <p className="text-xs font-medium text-zinc-500">
-                          {testimonial.role}
-                          {testimonial.company ? ` at ${testimonial.company}` : ""}
-                        </p>
-                      </div>
-                    </>
-                  )}
-                </div>
+                <TestimonialAvatar testimonial={testimonial} />
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </ScrollReveal>
     </SectionReveal>
   );
 }

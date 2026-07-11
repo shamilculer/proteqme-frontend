@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey } from "@/lib/listKey";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Button } from "../ui/button";
@@ -69,7 +70,7 @@ const HowItWorks = () => {
         >
           <div className="grid divide-y divide-zinc-200/80 lg:grid-cols-3 lg:divide-x lg:divide-y-0">
             {steps.map((step, index) => (
-              <StaggerItem key={step.number} role="listitem">
+              <StaggerItem key={itemKey(step, index)} role="listitem">
                 <ProcessStep step={step} isLast={index === steps.length - 1} />
               </StaggerItem>
             ))}
@@ -81,7 +82,7 @@ const HowItWorks = () => {
             href="/contact"
             glowingDot
             showArrow
-            className="h-14 w-full px-8 text-base font-semibold sm:w-auto"
+            className="w-full px-8 sm:w-auto"
           >
             Book a Free Consultation
           </Button>
@@ -89,7 +90,7 @@ const HowItWorks = () => {
             href="#services"
             variant="white"
             showArrow
-            className="h-14 w-full border border-zinc-300 px-8 text-base font-semibold sm:w-auto"
+            className="w-full border border-zinc-300 px-8 sm:w-auto"
           >
             View Our Services
           </Button>

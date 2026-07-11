@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey } from "@/lib/listKey";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useReducedMotion } from "motion/react";
@@ -11,7 +12,8 @@ const ParticleNetwork = dynamic(
   { ssr: false }
 );
 import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
+import SectionDescription from "@/components/ui/SectionDescription";
 import {
   OFFICE_ADDRESS,
   OFFICE_MAP_URL,
@@ -54,29 +56,43 @@ const contactInfo = [
   },
 ];
 
-export default function ContactMainSection() {
+const DEFAULTS = {
+  eyebrow: "Let\u2019s Talk",
+  heading: "Speak With Our Experts",
+  description:
+    "Whether you need compliance advisory, professional learning, RegTech systems, or AI investment guidance — we are here to help.",
+  sectionId: "contact-main",
+};
+
+export default function ContactMainSection({
+  eyebrow = DEFAULTS.eyebrow,
+  heading = DEFAULTS.heading,
+  description = DEFAULTS.description,
+  sectionId = DEFAULTS.sectionId,
+}) {
   const reduceMotion = useReducedMotion();
+  const particleId = sectionId ? `${sectionId}-particles` : "contact-main-particles";
 
   return (
-    <SectionReveal className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28">
+    <SectionReveal
+      id={sectionId}
+      className="section-light-white relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-20 md:py-28"
+    >
       <SectionAmbient variant="light" />
-      <ParticleNetwork id="contact-main-particles" variant="light" />
+      <ParticleNetwork id={particleId} variant="light" />
       <div className="container relative z-10">
         <div className="mb-12 flex flex-col gap-6 md:mb-14 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-              Let&apos;s Talk
+              {eyebrow}
             </p>
             <h2 className="section-heading-accent text-section-heading max-w-xl text-foreground">
-              Speak With Our Compliance Experts
+              {heading}
             </h2>
           </ScrollReveal>
 
           <ScrollReveal xOffset={12} className="max-w-lg">
-            <p className="text-body text-zinc-600">
-              Whether you need compliance guidance, want to explore training
-              options, or are evaluating systems, we are here to help.
-            </p>
+            <SectionDescription content={description} className="text-body text-zinc-600" />
           </ScrollReveal>
         </div>
 
@@ -86,7 +102,7 @@ export default function ContactMainSection() {
               const Icon = item.icon;
 
               return (
-                <StaggerItem key={item.id}>
+                <StaggerItem key={itemKey(item, index)}>
                   <div
                     className={cn(
                       "rounded-2xl p-[1.5px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_50px_rgba(232,24,90,0.15)]",
@@ -132,7 +148,7 @@ export default function ContactMainSection() {
           </StaggerContainer>
 
           <ScrollReveal
-            yOffset={16}
+            direction="right"
             className="min-w-0 w-full lg:sticky lg:top-24 lg:self-start"
           >
             <ContactForm />

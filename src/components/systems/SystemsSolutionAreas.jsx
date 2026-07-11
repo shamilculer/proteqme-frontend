@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import {
@@ -90,7 +91,7 @@ export default function SystemsSolutionAreas() {
           {solutionAreas.map((solution, index) => {
             const Icon = solution.icon;
             return (
-              <StaggerItem key={solution.title}>
+              <StaggerItem key={itemKey(solution, index)}>
                 <article className="group relative min-h-[360px] overflow-hidden rounded-xl border border-zinc-200/80 bg-[#0D0D14] shadow-[0_18px_55px_rgba(13,13,20,0.08)]">
                   <Image
                     src={solution.image}

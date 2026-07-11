@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
@@ -163,10 +164,10 @@ export default function ServicesSlider() {
             className="w-full"
           >
             <CarouselContent className="-ml-0">
-              {services.map((service) => {
+              {services.map((service, index) => {
                 const Icon = service.icon;
                 return (
-                  <CarouselItem key={service.title} className="pl-0">
+                  <CarouselItem key={itemKey(service, index)} className="pl-0">
                     <article className="group overflow-hidden rounded-2xl border border-zinc-200/80 bg-zinc-100 shadow-[0_24px_60px_rgba(17,24,39,0.06),0_0_0_1px_rgba(17,24,39,0.02)] transition-transform duration-500 md:grid md:h-[480px] md:min-h-[480px] md:grid-cols-[1.05fr_1fr] lg:h-[520px]">
                       <div className="relative flex flex-col justify-between p-7 sm:p-10 lg:p-12">
                         <span
@@ -200,7 +201,7 @@ export default function ServicesSlider() {
                         <div className="relative z-10 mt-8 flex flex-col gap-3 border-t border-zinc-200 pt-6 sm:flex-row sm:flex-wrap sm:items-center">
                           <Link
                             href={service.href}
-                            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02] hover:shadow-[0_8px_30px_rgba(232,24,90,0.35)] sm:w-auto"
+                            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-lg font-medium tracking-wide text-white transition hover:scale-[1.02] hover:shadow-[0_8px_30px_rgba(232,24,90,0.35)] sm:w-auto"
                           >
                             {service.cta}
                             <ArrowRight className="size-4" />
@@ -208,7 +209,7 @@ export default function ServicesSlider() {
 
                           <Link
                             href={service.href}
-                            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-proteq-dark transition hover:bg-zinc-50 sm:w-auto"
+                            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-zinc-300 bg-white px-5 text-lg font-medium tracking-wide text-proteq-dark transition hover:bg-zinc-50 sm:w-auto"
                           >
                             Learn more
                             <ArrowRight className="size-4" />
@@ -254,7 +255,7 @@ export default function ServicesSlider() {
         <div className="mt-8 flex items-center justify-center gap-2">
           {services.map((service, index) => (
             <button
-              key={service.number}
+              key={itemKey(service, index, ["number", "title"])}
               type="button"
               onClick={() => api?.scrollTo(index)}
               aria-label={`Go to ${service.title}`}

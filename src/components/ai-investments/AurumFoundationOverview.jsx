@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import { useEffect, useRef, useState } from "react";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import AurumVideoPlayer from "./AurumVideoPlayer";
@@ -67,6 +68,13 @@ export default function AurumFoundationOverview() {
       <div className="container relative z-10">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <ScrollReveal xOffset={-12}>
+            <AurumVideoPlayer
+              videoId="uKgSgGClewc"
+              playLabel="Play AURUM Foundation video"
+            />
+          </ScrollReveal>
+
+          <ScrollReveal xOffset={12}>
             <p className="aurum-section-label">Platform Scale</p>
 
             <h2 className="text-section-heading text-white">
@@ -82,7 +90,7 @@ export default function AurumFoundationOverview() {
             <div className="mt-8 space-y-3 md:mt-10 md:space-y-4">
               {statBars.map((bar, index) => (
                 <AnimatedStatBar
-                  key={bar.label}
+                  key={itemKey(bar, index)}
                   label={bar.label}
                   targetWidth={bar.width}
                   delay={index * 180}
@@ -90,13 +98,6 @@ export default function AurumFoundationOverview() {
                 />
               ))}
             </div>
-          </ScrollReveal>
-
-          <ScrollReveal xOffset={12}>
-            <AurumVideoPlayer
-              videoId="uKgSgGClewc"
-              playLabel="Play AURUM Foundation video"
-            />
           </ScrollReveal>
         </div>
       </div>

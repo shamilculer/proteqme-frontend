@@ -36,10 +36,20 @@ function DialogOverlay({ className, ...props }) {
   );
 }
 
+function isPhoneCountryMenuTarget(target) {
+  return (
+    target instanceof Element &&
+    Boolean(target.closest("[data-phone-country-menu]"))
+  );
+}
+
 function DialogContent({
   className,
   children,
   showCloseButton = true,
+  onPointerDownOutside,
+  onInteractOutside,
+  onFocusOutside,
   ...props
 }) {
   return (
@@ -48,10 +58,26 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl border border-border bg-background p-0 text-sm shadow-lg duration-200 outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 overflow-visible rounded-xl border border-border bg-background p-0 text-sm shadow-lg duration-200 outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
           className
         )}
         {...props}
+        onPointerDownOutside={(event) => {
+          if (isPhoneCountryMenuTarget(event.target)) {
+            event.preventDefault();
+          }
+          onPointerDownOutside?.(event);
+        }}
+        onInteractOutside={(event) => {
+          if (isPhoneCountryMenuTarget(event.target)) {
+            event.preventDefault();
+          }
+          onInteractOutside?.(event);
+        }}
+        onFocusOutside={(event) => {
+          // Allow focus into inline country search; do not preventDefault.
+          onFocusOutside?.(event);
+        }}
       >
         {children}
         {showCloseButton ? (

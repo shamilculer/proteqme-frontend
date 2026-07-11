@@ -1,19 +1,25 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import ActionButton from "@/components/ui/ActionButton";
+import { cn } from "@/lib/utils"
+import { heroHeadingClass } from "@/lib/heroTypography";
+import SectionDescription from "@/components/ui/SectionDescription";
 import {
   pageEnterHidden,
   pageEnterHiddenX,
-  pageEnterTransition,
+  pageEnterSpring,
   pageEnterVisible,
+  popHidden,
 } from "@/lib/motion-presets";
+import { useSlideMetrics } from "@/lib/use-slide-metrics";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
@@ -54,6 +60,42 @@ const mapButtonForLightHero = (button) => {
   return { ...button, variant };
 };
 
+const highlightPillClass =
+  "flex max-w-full items-center gap-2 rounded-full border border-zinc-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-zinc-700 shadow-xs sm:gap-2.5 sm:px-3.5 sm:py-2 sm:text-xs md:text-sm";
+
+function HeroHighlightPill({ highlight }) {
+  const text = typeof highlight === "string" ? highlight : highlight?.text;
+  const href = typeof highlight === "string" ? null : highlight?.href;
+
+  if (!text) return null;
+
+  const content = (
+    <>
+      <CheckCircle2 className="size-3 shrink-0 text-primary sm:size-3.5" />
+      <span className="leading-snug">{text}</span>
+    </>
+  );
+
+  if (href) {
+    const isExternal = /^https?:\/\//i.test(href);
+
+    return (
+      <Link
+        href={href}
+        className={cn(
+          highlightPillClass,
+          "transition hover:border-primary/40 hover:bg-zinc-50 hover:shadow-sm",
+        )}
+        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return <div className={highlightPillClass}>{content}</div>;
+}
+
 const MediumHero = ({
   eyebrow = "Service Expertise",
   heading = "Practical Compliance Support for Modern Risk Teams",
@@ -70,6 +112,7 @@ const MediumHero = ({
 }) => {
   const heroRef = useRef(null);
   const reduceMotion = useReducedMotion();
+  const { x: slideX } = useSlideMetrics();
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -90,12 +133,12 @@ const MediumHero = ({
         <ParticleNetwork variant="light" id={particleId} />
       ) : null}
 
-      <div className="container relative z-10 grid items-center gap-10 py-14 sm:py-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14 lg:py-20 xl:gap-16">
+      <div className="container relative z-10 grid items-center gap-8 py-10 sm:py-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-10 lg:py-14 xl:gap-12">
         <motion.div
           className="flex flex-col items-start"
-          initial={reduceMotion ? false : pageEnterHidden}
+          initial={reduceMotion ? false : pageEnterHidden(slideX)}
           animate={pageEnterVisible}
-          transition={pageEnterTransition(0.1)}
+          transition={pageEnterSpring(0.08)}
         >
           {eyebrow ? (
             <div className="mb-5 inline-flex max-w-full items-center gap-2.5 rounded-full border border-zinc-200/80 bg-zinc-50 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] md:mb-6">
@@ -109,34 +152,22 @@ const MediumHero = ({
             </div>
           ) : null}
 
-          <h1 className="mb-4 max-w-none text-[1.75rem] font-bold leading-[1.18] tracking-tight text-foreground sm:text-[2.25rem] md:mb-5 md:text-5xl md:leading-[1.12] lg:text-[54px]">
+          <h1 className={cn("mb-4 md:mb-5", heroHeadingClass)}>
             {heading}
           </h1>
 
           {description ? (
-            <p className="mb-7 max-w-xl text-sm leading-relaxed text-zinc-600 sm:mb-8 sm:text-base md:text-lg">
-              {description}
-            </p>
+            <SectionDescription content={description} className="mb-7 max-w-xl text-sm leading-relaxed text-zinc-600 sm:mb-8 sm:text-sm md:text-base" />
           ) : null}
 
           {mappedButtons?.length ? (
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-2.5 md:gap-4">
-              {mappedButtons.map((button) => (
-                <Button
-                  key={button.label}
-                  href={button.href}
-                  variant={button.variant}
-                  glowingDot={button.glowingDot}
-                  showArrow={button.showArrow}
-                  arrowDirection={button.arrowDirection}
-                  icon={button.icon}
-                  iconPosition={button.iconPosition}
-                  target={button.target}
-                  rel={button.rel}
+              {mappedButtons.map((button, index) => (
+                <ActionButton
+                  key={listKey(button.label ?? button.href ?? button.popupSlug, index, "button")}
+                  {...button}
                   className={cn("w-full sm:w-auto", button.className)}
-                >
-                  {button.label}
-                </Button>
+                />
               ))}
             </div>
           ) : null}
@@ -144,32 +175,32 @@ const MediumHero = ({
           {highlights?.length ? (
             <motion.div
               className="mt-7 flex w-full flex-wrap gap-2 sm:mt-8 md:gap-3"
-              initial={reduceMotion ? false : { ...pageEnterHidden, y: 28 }}
+              initial={reduceMotion ? false : popHidden(-slideX * 0.55)}
               animate={pageEnterVisible}
-              transition={pageEnterTransition(0.45)}
+              transition={pageEnterSpring(0.42)}
             >
-              {highlights.map((highlight) => (
-                <div
-                  key={highlight}
-                  className="flex max-w-full items-center gap-2 rounded-full border border-zinc-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-zinc-700 shadow-xs sm:gap-2.5 sm:px-3.5 sm:py-2 sm:text-xs md:text-sm"
-                >
-                  <CheckCircle2 className="size-3 shrink-0 text-primary sm:size-3.5" />
-                  <span className="leading-snug">{highlight}</span>
-                </div>
+              {highlights.map((highlight, index) => (
+                <HeroHighlightPill
+                  key={listKey(
+                    typeof highlight === "string" ? highlight : highlight?.text,
+                    index,
+                  )}
+                  highlight={highlight}
+                />
               ))}
             </motion.div>
           ) : null}
         </motion.div>
 
         <motion.div
-          initial={reduceMotion ? false : pageEnterHiddenX(32)}
+          initial={reduceMotion ? false : pageEnterHiddenX(slideX)}
           animate={pageEnterVisible}
-          transition={pageEnterTransition(reduceMotion ? 0 : 0.25)}
+          transition={pageEnterSpring(reduceMotion ? 0 : 0.22)}
           className="relative w-full"
         >
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-zinc-200/70 shadow-[0_24px_70px_rgba(13,13,20,0.1)] sm:aspect-[16/10] lg:aspect-[4/3]">
             <motion.div
-              className="absolute -inset-y-[6%] inset-x-0"
+              className="absolute -inset-y-[10%] inset-x-0"
               style={reduceMotion ? undefined : { y: imageY }}
             >
               <Image

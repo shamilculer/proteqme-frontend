@@ -2,14 +2,15 @@
 
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { SectionReveal, ScrollReveal } from "../ui/scroll-reveal";
+import { SectionReveal, ScrollReveal } from "../ui/scroll-reveal"
+import SectionDescription from "@/components/ui/SectionDescription";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
   { ssr: false }
 );
 
-const partners = [
+const defaultPartners = [
   {
     name: "OSL",
     website: "https://osl.com",
@@ -55,12 +56,18 @@ function PartnerLogo({ partner }) {
   );
 }
 
-const Partners = () => {
-  const marqueeItems = [...partners, ...partners, ...partners];
+const Partners = ({
+  partners: partnersProp,
+  eyebrow = "Partners",
+  heading = "Strategic Partners",
+  description = "We collaborate with leading RegTech and digital asset platforms to extend screening, monitoring, and identity capability — connecting advisory insight with proven technology partners.",
+}) => {
+  const items = partnersProp?.length ? partnersProp : defaultPartners;
+  const marqueeItems = [...items, ...items, ...items];
 
   return (
     <SectionReveal
-      className="section-light-white relative isolate w-full overflow-hidden py-16 md:py-24"
+      className="section-light relative isolate w-full overflow-hidden border-t border-zinc-200/70 py-16 md:py-24"
       aria-labelledby="partners-heading"
     >
       <ParticleNetwork variant="light" id="partners-particles" />
@@ -68,29 +75,25 @@ const Partners = () => {
         <div className="mb-12 flex flex-col gap-6 md:mb-14 lg:flex-row lg:items-end lg:justify-between">
           <ScrollReveal>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-              Partners
+              {eyebrow}
             </p>
             <h2 id="partners-heading" className="text-section-heading text-foreground">
-            Strategic Partners
+              {heading}
             </h2>
           </ScrollReveal>
 
           <ScrollReveal xOffset={12} className="max-w-lg">
-            <p className=" text-zinc-600">
-              We collaborate with leading RegTech and digital asset platforms to
-              extend screening, monitoring, and identity capability — connecting
-              advisory insight with proven technology partners.
-            </p>
+            <SectionDescription content={description} className="text-zinc-600" />
           </ScrollReveal>
         </div>
 
         <div className="pause-marquee relative overflow-hidden py-2">
           <div
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-linear-to-r from-white to-transparent md:w-20"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-linear-to-r from-slate-white to-transparent md:w-20"
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-linear-to-l from-white to-transparent md:w-20"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-linear-to-l from-slate-white to-transparent md:w-20"
             aria-hidden
           />
           <div className="animate-marquee flex w-max items-center md:[animation-duration:55s]">

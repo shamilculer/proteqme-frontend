@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import { BadgeCheck, Building2, Scale, ShieldCheck } from "lucide-react";
 import {
   ScrollReveal,
@@ -53,10 +54,10 @@ export default function AurumRegulatoryCompliance() {
           className="grid grid-cols-1 gap-px border border-[rgba(201,168,76,0.22)] bg-[rgba(201,168,76,0.22)] md:grid-cols-2"
           staggerChildren={0.06}
         >
-          {compliancePoints.map((point) => {
+          {compliancePoints.map((point, index) => {
             const Icon = point.icon;
             return (
-              <StaggerItem key={point.title}>
+              <StaggerItem key={itemKey(point, index)}>
                 <article className="flex h-full flex-col bg-[var(--aurum-panel-elevated-alt)] p-7">
                   <div className="mb-4 flex size-9 items-center justify-center border border-[rgba(201,168,76,0.3)] bg-[rgba(201,168,76,0.08)]">
                     <Icon

@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import {
   Accordion,
   AccordionContent,
@@ -28,7 +29,7 @@ export default function AurumFAQ() {
           >
             {aurumFaqs.map((faq, index) => (
               <AccordionItem
-                key={faq.question}
+                key={itemKey(faq, index, ["question", "title"])}
                 value={`faq-${index}`}
                 className="border-b border-zinc-200 last:border-b-0"
               >

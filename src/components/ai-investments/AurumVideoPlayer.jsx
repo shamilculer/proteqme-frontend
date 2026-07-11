@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Play } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  YOUTUBE_THUMBNAIL_QUALITIES,
+  getYouTubeThumbnailUrl,
+  getYouTubeWatchUrl,
+  parseYouTubeVideoId,
+} from "@/lib/youtube";
 
 const ReactPlayer = dynamic(() => import("react-player/youtube"), {
   ssr: false,
@@ -16,13 +22,41 @@ export const AURUM_VIDEO_IDS = {
   platform: "iSDJ68Z-8sU",
 };
 
+function YouTubeThumbnail({ videoId, className }) {
+  const [qualityIndex, setQualityIndex] = useState(0);
+
+  const thumbnailSrc = useMemo(() => {
+    const quality = YOUTUBE_THUMBNAIL_QUALITIES[qualityIndex];
+    return getYouTubeThumbnailUrl(videoId, quality);
+  }, [videoId, qualityIndex]);
+
+  if (!thumbnailSrc) return null;
+
+  return (
+    <Image
+      src={thumbnailSrc}
+      alt=""
+      fill
+      className={className}
+      sizes="(min-width: 1024px) 45vw, 100vw"
+      unoptimized
+      onError={() => {
+        setQualityIndex((current) =>
+          current < YOUTUBE_THUMBNAIL_QUALITIES.length - 1 ? current + 1 : current
+        );
+      }}
+    />
+  );
+}
+
 export default function AurumVideoPlayer({
   videoId = AURUM_VIDEO_IDS.overview,
   className,
   playLabel = "Play video",
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
+  const resolvedVideoId = parseYouTubeVideoId(videoId) || AURUM_VIDEO_IDS.overview;
+  const youtubeUrl = getYouTubeWatchUrl(resolvedVideoId);
 
   return (
     <div
@@ -38,15 +72,11 @@ export default function AurumVideoPlayer({
           className="group absolute inset-0 flex w-full items-center justify-center"
           aria-label={playLabel}
         >
-          <Image
-            src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-            alt=""
-            fill
+          <YouTubeThumbnail
+            videoId={resolvedVideoId}
             className="object-cover transition duration-500 group-hover:scale-[1.02]"
-            sizes="(min-width: 1024px) 45vw, 100vw"
-            unoptimized
           />
-          <div className="absolute inset-0 bg-[rgba(35,17,67,0.55)] transition group-hover:bg-[rgba(35,17,67,0.65)]" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/55 via-[#231143]/25 to-black/15 transition group-hover:from-black/60 group-hover:via-[#231143]/35" />
 
           <span className="relative z-10 flex size-14 items-center justify-center rounded-full border border-white/35 bg-white/15 text-white shadow-[0_8px_30px_rgba(35,17,67,0.25)] transition group-hover:scale-105 group-hover:bg-primary group-hover:border-primary">
             <Play className="ml-0.5 size-6 fill-white" aria-hidden />

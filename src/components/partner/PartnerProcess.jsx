@@ -1,8 +1,10 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import dynamic from "next/dynamic";
 import SectionAmbient from "@/components/ui/SectionAmbient";
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { ScrollReveal } from "@/components/ui/scroll-reveal"
+import SectionDescription from "@/components/ui/SectionDescription";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
@@ -64,7 +66,7 @@ export default function PartnerProcess() {
               <ol className="relative divide-y divide-zinc-100">
                 {steps.map((step, index) => (
                   <li
-                    key={step.title}
+                    key={itemKey(step, index)}
                     className="grid gap-4 py-6 first:pt-0 last:pb-0 md:grid-cols-[3.5rem_1fr]"
                   >
                     <span className="flex size-12 items-center justify-center rounded-full border border-zinc-200 bg-zinc-50 text-sm font-semibold tabular-nums text-zinc-500">

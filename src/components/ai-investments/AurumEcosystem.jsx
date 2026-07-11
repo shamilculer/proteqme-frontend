@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
@@ -74,9 +75,9 @@ function PlatformCard({
         <p className="text-sm leading-relaxed text-zinc-600">{description}</p>
 
         <ul className="mt-5 flex-1 space-y-2.5 border-t border-zinc-200/80 pt-5">
-          {highlights.map((item) => (
+          {highlights.map((item, index) => (
             <li
-              key={item}
+              key={listKey(item, index)}
               className="flex items-start gap-2.5 text-sm text-zinc-700"
             >
               <Check
@@ -135,8 +136,8 @@ export default function AurumEcosystem() {
           className="grid gap-6 lg:grid-cols-2"
           staggerChildren={0.06}
         >
-          {platforms.map((platform) => (
-            <StaggerItem key={platform.title} className="h-full">
+          {platforms.map((platform, index) => (
+            <StaggerItem key={itemKey(platform, index)} className="h-full">
               <PlatformCard {...platform} />
             </StaggerItem>
           ))}

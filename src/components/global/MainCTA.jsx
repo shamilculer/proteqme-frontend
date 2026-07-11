@@ -1,9 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Image from "next/image";
 
-import { Button } from "../ui/button";
+import ActionButton from "@/components/ui/ActionButton";
 
 const ParticleNetwork = dynamic(
   () => import("@/components/ui/ParticleNetwork"),
@@ -11,7 +10,8 @@ const ParticleNetwork = dynamic(
 );
 import SectionAmbient from "../ui/SectionAmbient";
 import { SectionReveal, ScrollReveal } from "../ui/scroll-reveal";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
+import SectionDescription from "@/components/ui/SectionDescription";
 
 const defaultButtons = [
   {
@@ -29,20 +29,25 @@ const defaultButtons = [
   },
 ];
 
+/** Outline is authored for dark heroes; on light CTA sections use outline-light. */
+function mapButtonForLightCta(button) {
+  const variant = button.variant || "default";
+
+  if (variant === "outline") {
+    return { ...button, variant: "outline-light" };
+  }
+
+  return { ...button, variant };
+}
+
 const MainCTA = ({
-  bgImage = "/hero-3.webp",
   eyebrow = "Ready to Begin?",
   heading = "Secure Your Compliance. Elevate Your Trust.",
   description = "Partner with Proteq to implement intelligent anti-fraud systems, strategic regulatory advisory, and professional compliance learning frameworks designed for modern risk environments.",
   buttons = defaultButtons,
   className,
 }) => {
-  const mappedButtons = buttons.map((button) => {
-    let variant = button.variant || "default";
-    if (variant === "white") variant = "default";
-    if (variant === "outline") variant = "secondary";
-    return { ...button, variant };
-  });
+  const mappedButtons = buttons.map(mapButtonForLightCta);
 
   return (
     <SectionReveal
@@ -53,24 +58,11 @@ const MainCTA = ({
     >
       <SectionAmbient variant="light" />
 
-      {/* Subtle watermark background image */}
-      <div className="absolute inset-0 z-0 h-full w-full pointer-events-none select-none">
-        <Image
-          src={bgImage || "/hero-3.webp"}
-          alt="CTA background"
-          fill
-          className="object-cover opacity-6 mix-blend-multiply"
-          sizes="100vw"
-          priority
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-white/95 via-white/80 to-white/95" />
-      </div>
-
       <ParticleNetwork id="main-cta-particles" variant="light" />
 
       {/* Content */}
       <div className="container relative z-10 mx-auto max-w-4xl px-4">
-        <ScrollReveal className="flex flex-col items-center" yOffset={24}>
+        <ScrollReveal className="flex flex-col items-center" direction="left">
           
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2 mb-6 bg-zinc-50 border border-zinc-200/80 rounded-full px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
@@ -90,29 +82,19 @@ const MainCTA = ({
           </h2>
 
           {/* Description */}
-          <p className="text-zinc-600 text-body max-w-2xl mb-10">
-            {description}
-          </p>
+          <SectionDescription content={description} className="text-zinc-600 text-body max-w-2xl mb-10" />
 
           {/* Buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full sm:w-auto">
+          <div className="mx-auto flex w-full max-w-md flex-col items-stretch gap-4">
             {mappedButtons.map((button, index) => (
-              <Button
+              <ActionButton
                 key={index}
-                href={button.href}
-                variant={button.variant}
-                glowingDot={button.glowingDot}
-                showArrow={button.showArrow}
-                arrowDirection={button.arrowDirection}
-                icon={button.icon}
-                iconPosition={button.iconPosition}
-                target={button.target}
-                rel={button.rel}
-                className={cn("w-full sm:w-auto", button.className)}
-                style={button.style}
-              >
-                {button.label}
-              </Button>
+                {...button}
+                className={cn(
+                  "h-14 w-full px-8 text-xl font-medium",
+                  button.className,
+                )}
+              />
             ))}
           </div>
 

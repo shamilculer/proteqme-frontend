@@ -1,7 +1,7 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import SectionAmbient from "@/components/ui/SectionAmbient";
 
@@ -45,21 +45,30 @@ function ProgressiveCounter({ value, duration = 2000, shouldAnimate }) {
   return <>{count.toLocaleString()}</>;
 }
 
-const stats = [
+const DEFAULT_STATS = [
   { value: 30, suffix: "+", label: "Global Markets" },
   { value: 40, suffix: "+", label: "Institutions in Network" },
   { value: 3, suffix: "", label: "Partnership Tracks" },
   { value: 5, suffix: " Days", label: "Application Review" },
 ];
 
-const ecosystemPartners = [
-  { name: "OSL", logo: "/partners/osl.png" },
-  { name: "Chainalysis", logo: "/partners/chainalysis.png" },
-  { name: "Sumsub", logo: "/partners/sumsub (1).png" },
-  { name: "Elliptic", logo: "/partners/elliptinc.png" },
-];
+const DEFAULTS = {
+  eyebrow: null,
+  heading: null,
+  stats: DEFAULT_STATS,
+  animate: true,
+  sectionId: null,
+  particleId: "partner-trust-particles",
+};
 
-export default function PartnerTrustStrip() {
+export default function PartnerTrustStrip({
+  eyebrow = DEFAULTS.eyebrow,
+  heading = DEFAULTS.heading,
+  stats = DEFAULTS.stats,
+  animate = DEFAULTS.animate,
+  sectionId = DEFAULTS.sectionId,
+  particleId = DEFAULTS.particleId,
+}) {
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
 
@@ -81,11 +90,12 @@ export default function PartnerTrustStrip() {
   return (
     <SectionReveal
       ref={sectionRef}
+      id={sectionId || undefined}
       className="section-light relative isolate w-full overflow-hidden border-y border-zinc-200/70 py-14 md:py-16"
       aria-label="Partnership trust signals"
     >
       <SectionAmbient variant="light" />
-      <ParticleNetwork id="partner-trust-particles" variant="light" />
+      <ParticleNetwork id={particleId} variant="light" />
 
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.55]"
@@ -118,23 +128,43 @@ export default function PartnerTrustStrip() {
       </div>
 
       <div className="container relative z-10">
+        {eyebrow || heading ? (
+          <ScrollReveal className="mb-10 text-center">
+            {eyebrow ? (
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
+                {eyebrow}
+              </p>
+            ) : null}
+            {heading ? (
+              <h2 className="text-section-heading text-foreground">{heading}</h2>
+            ) : null}
+          </ScrollReveal>
+        ) : null}
+
         <StaggerContainer
           className="grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-6"
           staggerChildren={0.1}
         >
-          {stats.map((stat) => (
-            <StaggerItem key={stat.label}>
+          {stats.map((stat, index) => (
+            <StaggerItem key={itemKey(stat, index)}>
               <div className="text-center transition-transform duration-300 hover:-translate-y-1">
                 <p className="text-4xl font-semibold tracking-tight text-primary md:text-[52px]">
-                  <ProgressiveCounter
-                    value={stat.value}
-                    shouldAnimate={inView}
-                  />
+                  {animate ? (
+                    <ProgressiveCounter
+                      value={stat.value}
+                      shouldAnimate={inView}
+                    />
+                  ) : (
+                    Number(stat.value).toLocaleString()
+                  )}
                   {stat.suffix}
                 </p>
                 <p className="mt-2 text-sm font-medium text-zinc-500 md:text-base">
                   {stat.label}
                 </p>
+                {stat.description ? (
+                  <p className="mt-2 text-sm text-zinc-600">{stat.description}</p>
+                ) : null}
               </div>
             </StaggerItem>
           ))}

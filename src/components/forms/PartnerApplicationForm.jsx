@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "motion/react";
+import { slideDistance, slidePanelTransition } from "@/lib/motion-presets";
 import {
   Check,
   ChevronLeft,
@@ -18,8 +19,10 @@ import {
   partnerStep2TrainerSchema,
   partnerStep2SystemSchema,
 } from "@/lib/schema/formSchema";
+import { getLeadSource, postLead } from "@/lib/leads/postLead";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import PhoneInputField from "@/components/ui/PhoneInputField";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -405,11 +408,20 @@ export default function PartnerApplicationForm() {
   const [step, setStep] = useState(1);
   const [step1Data, setStep1Data] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmittingLead, setIsSubmittingLead] = useState(false);
 
   // Step 1 form
   const step1Form = useForm({
     resolver: zodResolver(partnerStep1Schema),
-    defaultValues: { websiteUrl: "" },
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phone: "",
+      companyName: "",
+      websiteUrl: "",
+      partnershipCategory: undefined,
+    },
   });
 
   const category = step1Form.watch("partnershipCategory");
@@ -428,7 +440,10 @@ export default function PartnerApplicationForm() {
   };
 
   const onStep1Submit = step1Form.handleSubmit((data) => {
-    setStep1Data(data);
+    setStep1Data({
+      ...data,
+      phone: data.phone || step1Form.getValues("phone") || "",
+    });
     setStep(2);
     document
       .getElementById("partner-form")
@@ -436,25 +451,44 @@ export default function PartnerApplicationForm() {
   });
 
   const onStep2Submit = step2Form.handleSubmit(async (data) => {
-    const fullPayload = { ...step1Data, ...data };
-    console.log("Partner Application Submitted:", fullPayload);
-    // TODO: send to CRM / API
-    setIsSuccess(true);
+    const fullPayload = {
+      ...step1Data,
+      ...data,
+      phone: step1Data?.phone || "",
+    };
+    setSubmitError("");
+    setIsSubmittingLead(true);
+    try {
+      await postLead({
+        type: "partner",
+        source: getLeadSource(),
+        form: fullPayload,
+      });
+      setIsSuccess(true);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setIsSubmittingLead(false);
+    }
   });
 
   // ── Success screen ─────────────────────────────────────────────────────
   if (isSuccess) {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: [0.21, 1.02, 0.43, 1.01] }}
+        initial={{ x: -slideDistance.x }}
+        animate={{ x: 0 }}
+        transition={slidePanelTransition()}
         className="flex flex-col items-center justify-center py-20 px-6 text-center"
       >
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 400, damping: 15 }}
+          initial={{ x: -slideDistance.x * 0.65 }}
+          animate={{ x: 0 }}
+          transition={slidePanelTransition(0.15)}
           className="w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center mb-6"
         >
           <Check className="size-9 text-emerald-500 stroke-[2.5]" />
@@ -485,10 +519,10 @@ export default function PartnerApplicationForm() {
         {step === 1 && (
           <motion.form
             key="step1"
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -24 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            initial={{ x: slideDistance.x }}
+            animate={{ x: 0 }}
+            exit={{ x: -slideDistance.x }}
+            transition={slidePanelTransition()}
             onSubmit={onStep1Submit}
             className="space-y-6"
           >
@@ -526,12 +560,21 @@ export default function PartnerApplicationForm() {
                 required
                 error={step1Form.formState.errors.phone?.message}
               >
-                <Input
-                  {...step1Form.register("phone")}
-                  id="phone"
-                  type="tel"
-                  placeholder="+1 (555) 000-0000"
-                  className={fieldClass}
+                <Controller
+                  name="phone"
+                  control={step1Form.control}
+                  render={({ field, fieldState }) => (
+                    <PhoneInputField
+                      id="phone"
+                      name={field.name}
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      placeholder="Enter phone number"
+                      aria-invalid={fieldState.invalid}
+                      className="border-zinc-200"
+                    />
+                  )}
                 />
               </FieldWrapper>
 
@@ -614,10 +657,10 @@ export default function PartnerApplicationForm() {
         {step === 2 && (
           <motion.form
             key="step2"
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -24 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            initial={{ x: slideDistance.x }}
+            animate={{ x: 0 }}
+            exit={{ x: -slideDistance.x }}
+            transition={slidePanelTransition()}
             onSubmit={onStep2Submit}
             className="space-y-6"
           >
@@ -678,12 +721,15 @@ export default function PartnerApplicationForm() {
               <Button
                 type="submit"
                 variant="default"
-                showArrow={!step2Form.formState.isSubmitting}
-                disabled={step2Form.formState.isSubmitting}
+                showArrow={!isSubmittingLead}
+                disabled={isSubmittingLead}
               >
-                {step2Form.formState.isSubmitting ? "Submitting..." : "Submit Application"}
+                {isSubmittingLead ? "Submitting..." : "Submit Application"}
               </Button>
             </div>
+            {submitError ? (
+              <p className="text-sm text-primary">{submitError}</p>
+            ) : null}
           </motion.form>
         )}
       </AnimatePresence>

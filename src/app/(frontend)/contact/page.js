@@ -1,28 +1,8 @@
-import PageTitle from "@/components/global/PageTitle";
-import ContactMainSection from "@/components/contact/ContactMainSection";
-import ContactMapSection from "@/components/contact/ContactMapSection";
-import NewsletterSignup from "@/components/home/NewsletterSignup";
+import { createCmsPageExports } from '@/utilities/createCmsPageExports'
 
-export const metadata = {
-  title: "Contact Us | Proteq",
-  description:
-    "Speak with Proteq's compliance experts about advisory, training, or RegTech systems. Phone, email, and office contact details.",
-};
+export const dynamic = 'force-dynamic'
 
-const ContactPage = () => {
-  return (
-    <>
-      <PageTitle
-        title="Contact Us"
-        bgImage="/consulting-bg.webp"
-        particleId="contact-hero-particles"
-      />
+const { generateMetadata, default: ContactPage } = createCmsPageExports('contact')
 
-      <ContactMainSection />
-      <ContactMapSection />
-      <NewsletterSignup />
-    </>
-  );
-};
-
-export default ContactPage;
+export { generateMetadata }
+export default ContactPage

@@ -1,5 +1,6 @@
 "use client";
 
+import { itemKey, listKey } from "@/lib/listKey";
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import SectionAmbient from "@/components/ui/SectionAmbient";
@@ -43,7 +44,7 @@ function ProgressiveCounter({ value, duration = 2000, shouldAnimate }) {
   return <>{count.toLocaleString()}</>;
 }
 
-const stats = [
+const DEFAULT_STATS = [
   {
     value: 500,
     suffix: "+",
@@ -61,7 +62,23 @@ const stats = [
   },
 ];
 
-const LearningTrustStrip = () => {
+const DEFAULTS = {
+  eyebrow: null,
+  heading: null,
+  stats: DEFAULT_STATS,
+  animate: true,
+  sectionId: null,
+  particleId: "learning-trust-particles",
+};
+
+const LearningTrustStrip = ({
+  eyebrow = DEFAULTS.eyebrow,
+  heading = DEFAULTS.heading,
+  stats = DEFAULTS.stats,
+  animate = DEFAULTS.animate,
+  sectionId = DEFAULTS.sectionId,
+  particleId = DEFAULTS.particleId,
+}) => {
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
 
@@ -83,11 +100,12 @@ const LearningTrustStrip = () => {
   return (
     <SectionReveal
       ref={sectionRef}
+      id={sectionId || undefined}
       className="section-light relative isolate w-full overflow-hidden border-y border-zinc-200/70 py-14 md:py-16"
       aria-label="Learning impact statistics"
     >
       <SectionAmbient variant="light" />
-      <ParticleNetwork variant="light" id="learning-trust-particles" />
+      <ParticleNetwork variant="light" id={particleId} />
 
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.55]"
@@ -114,23 +132,43 @@ const LearningTrustStrip = () => {
       </div>
 
       <div className="container relative z-10">
+        {eyebrow || heading ? (
+          <ScrollReveal className="mb-10 text-center">
+            {eyebrow ? (
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
+                {eyebrow}
+              </p>
+            ) : null}
+            {heading ? (
+              <h2 className="text-section-heading text-foreground">{heading}</h2>
+            ) : null}
+          </ScrollReveal>
+        ) : null}
+
         <StaggerContainer
           className="grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-6"
           staggerChildren={0.1}
         >
-          {stats.map((stat) => (
-            <StaggerItem key={stat.label}>
+          {stats.map((stat, index) => (
+            <StaggerItem key={itemKey(stat, index)}>
               <div className="text-center transition-transform duration-300 hover:-translate-y-1">
                 <p className="text-5xl font-semibold tracking-tight text-primary md:text-[56px]">
-                  <ProgressiveCounter
-                    value={stat.value}
-                    shouldAnimate={inView}
-                  />
+                  {animate ? (
+                    <ProgressiveCounter
+                      value={stat.value}
+                      shouldAnimate={inView}
+                    />
+                  ) : (
+                    Number(stat.value).toLocaleString()
+                  )}
                   {stat.suffix}
                 </p>
                 <p className="mt-2 text-sm font-medium text-zinc-500 md:text-base">
                   {stat.label}
                 </p>
+                {stat.description ? (
+                  <p className="mt-2 text-sm text-zinc-600">{stat.description}</p>
+                ) : null}
               </div>
             </StaggerItem>
           ))}

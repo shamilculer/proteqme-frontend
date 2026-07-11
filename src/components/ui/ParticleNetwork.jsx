@@ -3,7 +3,7 @@
 import { Component, useEffect, useMemo, useRef, useState } from "react";
 import Particles from "@tsparticles/react";
 import { cn } from "@/lib/utils";
-import { heroParticleOptions, lightParticleOptions } from "@/lib/hero-particles";
+import { heroParticleOptions, lightParticleOptions, sparseParticleOptions } from "@/lib/hero-particles";
 
 class ParticleErrorBoundary extends Component {
   state = { hasError: false };
@@ -18,8 +18,11 @@ class ParticleErrorBoundary extends Component {
   }
 }
 
-function ParticleCanvas({ id, className, variant }) {
-  const options = useMemo(() => (variant === "light" ? lightParticleOptions : heroParticleOptions), [variant]);
+function ParticleCanvas({ id, className, variant, density }) {
+  const options = useMemo(() => {
+    if (density === "sparse") return sparseParticleOptions;
+    return variant === "light" ? lightParticleOptions : heroParticleOptions;
+  }, [variant, density]);
 
   return (
     <Particles
@@ -34,6 +37,7 @@ export default function ParticleNetwork({
   id = "hero-particles",
   className,
   variant = "dark",
+  density = "default",
 }) {
   const hostRef = useRef(null);
   const [enabled, setEnabled] = useState(true);
@@ -80,7 +84,14 @@ export default function ParticleNetwork({
         className="pointer-events-none absolute inset-0 z-[2] overflow-hidden [clip-path:inset(0)]"
         aria-hidden
       >
-        {inView ? <ParticleCanvas id={id} className={className} variant={variant} /> : null}
+        {inView ? (
+          <ParticleCanvas
+            id={id}
+            className={className}
+            variant={variant}
+            density={density}
+          />
+        ) : null}
       </div>
     </ParticleErrorBoundary>
   );
