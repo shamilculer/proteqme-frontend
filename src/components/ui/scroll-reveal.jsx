@@ -63,9 +63,13 @@ function useRevealMotion({
   return {
     reduceMotion,
     revealReady,
+    isMobile,
     motionProps: {
-      initial: reduceMotion ? false : popHidden(x, y),
+      // Stay visible until PageShell signals ready — otherwise content can
+      // mount hidden with whileInView disabled and never recover on mobile.
+      initial: reduceMotion || !revealReady ? false : popHidden(x, y),
       whileInView: reduceMotion || !revealReady ? undefined : popVisible,
+      animate: reduceMotion || !revealReady ? popVisible : undefined,
       transition: buildPopTransition({ spring, delay, duration }),
     },
   };
@@ -109,9 +113,10 @@ export const ScrollReveal = ({
   return (
     <motion.div
       className={className}
-      initial={reduceMotion ? false : popHidden(x, y)}
+      initial={reduceMotion || !revealReady ? false : popHidden(x, y)}
       whileInView={reduceMotion || !revealReady ? undefined : popVisible}
-      viewport={{ once, amount, margin: "0px 0px -40px 0px" }}
+      animate={reduceMotion || !revealReady ? popVisible : undefined}
+      viewport={{ once, amount, margin: isMobile ? "0px 0px -8px 0px" : "0px 0px -40px 0px" }}
       transition={buildPopTransition({ spring, delay, duration })}
     >
       {children}
@@ -137,7 +142,7 @@ export const SectionReveal = React.forwardRef(function SectionReveal(
   },
   ref,
 ) {
-  const { reduceMotion, motionProps } = useRevealMotion({
+  const { reduceMotion, isMobile, motionProps } = useRevealMotion({
     delay,
     duration,
     yOffset,
@@ -145,7 +150,11 @@ export const SectionReveal = React.forwardRef(function SectionReveal(
     direction,
   });
 
-  const viewport = { once, amount, margin: "0px 0px -48px 0px" };
+  const viewport = {
+    once,
+    amount,
+    margin: isMobile ? "0px 0px -8px 0px" : "0px 0px -48px 0px",
+  };
 
   return (
     <section ref={ref} className={className} {...props}>
@@ -201,7 +210,8 @@ export const StaggerContainer = ({
       className={className}
       initial="hidden"
       whileInView={revealReady ? "show" : undefined}
-      viewport={{ once, amount, margin: "0px 0px -40px 0px" }}
+      animate={!revealReady ? "show" : undefined}
+      viewport={{ once, amount, margin: "0px 0px -8px 0px" }}
       variants={{
         hidden: {},
         show: {

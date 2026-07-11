@@ -49,28 +49,27 @@ function isInternalNavigationLink(anchor) {
  */
 export default function PageShell({ children }) {
   const pathname = usePathname();
-  const [revealReady, setRevealReady] = useState(true);
+  const [shellKey, setShellKey] = useState(pathname);
 
   useLayoutEffect(() => {
     if (typeof window !== "undefined") {
       window.history.scrollRestoration = "manual";
     }
 
-    // Keep deep links like /learning#certification-preparation
-    if (typeof window !== "undefined" && window.location.hash) {
-      setRevealReady(true);
-      return undefined;
+    const hasHash = typeof window !== "undefined" && Boolean(window.location.hash);
+
+    if (!hasHash) {
+      resetScrollPosition();
     }
 
-    setRevealReady(false);
-    resetScrollPosition();
+    setShellKey(pathname);
 
-    const frame = requestAnimationFrame(() => {
-      resetScrollPosition();
-      setRevealReady(true);
-    });
+    if (!hasHash) {
+      const frame = requestAnimationFrame(() => resetScrollPosition());
+      return () => cancelAnimationFrame(frame);
+    }
 
-    return () => cancelAnimationFrame(frame);
+    return undefined;
   }, [pathname]);
 
   useEffect(() => {
@@ -86,13 +85,11 @@ export default function PageShell({ children }) {
         return;
       }
 
-      // Next.js Link often skips native same-page hash scrolling
       try {
         const url = new URL(anchor.href, window.location.href);
         if (!isSamePageHashLink(url)) return;
 
         event.preventDefault();
-        event.stopPropagation();
         navigateToHash(url.hash);
       } catch {
         // ignore malformed hrefs
@@ -103,23 +100,21 @@ export default function PageShell({ children }) {
     return () => document.removeEventListener("click", onClick, true);
   }, []);
 
-  // Scroll to hash after the page remounts (direct loads / route changes)
   useEffect(() => {
     if (typeof window === "undefined" || !window.location.hash) return undefined;
 
     const id = window.location.hash;
     const frame = requestAnimationFrame(() => {
       navigateToHash(id, { behavior: "auto" });
-      // Retry once layouts/images settle
-      window.setTimeout(() => navigateToHash(id), 100);
+      window.setTimeout(() => navigateToHash(id), 120);
     });
 
     return () => cancelAnimationFrame(frame);
-  }, [pathname]);
+  }, [pathname, shellKey]);
 
   return (
-    <RevealReadyContext.Provider value={revealReady}>
-      <div key={pathname} className="flex flex-1 flex-col">
+    <RevealReadyContext.Provider value={true}>
+      <div key={shellKey} className="flex flex-1 flex-col">
         {children}
       </div>
     </RevealReadyContext.Provider>
