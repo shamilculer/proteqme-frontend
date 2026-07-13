@@ -29,12 +29,16 @@ export async function POST(request) {
       });
     }
 
-    const lead = await processLeadSubmission(parsed.data);
+    const lead = await processLeadSubmission({
+      ...parsed.data,
+      partial: true,
+    });
 
     return NextResponse.json({
       success: true,
       partial: true,
       brevoSynced: Boolean(lead.brevoSync?.success),
+      leadId: lead.leadId || null,
       email: lead.brevo?.email,
     });
   } catch (error) {

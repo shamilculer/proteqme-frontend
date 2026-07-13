@@ -116,7 +116,12 @@ export const ScrollReveal = ({
       initial={reduceMotion || !revealReady ? false : popHidden(x, y)}
       whileInView={reduceMotion || !revealReady ? undefined : popVisible}
       animate={reduceMotion || !revealReady ? popVisible : undefined}
-      viewport={{ once, amount, margin: isMobile ? "0px 0px -8px 0px" : "0px 0px -40px 0px" }}
+      viewport={{
+        once,
+        amount: Math.min(amount, 0.2),
+        // Expand horizontally so left/right column slides still intersect
+        margin: isMobile ? "10% 15% 0px 15%" : "8% 18% 0px 18%",
+      }}
       transition={buildPopTransition({ spring, delay, duration })}
     >
       {children}
@@ -152,8 +157,8 @@ export const SectionReveal = React.forwardRef(function SectionReveal(
 
   const viewport = {
     once,
-    amount,
-    margin: isMobile ? "0px 0px -8px 0px" : "0px 0px -48px 0px",
+    amount: Math.min(amount, 0.2),
+    margin: isMobile ? "10% 15% 0px 15%" : "8% 18% 0px 18%",
   };
 
   return (
@@ -211,7 +216,7 @@ export const StaggerContainer = ({
       initial="hidden"
       whileInView={revealReady ? "show" : undefined}
       animate={!revealReady ? "show" : undefined}
-      viewport={{ once, amount, margin: "0px 0px -8px 0px" }}
+      viewport={{ once, amount: Math.min(amount, 0.2), margin: "8% 18% 0px 18%" }}
       variants={{
         hidden: {},
         show: {

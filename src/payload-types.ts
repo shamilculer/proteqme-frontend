@@ -73,6 +73,7 @@ export interface Config {
     categories: Category;
     users: User;
     popups: Popup;
+    leads: Lead;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -91,6 +92,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     popups: PopupsSelect<false> | PopupsSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -2542,6 +2544,118 @@ export interface Form {
   createdAt: string;
 }
 /**
+ * Form and popup submissions captured from the website.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads".
+ */
+export interface Lead {
+  id: string;
+  email: string;
+  phone?: string | null;
+  fullName?: string | null;
+  company?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  funnel: 'demo' | 'contact' | 'partner' | 'newsletter' | 'webinar-gate' | 'resource';
+  /**
+   * Service / enquiry label shown in CRM (e.g. Proteq Learning).
+   */
+  leadType?: string | null;
+  bookingStatus?: ('booked' | 'skipped' | 'no_calendar') | null;
+  /**
+   * Page path where the form was submitted.
+   */
+  source?: string | null;
+  popupSlug?: string | null;
+  message?: string | null;
+  /**
+   * Every field the user submitted, listed individually.
+   */
+  formFields?:
+    | {
+        field: string;
+        value?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  submittedAt?: string | null;
+  /**
+   * Submitted before the form was fully completed.
+   */
+  partial?: boolean | null;
+  /**
+   * Internal notes (not shown to the lead).
+   */
+  notes?: string | null;
+  /**
+   * Full form JSON (same data as Submitted fields above).
+   */
+  form:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Tags sent to Brevo for this submission.
+   */
+  brevoTags?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Attribute payload synced to Brevo.
+   */
+  brevoAttributes?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Full normalised lead payload snapshot.
+   */
+  payloadSnapshot?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  calendarSkipped?: boolean | null;
+  booking?: {
+    uid?: string | null;
+    title?: string | null;
+    startTime?: string | null;
+    endTime?: string | null;
+    status?: string | null;
+    videoCallUrl?: string | null;
+    attendeeEmail?: string | null;
+    attendeeName?: string | null;
+  };
+  brevoSync?: {
+    success?: boolean | null;
+    syncedAt?: string | null;
+    error?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -2754,6 +2868,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'popups';
         value: string | Popup;
+      } | null)
+    | ({
+        relationTo: 'leads';
+        value: string | Lead;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -3985,6 +4103,60 @@ export interface PopupsSelect<T extends boolean = true> {
         reopenDelayMs?: T;
         maxAutoOpens?: T;
         storageKey?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads_select".
+ */
+export interface LeadsSelect<T extends boolean = true> {
+  email?: T;
+  phone?: T;
+  fullName?: T;
+  company?: T;
+  firstName?: T;
+  lastName?: T;
+  funnel?: T;
+  leadType?: T;
+  bookingStatus?: T;
+  source?: T;
+  popupSlug?: T;
+  message?: T;
+  formFields?:
+    | T
+    | {
+        field?: T;
+        value?: T;
+        id?: T;
+      };
+  submittedAt?: T;
+  partial?: T;
+  notes?: T;
+  form?: T;
+  brevoTags?: T;
+  brevoAttributes?: T;
+  payloadSnapshot?: T;
+  calendarSkipped?: T;
+  booking?:
+    | T
+    | {
+        uid?: T;
+        title?: T;
+        startTime?: T;
+        endTime?: T;
+        status?: T;
+        videoCallUrl?: T;
+        attendeeEmail?: T;
+        attendeeName?: T;
+      };
+  brevoSync?:
+    | T
+    | {
+        success?: T;
+        syncedAt?: T;
+        error?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -54,7 +54,9 @@ export default function ConsultancyModules({
         </div>
       </div>
 
-      <ServiceModulesSlider modules={modules} sectionId={sectionId} />
+      <ScrollReveal delay={0.1} yOffset={28} xOffset={0} className="w-full">
+        <ServiceModulesSlider modules={modules} sectionId={sectionId} />
+      </ScrollReveal>
     </SectionReveal>
   );
 }

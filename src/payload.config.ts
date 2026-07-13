@@ -5,6 +5,7 @@ import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
+import { Leads } from './collections/Leads'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Popups } from './collections/Popups'
@@ -64,7 +65,7 @@ export default buildConfig({
     url: process.env.DATABASE_URI || process.env.DATABASE_URL || '',
     connectOptions: getMongoConnectOptions(),
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Popups],
+  collections: [Pages, Posts, Media, Categories, Users, Popups, Leads],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, SiteSettings],
   plugins,

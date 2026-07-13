@@ -132,7 +132,7 @@ const blockComponents = {
       eyebrow={block.eyebrow}
       heading={block.heading}
       description={block.description}
-      image={resolveImageSrc(block)}
+      image={resolveImageSrc(block) || "/hero-3.webp"}
       imageAlt={block.imageAlt}
       stats={mapStats(block.stats)}
     />

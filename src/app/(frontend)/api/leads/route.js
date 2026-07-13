@@ -25,6 +25,7 @@ export async function POST(request) {
       success: true,
       brevoConfigured: isBrevoConfigured(),
       brevoSynced: Boolean(lead.brevoSync?.success),
+      leadId: lead.leadId || null,
       email: lead.brevo?.email,
     });
   } catch (error) {

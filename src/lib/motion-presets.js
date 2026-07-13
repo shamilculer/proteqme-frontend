@@ -7,10 +7,10 @@ export const staggerDuration = 1.22;
 export const pageEnterDuration = 1.45;
 export const staggerChildrenDelay = 0.16;
 
-/** Legacy px fallback when viewport is unknown (SSR) */
+/** Legacy px fallback when viewport is unknown (SSR) — keep modest for whileInView */
 export const slideDistance = {
-  x: 520,
-  y: 88,
+  x: 88,
+  y: 56,
 };
 
 export const popHiddenScale = 0.86;

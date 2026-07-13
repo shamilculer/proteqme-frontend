@@ -4,14 +4,13 @@ import { useEffect, useState } from "react";
 
 import { useIsMobile } from "@/lib/use-media-query";
 
-const MOBILE_X_RATIO = 0.18;
-const DESKTOP_X_RATIO = 0.48;
-const MOBILE_X_MAX = 72;
+/** Keep scroll-reveal travel short enough that whileInView still intersects. */
+const MOBILE_X_MAX = 48;
+const DESKTOP_X_MAX = 88;
 
 function readSlideMetrics(isMobile) {
   if (typeof window === "undefined") {
-    // SSR fallback: keep offsets small so hydration never parks content off-screen
-    return { x: isMobile ? 48 : 520, y: isMobile ? 48 : 80 };
+    return { x: isMobile ? MOBILE_X_MAX : DESKTOP_X_MAX, y: isMobile ? 36 : 56 };
   }
 
   const width = window.innerWidth;
@@ -20,20 +19,20 @@ function readSlideMetrics(isMobile) {
 
   if (mobile) {
     return {
-      x: Math.min(MOBILE_X_MAX, Math.round(width * MOBILE_X_RATIO)),
-      y: 48,
+      x: Math.min(MOBILE_X_MAX, Math.round(width * 0.12)),
+      y: 36,
     };
   }
 
   return {
-    x: Math.round(width * DESKTOP_X_RATIO),
-    y: 96,
+    x: Math.min(DESKTOP_X_MAX, Math.round(width * 0.06)),
+    y: 56,
   };
 }
 
 /**
- * Viewport-based slide distance so elements travel across most of the screen.
- * Mobile caps stay small enough that whileInView can still intersect.
+ * Slide distance for scroll reveals. Must stay small: large transforms park
+ * content off-screen so IntersectionObserver never fires (blank sections).
  */
 export function useSlideMetrics() {
   const isMobile = useIsMobile();
