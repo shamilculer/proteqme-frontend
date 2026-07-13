@@ -9,6 +9,7 @@ export const homeHeroSlides = [
     cta: "Book a Free Consultation",
     opensConsultation: true,
     image: "/consulting-bg.webp",
+    mobileImage: "/consulting-bg.webp",
     imageAlt: "Compliance advisory and regulatory consultation",
   },
   {
@@ -20,6 +21,7 @@ export const homeHeroSlides = [
     href: "/learning",
     cta: "Browse Courses",
     image: "/learning-3.webp",
+    mobileImage: "/learning-3.webp",
     imageAlt: "Professional compliance learning and training",
   },
   {
@@ -31,6 +33,7 @@ export const homeHeroSlides = [
     href: "/systems",
     cta: "Request a Systems Assessment",
     image: "/system-provider.webp",
+    mobileImage: "/system-provider.webp",
     imageAlt: "RegTech systems and compliance technology",
   },
   {
@@ -42,6 +45,7 @@ export const homeHeroSlides = [
     href: "/ai-investments",
     cta: "Explore AI Investments",
     image: "/aurum/aurum.webp",
+    mobileImage: "/aurum/aurum.webp",
     imageAlt: "AI investments and the Aurum ecosystem",
   },
 ];

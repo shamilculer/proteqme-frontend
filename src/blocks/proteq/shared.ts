@@ -34,6 +34,25 @@ export const mediaImageField: Field = {
   label: 'Image (Media library)',
 }
 
+export const mobileImageField: Field = {
+  name: 'mobileImage',
+  type: 'upload',
+  relationTo: 'media',
+  label: 'Mobile banner (Media library)',
+  admin: {
+    description: 'Optional. Used below the lg breakpoint. Falls back to the desktop image.',
+  },
+}
+
+export const mobileImagePathField: Field = {
+  name: 'mobileImagePath',
+  type: 'text',
+  label: 'Mobile banner path (public folder)',
+  admin: {
+    description: 'e.g. /consulting-bg-mobile.webp — used if no mobile Media upload is set',
+  },
+}
+
 export const proteqButtonsField: Field = {
   name: 'buttons',
   type: 'array',

@@ -1,7 +1,12 @@
 import type { Block } from 'payload'
 
 import { actionButtonFields } from '@/fields/actionButton'
-import { imagePathField, mediaImageField } from '../shared'
+import {
+  imagePathField,
+  mediaImageField,
+  mobileImageField,
+  mobileImagePathField,
+} from '../shared'
 
 export const ProteqHeroCarousel: Block = {
   slug: 'proteqHeroCarousel',
@@ -27,8 +32,22 @@ export const ProteqHeroCarousel: Block = {
               : field,
           ),
         },
-        mediaImageField,
-        imagePathField,
+        {
+          ...mediaImageField,
+          label: 'Desktop banner (Media library)',
+        },
+        {
+          ...mobileImageField,
+          label: 'Mobile banner (Media library)',
+        },
+        {
+          ...imagePathField,
+          label: 'Desktop banner path (public folder)',
+        },
+        {
+          ...mobileImagePathField,
+          label: 'Mobile banner path (public folder)',
+        },
         { name: 'imageAlt', type: 'text' },
       ],
     },

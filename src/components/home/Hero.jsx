@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -22,19 +21,34 @@ import { useSlideMetrics } from "@/lib/use-slide-metrics";
 import { cn } from "@/lib/utils";
 import { heroHeadingClass } from "@/lib/heroTypography";
 
-const ParticleNetwork = dynamic(
-  () => import("@/components/ui/ParticleNetwork"),
-  { ssr: false }
+const navBtnClass =
+  "flex size-11 items-center justify-center rounded-full border border-white/70 bg-white/95 text-foreground shadow-[0_8px_28px_rgba(13,13,20,0.18)] backdrop-blur-sm transition hover:scale-105 hover:border-primary/40 sm:size-12";
+
+const slideHeadingClass = cn(
+  heroHeadingClass,
+  "text-zinc-950 drop-shadow-[0_1px_0_rgba(255,255,255,0.55)]",
 );
 
-const navBtnClass =
-  "flex size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-foreground shadow-[0_8px_28px_rgba(13,13,20,0.1)] transition hover:scale-105 hover:border-primary/30 sm:size-12";
-
-const slideHeadingClass = heroHeadingClass;
+function resolveSlideCta(slide) {
+  if (!slide?.cta) return null;
+  if (typeof slide.cta === "object") return slide.cta;
+  if (typeof slide.cta === "string") {
+    return {
+      label: slide.cta,
+      href: slide.href || "/contact",
+      actionType: slide.opensConsultation ? "popup" : "link",
+      popupSlug: slide.opensConsultation ? "consultation" : undefined,
+      glowingDot: true,
+      showArrow: true,
+    };
+  }
+  return null;
+}
 
 function HeroSlidePanel({ slide, index, isActive, slideCount }) {
   const reduceMotion = useReducedMotion();
   const { x: slideX } = useSlideMetrics();
+  const cta = resolveSlideCta(slide);
 
   const childReveal = {
     hidden: popHidden(-slideX),
@@ -60,81 +74,86 @@ function HeroSlidePanel({ slide, index, isActive, slideCount }) {
       aria-roledescription="slide"
       aria-label={`${slide.tag} — slide ${index + 1} of ${slideCount}`}
     >
-      <div className="container grid min-h-[min(calc(100svh-5.5rem),700px)] items-center gap-6 py-6 pb-14 sm:gap-8 sm:py-8 sm:pb-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-10 lg:py-8 lg:pb-14">
-        <div className="relative z-10 flex flex-col items-start">
-          <motion.div
-            key={`eyebrow-${slide.id}-${enterKey}`}
-            custom={0.06}
-            initial={shouldAnimate ? "hidden" : false}
-            animate={shouldAnimate ? "visible" : false}
-            variants={childReveal}
-            className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-zinc-200/80 bg-zinc-50 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
-          >
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-            </span>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-600 sm:text-xs">
-              {slide.tag}
-            </span>
-          </motion.div>
-
-          <motion.div
-            key={`title-${slide.id}-${enterKey}`}
-            custom={0.12}
-            initial={shouldAnimate ? "hidden" : false}
-            animate={shouldAnimate ? "visible" : false}
-            variants={childReveal}
-          >
-            <Heading className={slideHeadingClass}>{slide.title}</Heading>
-          </motion.div>
-
-          <motion.p
-            key={`desc-${slide.id}-${enterKey}`}
-            custom={0.2}
-            initial={shouldAnimate ? "hidden" : false}
-            animate={shouldAnimate ? "visible" : false}
-            variants={childReveal}
-            className="mt-5 max-w-lg text-sm leading-relaxed text-zinc-600 sm:mt-6 sm:text-sm md:text-base"
-          >
-            {slide.description}
-          </motion.p>
-
-          <motion.div
-            key={`cta-${slide.id}-${enterKey}`}
-            custom={0.28}
-            initial={shouldAnimate ? "hidden" : false}
-            animate={shouldAnimate ? "visible" : false}
-            variants={childReveal}
-            className="mt-6 w-full sm:mt-8"
-          >
-            {slide.cta ? (
-              <ActionButton
-                {...slide.cta}
-                glowingDot={slide.cta.glowingDot ?? true}
-                showArrow={slide.cta.showArrow ?? true}
-                className="w-full shadow-[0_8px_30px_rgba(232,24,90,0.25)] sm:w-auto"
-              />
-            ) : null}
-          </motion.div>
-        </div>
-
-        <motion.div
-          key={`image-${slide.id}-${enterKey}`}
-          className="relative z-10 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-zinc-200/70 shadow-[0_24px_70px_rgba(13,13,20,0.1)] sm:aspect-[16/10] lg:aspect-[4/3]"
-          initial={shouldAnimate ? pageEnterHiddenX(slideX) : false}
-          animate={shouldAnimate ? pageEnterVisible : false}
-          transition={pageEnterSpring(0.12)}
-        >
+      <div className="relative isolate min-h-[min(calc(100svh-5.5rem),720px)] w-full overflow-hidden sm:min-h-[min(calc(100svh-5.5rem),640px)] lg:min-h-[min(calc(100svh-5.5rem),680px)]">
+        {/* Full-bleed banner — separate mobile / desktop assets when provided */}
+        <div className="absolute inset-0">
           <Image
-            src={slide.image}
-            alt={slide.imageAlt}
+            src={slide.mobileImage || slide.image}
+            alt={slide.imageAlt || slide.title}
             fill
             priority={index === 0}
-            sizes="(min-width: 1024px) 46vw, 100vw"
-            className="object-cover"
+            sizes="100vw"
+            className="object-cover object-center lg:hidden"
           />
-        </motion.div>
+          <Image
+            src={slide.image}
+            alt={slide.imageAlt || slide.title}
+            fill
+            priority={index === 0}
+            sizes="100vw"
+            className="hidden object-cover object-[62%_center] lg:block"
+          />
+        </div>
+
+        <div className="container relative z-10 flex min-h-[inherit] items-start pt-8 pb-24 sm:pt-12 sm:pb-24 lg:items-center lg:py-16 lg:pb-20">
+          <div className="relative z-10 flex w-full max-w-xl flex-col items-start lg:max-w-2xl">
+            <motion.div
+              key={`eyebrow-${slide.id}-${enterKey}`}
+              custom={0.06}
+              initial={shouldAnimate ? "hidden" : false}
+              animate={shouldAnimate ? "visible" : false}
+              variants={childReveal}
+              className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-zinc-200/90 bg-white/90 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm"
+            >
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+              </span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-700 sm:text-xs">
+                {slide.tag}
+              </span>
+            </motion.div>
+
+            <motion.div
+              key={`title-${slide.id}-${enterKey}`}
+              custom={0.12}
+              initial={shouldAnimate ? "hidden" : false}
+              animate={shouldAnimate ? "visible" : false}
+              variants={childReveal}
+            >
+              <Heading className={slideHeadingClass}>{slide.title}</Heading>
+            </motion.div>
+
+            <motion.p
+              key={`desc-${slide.id}-${enterKey}`}
+              custom={0.2}
+              initial={shouldAnimate ? "hidden" : false}
+              animate={shouldAnimate ? "visible" : false}
+              variants={childReveal}
+              className="mt-5 max-w-lg text-sm leading-relaxed text-zinc-700 sm:mt-6 sm:text-base md:text-[1.05rem] md:leading-relaxed"
+            >
+              {slide.description}
+            </motion.p>
+
+            <motion.div
+              key={`cta-${slide.id}-${enterKey}`}
+              custom={0.28}
+              initial={shouldAnimate ? "hidden" : false}
+              animate={shouldAnimate ? "visible" : false}
+              variants={childReveal}
+              className="mt-6 w-full sm:mt-8"
+            >
+              {cta ? (
+                <ActionButton
+                  {...cta}
+                  glowingDot={cta.glowingDot ?? true}
+                  showArrow={cta.showArrow ?? true}
+                  className="w-full shadow-[0_8px_30px_rgba(232,24,90,0.28)] sm:w-auto"
+                />
+              ) : null}
+            </motion.div>
+          </div>
+        </div>
       </div>
     </article>
   );
@@ -203,12 +222,10 @@ export default function Hero({ slides: slidesProp }) {
   return (
     <section
       id="home-hero"
-      className="section-light-white relative isolate w-full overflow-hidden border-b border-zinc-200/70"
+      className="relative isolate w-full overflow-hidden bg-zinc-100"
       aria-roledescription="carousel"
       aria-label="Homepage hero"
     >
-      <ParticleNetwork variant="light" id="hero-particles" />
-
       <Carousel
         setApi={setApi}
         opts={{ align: "start", loop: true, duration: 35 }}
@@ -229,7 +246,7 @@ export default function Hero({ slides: slidesProp }) {
       </Carousel>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20">
-        <div className="container pointer-events-auto flex items-center justify-end gap-3 pb-4 sm:pb-5 md:pb-6">
+        <div className="container pointer-events-auto flex items-center justify-end gap-3 pb-5 sm:pb-6 md:pb-7">
           <div className="mr-auto flex items-center gap-2">
             {slides.map((slide, index) => (
               <button
@@ -242,13 +259,13 @@ export default function Hero({ slides: slidesProp }) {
                   "h-1.5 rounded-full transition-all duration-500 ease-out",
                   current === index
                     ? "w-8 bg-primary"
-                    : "w-1.5 bg-zinc-300 hover:bg-zinc-400"
+                    : "w-1.5 bg-white/70 hover:bg-white",
                 )}
               />
             ))}
           </div>
 
-          <span className="text-xs font-medium tabular-nums text-zinc-500">
+          <span className="rounded-full bg-black/35 px-2.5 py-1 text-xs font-medium tabular-nums text-white backdrop-blur-sm">
             {String(current + 1).padStart(2, "0")} /{" "}
             {String(slides.length).padStart(2, "0")}
           </span>

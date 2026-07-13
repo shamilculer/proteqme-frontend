@@ -189,9 +189,17 @@ export interface Page {
           };
           image?: (string | null) | Media;
           /**
+           * Optional. Used below the lg breakpoint. Falls back to the desktop image.
+           */
+          mobileImage?: (string | null) | Media;
+          /**
            * e.g. /consulting-bg.webp — used if no Media upload is set
            */
           imagePath?: string | null;
+          /**
+           * e.g. /consulting-bg-mobile.webp — used if no mobile Media upload is set
+           */
+          mobileImagePath?: string | null;
           imageAlt?: string | null;
           id?: string | null;
         }[]
@@ -2966,7 +2974,9 @@ export interface PagesSelect<T extends boolean = true> {
                     showArrow?: T;
                   };
               image?: T;
+              mobileImage?: T;
               imagePath?: T;
+              mobileImagePath?: T;
               imageAlt?: T;
               id?: T;
             };

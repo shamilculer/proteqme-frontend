@@ -22,6 +22,14 @@ export function resolveImageSrc(block) {
   return block?.imagePath || null
 }
 
+export function resolveMobileImageSrc(block) {
+  if (block?.mobileImage && typeof block.mobileImage === 'object' && block.mobileImage.url) {
+    return block.mobileImage.url
+  }
+  if (block?.mobileImagePath) return block.mobileImagePath
+  return resolveImageSrc(block)
+}
+
 export function resolveLogoSrc(logo) {
   if (logo?.logo && typeof logo.logo === 'object' && logo.logo.url) {
     return logo.logo.url
@@ -56,6 +64,7 @@ export function mapSlides(slides = []) {
       },
     ),
     image: resolveImageSrc(slide) || '/hero-new.webp',
+    mobileImage: resolveMobileImageSrc(slide) || resolveImageSrc(slide) || '/hero-new.webp',
     imageAlt: slide.imageAlt || slide.title,
   }))
 }
