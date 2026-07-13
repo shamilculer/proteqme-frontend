@@ -2570,7 +2570,7 @@ export interface Lead {
   popupSlug?: string | null;
   message?: string | null;
   /**
-   * Every field the user submitted, listed individually.
+   * Extra fields from the form (name, email, phone, company, and message are shown above).
    */
   formFields?:
     | {

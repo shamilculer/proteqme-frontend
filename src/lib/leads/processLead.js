@@ -75,6 +75,24 @@ function enrichBrevoAttributes(payload) {
   return attributes;
 }
 
+const SUMMARY_FORM_KEYS = new Set([
+  "email",
+  "Email",
+  "name",
+  "fullName",
+  "full-name",
+  "firstName",
+  "lastName",
+  "phone",
+  "Phone",
+  "company",
+  "companyName",
+  "message",
+  // Already surfaced in the Message summary field when present
+  "partnershipDescription",
+  "bioOrLinkedin",
+]);
+
 function formatFormFieldValue(value) {
   if (value === null || value === undefined) return "";
   if (typeof value === "string") return value;
@@ -101,7 +119,11 @@ function humanizeFieldName(key) {
 
 function buildFormFields(form = {}) {
   return Object.entries(form)
-    .filter(([, value]) => value !== null && value !== undefined && value !== "")
+    .filter(([key, value]) => {
+      if (SUMMARY_FORM_KEYS.has(key)) return false;
+      if (value === null || value === undefined || value === "") return false;
+      return true;
+    })
     .map(([field, value]) => ({
       field: humanizeFieldName(field),
       value: formatFormFieldValue(value),

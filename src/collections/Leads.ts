@@ -156,8 +156,12 @@ export const Leads: CollectionConfig = {
                 plural: 'Fields',
               },
               admin: {
-                description: 'Every field the user submitted, listed individually.',
+                description:
+                  'Extra fields from the form (name, email, phone, company, and message are shown above).',
                 initCollapsed: false,
+                components: {
+                  RowLabel: '@/collections/Leads/FormFieldRowLabel#FormFieldRowLabel',
+                },
               },
               fields: [
                 {
