@@ -1,4 +1,4 @@
-import type { Field } from 'payload'
+import type { Field, TextField, UploadField } from 'payload'
 
 import { actionButtonFields } from '@/fields/actionButton'
 import { sectionDescriptionField } from '@/fields/proteqRichText'
@@ -18,7 +18,7 @@ export const headingField: Field = {
 
 export const descriptionField: Field = sectionDescriptionField
 
-export const imagePathField: Field = {
+export const imagePathField: TextField = {
   name: 'imagePath',
   type: 'text',
   label: 'Image path (public folder)',
@@ -27,14 +27,14 @@ export const imagePathField: Field = {
   },
 }
 
-export const mediaImageField: Field = {
+export const mediaImageField: UploadField = {
   name: 'image',
   type: 'upload',
   relationTo: 'media',
   label: 'Image (Media library)',
 }
 
-export const mobileImageField: Field = {
+export const mobileImageField: UploadField = {
   name: 'mobileImage',
   type: 'upload',
   relationTo: 'media',
@@ -44,7 +44,7 @@ export const mobileImageField: Field = {
   },
 }
 
-export const mobileImagePathField: Field = {
+export const mobileImagePathField: TextField = {
   name: 'mobileImagePath',
   type: 'text',
   label: 'Mobile banner path (public folder)',
