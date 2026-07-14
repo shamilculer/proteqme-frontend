@@ -111,7 +111,7 @@ const MediumHero = ({
                 initial={reduceMotion ? false : "hidden"}
                 animate={reduceMotion ? false : "visible"}
                 variants={childReveal}
-                className="mb-5 inline-flex max-w-full items-center gap-2.5 rounded-full border border-zinc-200/90 bg-white/90 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm"
+              className="mb-3.5 inline-flex max-w-full items-center gap-2.5 rounded-full border border-zinc-200/90 bg-white/90 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm sm:mb-4"
               >
                 <span className="relative flex h-2 w-2 shrink-0">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
@@ -138,7 +138,7 @@ const MediumHero = ({
                 initial={reduceMotion ? false : "hidden"}
                 animate={reduceMotion ? false : "visible"}
                 variants={childReveal}
-                className="mt-5 max-w-lg sm:mt-6"
+                className="mt-3.5 max-w-lg sm:mt-4"
               >
                 <SectionDescription
                   content={description}
@@ -153,7 +153,7 @@ const MediumHero = ({
                 initial={reduceMotion ? false : "hidden"}
                 animate={reduceMotion ? false : "visible"}
                 variants={childReveal}
-                className="mt-6 flex w-full flex-col gap-3 sm:mt-8 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-2.5 md:gap-4"
+                className="mt-5 flex w-full flex-col gap-2.5 sm:mt-6 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-2.5"
               >
                 {mappedButtons.map((button, index) => (
                   <ActionButton
@@ -164,7 +164,7 @@ const MediumHero = ({
                     )}
                     {...button}
                     className={cn(
-                      "w-full shadow-[0_8px_30px_rgba(232,24,90,0.28)] sm:w-auto",
+                      "h-10! w-full px-4! text-sm! shadow-[0_8px_30px_rgba(232,24,90,0.28)] sm:h-11! sm:w-auto sm:px-5! sm:text-[15px]! [&_span.w-7]:h-6! [&_span.w-7]:w-6!",
                       button.variant !== "default" && "shadow-none",
                       button.className,
                     )}

@@ -103,7 +103,7 @@ function HeroSlidePanel({ slide, index, isActive, slideCount }) {
               initial={shouldAnimate ? "hidden" : false}
               animate={shouldAnimate ? "visible" : false}
               variants={childReveal}
-              className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-zinc-200/90 bg-white/90 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm"
+              className="mb-3.5 inline-flex items-center gap-2.5 rounded-full border border-zinc-200/90 bg-white/90 px-4 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm sm:mb-4"
             >
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
@@ -130,7 +130,7 @@ function HeroSlidePanel({ slide, index, isActive, slideCount }) {
               initial={shouldAnimate ? "hidden" : false}
               animate={shouldAnimate ? "visible" : false}
               variants={childReveal}
-              className="mt-5 max-w-lg text-sm leading-relaxed text-zinc-700 sm:mt-6 sm:text-base md:text-[1.05rem] md:leading-relaxed"
+              className="mt-3.5 max-w-lg text-sm leading-relaxed text-zinc-700 sm:mt-4 sm:text-base md:text-[1.05rem] md:leading-relaxed"
             >
               {slide.description}
             </motion.p>
@@ -141,14 +141,14 @@ function HeroSlidePanel({ slide, index, isActive, slideCount }) {
               initial={shouldAnimate ? "hidden" : false}
               animate={shouldAnimate ? "visible" : false}
               variants={childReveal}
-              className="mt-6 w-full sm:mt-8"
+              className="mt-5 w-full sm:mt-6"
             >
               {cta ? (
                 <ActionButton
                   {...cta}
                   glowingDot={cta.glowingDot ?? true}
                   showArrow={cta.showArrow ?? true}
-                  className="w-full shadow-[0_8px_30px_rgba(232,24,90,0.28)] sm:w-auto"
+                  className="h-10! w-full px-4! text-sm! shadow-[0_8px_30px_rgba(232,24,90,0.28)] sm:h-11! sm:w-auto sm:px-5! sm:text-[15px]! [&_span.w-7]:h-6! [&_span.w-7]:w-6!"
                 />
               ) : null}
             </motion.div>
