@@ -3,7 +3,13 @@
 import MediumHero from "@/components/global/MediumHero";
 import PageTitle from "@/components/global/PageTitle";
 import Hero from "@/components/home/Hero";
-import { mapButtons, mapHighlights, mapSlides, resolveImageSrc } from "@/components/cms/mapBlockData";
+import {
+  mapButtons,
+  mapHighlights,
+  mapSlides,
+  resolveImageSrc,
+  resolveMobileImageSrc,
+} from "@/components/cms/mapBlockData";
 import { hasProteqHero } from "@/utilities/hasProteqHero";
 
 export default function ProteqRenderHero({ hero }) {
@@ -20,6 +26,7 @@ export default function ProteqRenderHero({ hero }) {
         heading={hero.heading}
         description={hero.description}
         bgImage={resolveImageSrc(hero) || "/systems.webp"}
+        mobileImage={resolveMobileImageSrc(hero) || undefined}
         imageAlt={hero.imageAlt}
         buttons={mapButtons(hero.buttons)}
         highlights={mapHighlights(hero.highlights)}

@@ -7,6 +7,8 @@ import {
   highlightsField,
   imagePathField,
   mediaImageField,
+  mobileImageField,
+  mobileImagePathField,
   proteqButtonsField,
 } from '../shared'
 
@@ -18,8 +20,10 @@ export const ProteqMediumHero: Block = {
     eyebrowField,
     headingField,
     descriptionField,
-    mediaImageField,
-    imagePathField,
+    { ...mediaImageField, label: 'Desktop banner (Media library)' },
+    { ...mobileImageField, label: 'Mobile banner (Media library)' },
+    { ...imagePathField, label: 'Desktop banner path (public folder)' },
+    { ...mobileImagePathField, label: 'Mobile banner path (public folder)' },
     { name: 'imageAlt', type: 'text', label: 'Image alt text' },
     proteqButtonsField,
     highlightsField,

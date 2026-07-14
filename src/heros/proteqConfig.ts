@@ -89,19 +89,32 @@ export const proteqHero: Field = {
       admin: { condition: isMedium },
     },
     {
-      name: 'image',
-      type: 'upload',
-      relationTo: 'media',
-      label: 'Image (Media library)',
+      ...mediaImageField,
+      label: 'Desktop banner (Media library)',
       admin: { condition: isMedium },
     },
     {
-      name: 'imagePath',
-      type: 'text',
-      label: 'Image path (public folder)',
+      ...mobileImageField,
+      label: 'Mobile banner (Media library)',
       admin: {
+        ...mobileImageField.admin,
         condition: isMedium,
-        description: 'e.g. /consulting-bg.webp — used if no Media upload is set',
+      },
+    },
+    {
+      ...imagePathField,
+      label: 'Desktop banner path (public folder)',
+      admin: {
+        ...imagePathField.admin,
+        condition: isMedium,
+      },
+    },
+    {
+      ...mobileImagePathField,
+      label: 'Mobile banner path (public folder)',
+      admin: {
+        ...mobileImagePathField.admin,
+        condition: isMedium,
       },
     },
     {

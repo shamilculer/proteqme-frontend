@@ -74,6 +74,7 @@ import {
   mapWhyChoose,
   pickCardGridComponent,
   resolveImageSrc,
+  resolveMobileImageSrc,
 } from "@/components/cms/mapBlockData";
 import { mapCtaFields } from "@/utilities/mapActionButton";
 import { componentRegistry, layoutRegistry } from "@/components/cms/componentRegistry";
@@ -93,6 +94,7 @@ const blockComponents = {
       heading={block.heading}
       description={block.description}
       bgImage={resolveImageSrc(block) || "/systems.webp"}
+      mobileImage={resolveMobileImageSrc(block) || undefined}
       imageAlt={block.imageAlt}
       buttons={mapButtons(block.buttons)}
       highlights={mapHighlights(block.highlights)}
