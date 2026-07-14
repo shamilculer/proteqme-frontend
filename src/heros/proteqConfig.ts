@@ -7,7 +7,6 @@ import {
   mobileImageField,
   mobileImagePathField,
 } from '@/blocks/proteq/shared'
-
 const carouselSlideFields: Field[] = [
   { name: 'tag', type: 'text', required: true },
   { name: 'title', type: 'text', required: true },
@@ -89,32 +88,38 @@ export const proteqHero: Field = {
       admin: { condition: isMedium },
     },
     {
-      ...mediaImageField,
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
       label: 'Desktop banner (Media library)',
       admin: { condition: isMedium },
     },
     {
-      ...mobileImageField,
+      name: 'mobileImage',
+      type: 'upload',
+      relationTo: 'media',
       label: 'Mobile banner (Media library)',
       admin: {
-        ...mobileImageField.admin,
         condition: isMedium,
+        description: 'Optional. Used below the lg breakpoint. Falls back to the desktop image.',
       },
     },
     {
-      ...imagePathField,
+      name: 'imagePath',
+      type: 'text',
       label: 'Desktop banner path (public folder)',
       admin: {
-        ...imagePathField.admin,
         condition: isMedium,
+        description: 'e.g. /consulting-bg.webp — used if no Media upload is set',
       },
     },
     {
-      ...mobileImagePathField,
+      name: 'mobileImagePath',
+      type: 'text',
       label: 'Mobile banner path (public folder)',
       admin: {
-        ...mobileImagePathField.admin,
         condition: isMedium,
+        description: 'e.g. /consulting-bg-mobile.webp — used if no mobile Media upload is set',
       },
     },
     {
