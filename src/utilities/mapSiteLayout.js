@@ -1,3 +1,11 @@
+import {
+  OFFICE_ADDRESS,
+  OFFICE_MAP_EMBED,
+  OFFICE_MAP_URL,
+  PHONE_PRIMARY,
+  PHONE_PRIMARY_DISPLAY,
+  SITE_EMAIL,
+} from '@/data/siteContact'
 import { mapActionButton } from '@/utilities/mapActionButton'
 import { mapIcon } from '@/utilities/mapIcon'
 import { resolveCmsLink } from '@/utilities/resolveCmsLink'
@@ -77,21 +85,43 @@ export function mapHeaderProps(header, siteSettings) {
   }
 }
 
+/**
+ * Single source of truth for public contact details.
+ * Reads from the `siteSettings` global, with the hardcoded constants in
+ * `@/data/siteContact` used only as a last-resort fallback.
+ */
+export function mapContactProps(siteSettings) {
+  const phonePrimary = siteSettings?.phonePrimary || PHONE_PRIMARY
+  const phoneSecondary = siteSettings?.phoneSecondary || ''
+
+  return {
+    email: siteSettings?.email || SITE_EMAIL,
+    phonePrimary,
+    phonePrimaryDisplay:
+      siteSettings?.phonePrimaryDisplay || phonePrimary || PHONE_PRIMARY_DISPLAY,
+    phoneSecondary,
+    phoneSecondaryDisplay: phoneSecondary
+      ? siteSettings?.phoneSecondaryDisplay || phoneSecondary
+      : '',
+    address: siteSettings?.address || OFFICE_ADDRESS,
+    mapUrl: siteSettings?.mapUrl || OFFICE_MAP_URL,
+    mapEmbed: siteSettings?.mapEmbed || OFFICE_MAP_EMBED,
+  }
+}
+
 export function mapFooterProps(footer, siteSettings) {
   return {
     logo: {
       src: siteSettings?.logoWhitePath || '/proteq-white.png',
       alt: 'Proteq Logo',
     },
+    description:
+      footer?.description ||
+      'Regulatory, Accounting, and AML Compliance Advisory — delivering professional learning and RegTech-enabled governance solutions for regulated and supervised organisations',
     navLinks: mapFooterLinks(footer?.navLinks),
     socialLinks: footer?.socialLinks?.length ? footer.socialLinks : DEFAULT_SOCIAL,
     contact: {
-      email: siteSettings?.email || 'info@proteq.me',
-      phonePrimary: siteSettings?.phonePrimary || '+442071234567',
-      phonePrimaryDisplay: siteSettings?.phonePrimaryDisplay || '+44 (0) 20 7123 4567',
-      phoneSecondary: siteSettings?.phoneSecondary || '+12125550199',
-      phoneSecondaryDisplay: siteSettings?.phoneSecondaryDisplay || '+1 (212) 555-0199',
-      address: siteSettings?.address || 'Level 24, International Finance Centre, London, EC2N 1HQ',
+      ...mapContactProps(siteSettings),
       companyRegistration:
         siteSettings?.companyRegistration ||
         'England & Wales · Company No. [registration number]',

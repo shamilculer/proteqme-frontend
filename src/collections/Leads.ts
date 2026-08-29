@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../access/authenticated'
+import { updateBrevoContactAttributes } from '../lib/brevo'
 
 export const Leads: CollectionConfig = {
   slug: 'leads',
@@ -117,6 +118,10 @@ export const Leads: CollectionConfig = {
                   defaultValue: 'no_calendar',
                   options: [
                     { label: 'Booked', value: 'booked' },
+                    { label: 'Completed', value: 'completed' },
+                    { label: 'Rescheduled', value: 'rescheduled' },
+                    { label: 'Cancelled', value: 'cancelled' },
+                    { label: 'No-show', value: 'no_show' },
                     { label: 'Skipped', value: 'skipped' },
                     { label: 'No calendar', value: 'no_calendar' },
                   ],
@@ -142,6 +147,16 @@ export const Leads: CollectionConfig = {
                   admin: { width: '50%' },
                 },
               ],
+            },
+            {
+              name: 'referenceNumber',
+              type: 'text',
+              index: true,
+              admin: {
+                readOnly: true,
+                description:
+                  'Auto-generated enquiry reference shown in the Sequence 2 auto-responder.',
+              },
             },
             {
               name: 'message',
@@ -254,6 +269,14 @@ export const Leads: CollectionConfig = {
               defaultValue: false,
             },
             {
+              name: 'demoRecapNotes',
+              type: 'textarea',
+              admin: {
+                description:
+                  "Rep-entered recap of the demo call — synced to Brevo as DEMO_RECAP_NOTES for Sequence 1's Day 1 thank-you email. Fill in after the call.",
+              },
+            },
+            {
               name: 'booking',
               type: 'group',
               fields: [
@@ -301,4 +324,21 @@ export const Leads: CollectionConfig = {
       ],
     },
   ],
+  hooks: {
+    afterChange: [
+      async ({ doc, previousDoc, operation }) => {
+        if (operation !== 'update') return
+        if (!doc.email) return
+        if (!doc.demoRecapNotes || doc.demoRecapNotes === previousDoc?.demoRecapNotes) return
+
+        try {
+          await updateBrevoContactAttributes(doc.email, {
+            DEMO_RECAP_NOTES: doc.demoRecapNotes,
+          })
+        } catch (error) {
+          console.error('[Leads] Failed to sync demo recap notes to Brevo:', error)
+        }
+      },
+    ],
+  },
 }

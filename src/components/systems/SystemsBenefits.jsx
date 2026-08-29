@@ -1,8 +1,7 @@
 "use client";
 
-import { itemKey, listKey } from "@/lib/listKey";
+import { itemKey } from "@/lib/listKey";
 import dynamic from "next/dynamic";
-import CtaButton from "@/components/ui/CtaButton";
 import SectionAmbient from "@/components/ui/SectionAmbient";
 import { SectionReveal, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
 
@@ -74,16 +73,7 @@ export default function SystemsBenefits({
   animate = DEFAULTS.animate,
   sectionId = DEFAULTS.sectionId,
   particleId = DEFAULTS.particleId,
-  cta = { label: "Request a Systems Assessment", href: "/contact", actionType: "link" },
-  ctaLabel,
-  ctaHref,
 }) {
-  const action =
-    cta ||
-    (ctaLabel && ctaHref
-      ? { label: ctaLabel, href: ctaHref, actionType: "link" }
-      : null);
-
   return (
     <SectionReveal
       id={sectionId || undefined}
@@ -118,12 +108,6 @@ export default function SystemsBenefits({
             </StaggerItem>
           ))}
         </StaggerContainer>
-
-        <ScrollReveal className="mt-12 text-center">
-          {action ? (
-            <CtaButton cta={action} showArrow glowingDot />
-          ) : null}
-        </ScrollReveal>
       </div>
     </SectionReveal>
   );

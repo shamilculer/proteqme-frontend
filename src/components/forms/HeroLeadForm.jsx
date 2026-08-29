@@ -31,14 +31,7 @@ import {
 } from "@/components/ui/dialog";
 import { slideDistance, slidePanelTransition } from "@/lib/motion-presets";
 import { getLeadSource, postLead } from "@/lib/leads/postLead";
-
-const serviceOptions = [
-  { value: "advisory", label: "Consultancy & Advisory" },
-  { value: "learning", label: "Proteq Learning" },
-  { value: "systems", label: "RegTech Systems" },
-  { value: "ai-investments", label: "AI Investments" },
-  { value: "general", label: "General Enquiry" },
-];
+import { SERVICE_OPTIONS as serviceOptions } from "@/lib/leads/serviceContent";
 
 const panelClass =
   "rounded-2xl border border-zinc-200/80 bg-white shadow-[0_24px_70px_rgba(13,13,20,0.08)]";

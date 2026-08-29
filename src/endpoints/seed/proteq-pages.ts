@@ -990,8 +990,6 @@ const proteqPages = [
         eyebrow: 'Impact at Scale',
         heading: 'RegTech Advisory Built for Regulated Operations',
         animate: false,
-        ctaLabel: 'Request a Systems Assessment',
-        ctaHref: '/contact',
         stats: [
           {
             value: '40+',
@@ -1547,12 +1545,6 @@ function applyLearningPagePopupCtas(popupId: string) {
         glowingDot: true,
         showArrow: true,
       },
-      {
-        label: 'Browse Courses',
-        href: '#training-programmes',
-        variant: 'outline',
-        showArrow: true,
-      },
     ]
   }
 }
@@ -1888,14 +1880,14 @@ export const seedProteqPages = async ({
     data: {
       email: 'info@proteq.me',
       partnersEmail: 'partners@proteqme.com',
-      phonePrimary: '+442071234567',
-      phonePrimaryDisplay: '+44 (0) 20 7123 4567',
-      phoneSecondary: '+12125550199',
-      phoneSecondaryDisplay: '+1 (212) 555-0199',
-      address: 'Level 24, International Finance Centre, London, EC2N 1HQ',
+      phonePrimary: '+971558481756',
+      phonePrimaryDisplay: '+971 55 848 1756',
+      phoneSecondary: '',
+      phoneSecondaryDisplay: '',
+      address: 'Arjan, Dubai, United Arab Emirates (UAE)',
       companyRegistration: 'England & Wales · Company No. [registration number]',
       mapUrl:
-        'https://www.google.com/maps/search/?api=1&query=International+Finance+Centre+London+EC2N+1HQ',
+        'https://www.google.com/maps/search/?api=1&query=Arjan%2C+Dubai%2C+United+Arab+Emirates',
       logoPath: '/proteq-logo.png',
       logoWhitePath: '/proteq-white.png',
       ctaLabel: 'Book a Free Demo',
@@ -2029,6 +2021,8 @@ export const seedProteqPages = async ({
   await payload.updateGlobal({
     slug: 'footer',
     data: {
+      description:
+        'Regulatory, Accounting, and AML Compliance Advisory — delivering professional learning and RegTech-enabled governance solutions for regulated and supervised organisations',
       navLinks: [
         ...(homeId ? [{ link: pageLink(homeId, 'Home') }] : []),
         ...(consultancyId

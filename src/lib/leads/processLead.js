@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 
@@ -151,6 +152,7 @@ function buildLeadDocument({ payload, attributes, partial = false, brevoSync }) 
     firstName: attributes.FIRSTNAME || "",
     lastName: attributes.LASTNAME || "",
     company: attributes.COMPANY || form.company || form.companyName || "",
+    referenceNumber: attributes.ENQUIRY_REFERENCE_NUMBER || "",
     funnel: payload.type || "contact",
     leadType:
       enquiry.label ||
@@ -240,6 +242,13 @@ export async function processLeadSubmission(input) {
 
   const attributes = enrichBrevoAttributes(payload);
 
+  // Sequence 2 (enquiry auto-responder) needs a reference number in the
+  // confirmation email. Not a DB-enforced-unique sequence — a 5-digit
+  // random id is enough for a "here's your ref" display value.
+  if (payload.type === "contact") {
+    attributes.ENQUIRY_REFERENCE_NUMBER = `PTQ-${crypto.randomInt(10000, 99999)}`;
+  }
+
   let brevoResult = { success: false };
   try {
     brevoResult = await upsertBrevoContact({
@@ -276,6 +285,19 @@ export async function processLeadSubmission(input) {
         firstName: attributes.FIRSTNAME || "",
         lastName: attributes.LASTNAME || "",
         source: payload.source || "",
+        company: attributes.COMPANY || "",
+        // Demo booking (Sequence 1, Email 1)
+        demoDate: attributes.BOOKING_DATE || "",
+        demoTime: attributes.BOOKING_TIME || "",
+        demoTimezone: attributes.BOOKING_TIMEZONE || "",
+        meetingJoinLink: attributes.BOOKING_VIDEO_URL || "",
+        rescheduleLink: attributes.RESCHEDULE_LINK || "",
+        // Enquiry auto-responder (Sequence 2)
+        enquiryReferenceNumber: attributes.ENQUIRY_REFERENCE_NUMBER || "",
+        enquiryServiceInterest: attributes.ENQUIRY_SERVICE_INTEREST || "",
+        servicePageLink1: attributes.SERVICE_PAGE_LINK_1 || "",
+        servicePageLink2: attributes.SERVICE_PAGE_LINK_2 || "",
+        responseSlaHours: attributes.RESPONSE_SLA_HOURS || "",
       },
     });
   } catch (error) {

@@ -8,7 +8,9 @@ import { hasProteqHero } from '@/utilities/hasProteqHero'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { proteqHeroBlockTypes } from '@/blocks/proteq/layoutBlocks'
 import { generateMeta } from '@/utilities/generateMeta'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import { getPage } from '@/utilities/getPage'
+import { mapContactProps } from '@/utilities/mapSiteLayout'
 
 function getContentBlocks(layout = []) {
   return layout.filter((block) => !proteqHeroBlockTypes.has(block.blockType))
@@ -22,7 +24,10 @@ export function createCmsPageExports(slug) {
 
   async function CmsPage() {
     const { isEnabled: draft } = await draftMode()
-    const page = await getPage(slug)
+    const [page, siteSettings] = await Promise.all([
+      getPage(slug),
+      getCachedGlobal('siteSettings', 1)(),
+    ])
 
     if (!page) {
       notFound()
@@ -40,7 +45,10 @@ export function createCmsPageExports(slug) {
         {draft && <LivePreviewListener />}
         <CmsPageClient />
         <ProteqRenderHero hero={page.hero} />
-        <ProteqRenderBlocks blocks={contentBlocks} />
+        <ProteqRenderBlocks
+          blocks={contentBlocks}
+          contact={mapContactProps(siteSettings)}
+        />
       </>
     )
   }

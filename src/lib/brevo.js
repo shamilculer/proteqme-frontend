@@ -27,6 +27,19 @@ export const BREVO_CUSTOM_ATTRIBUTES = [
   { name: "BOOKING_TIMEZONE", type: "text" },
   { name: "BOOKING_DURATION_MINUTES", type: "text" },
   { name: "CALENDAR_SKIPPED", type: "boolean" },
+  { name: "DEMO_STATUS", type: "text" },
+  { name: "DEMO_DATE_ISO", type: "date" },
+  { name: "DEMO_RECAP_NOTES", type: "text" },
+  { name: "RESCHEDULE_LINK", type: "text" },
+  { name: "SALES_REP_CALENDAR_LINK", type: "text" },
+  { name: "CONSULTATION_LINK", type: "text" },
+  { name: "QUOTE_REQUEST_LINK", type: "text" },
+  { name: "CRM_LIFECYCLE_STAGE", type: "text" },
+  { name: "ENQUIRY_REFERENCE_NUMBER", type: "text" },
+  { name: "ENQUIRY_SERVICE_INTEREST", type: "text" },
+  { name: "SERVICE_PAGE_LINK_1", type: "text" },
+  { name: "SERVICE_PAGE_LINK_2", type: "text" },
+  { name: "RESPONSE_SLA_HOURS", type: "text" },
 ];
 
 /** Profile fields — never overwrite once set on an existing contact. */
@@ -518,6 +531,37 @@ export async function sendBrevoTransactional({ type, email, params = {} }) {
   });
 
   return { success: true };
+}
+
+/**
+ * Direct attribute overwrite for an existing contact — used by webhooks
+ * (e.g. Cal.com booking status changes) where the new value must always
+ * win, unlike upsertBrevoContact's "preserve/append" merge rules for
+ * repeat form submissions.
+ */
+export async function updateBrevoContactAttributes(email, attributes = {}) {
+  if (!email) {
+    throw new Error("Email is required for Brevo attribute update");
+  }
+
+  if (!getApiKey()) {
+    console.warn("[Brevo] BREVO_API_KEY not set — status update not synced");
+    return { skipped: true, reason: "missing_api_key" };
+  }
+
+  try {
+    await ensureBrevoAttributes();
+  } catch (error) {
+    console.warn("[Brevo] Attribute ensure failed (continuing):", error);
+  }
+
+  const cleaned = sanitizeAttributes(attributes);
+  if (Object.keys(cleaned).length === 0) {
+    return { skipped: true, reason: "no_attributes" };
+  }
+
+  await putContactAttributes(email, cleaned);
+  return { success: true, email, attributesWritten: Object.keys(cleaned) };
 }
 
 export function isBrevoConfigured() {

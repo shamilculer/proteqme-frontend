@@ -2,6 +2,7 @@
 
 import { contactFormSchema } from "@/lib/schema/formSchema";
 import { getLeadSource, postLead } from "@/lib/leads/postLead";
+import { SERVICE_OPTIONS } from "@/lib/leads/serviceContent";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { motion } from "motion/react";
@@ -16,6 +17,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function ContactForm() {
   const form = useForm({
@@ -23,6 +31,7 @@ function ContactForm() {
     defaultValues: {
       "full-name": "",
       email: "",
+      service: "",
       message: "",
     },
   });
@@ -132,6 +141,40 @@ function ContactForm() {
                 placeholder="you@company.com"
                 className="h-12 w-full rounded-xl border border-zinc-300 bg-white px-4 text-sm text-zinc-900 shadow-xs outline-none placeholder:text-zinc-400 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
               />
+              {fieldState.invalid && (
+                <FieldError
+                  className="mt-1 text-xs font-semibold text-primary"
+                  errors={[fieldState.error]}
+                />
+              )}
+            </Field>
+          )}
+        />
+
+        <Controller
+          name="service"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid} className="gap-1">
+              <FieldLabel className="mb-1 text-zinc-700" htmlFor="service">
+                Service interest *
+              </FieldLabel>
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger
+                  id="service"
+                  aria-invalid={fieldState.invalid}
+                  className="h-12 w-full rounded-xl border border-zinc-300 bg-white px-4 text-sm text-zinc-900 shadow-xs focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
+                >
+                  <SelectValue placeholder="Select a service" />
+                </SelectTrigger>
+                <SelectContent>
+                  {SERVICE_OPTIONS.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               {fieldState.invalid && (
                 <FieldError
                   className="mt-1 text-xs font-semibold text-primary"

@@ -491,7 +491,6 @@ export function mapTrustStrip(block) {
     animate: block.animate !== false,
     sectionId: block.sectionId,
     particleId: block.sectionId,
-    cta: mapCtaFields(block),
   }
 }
 

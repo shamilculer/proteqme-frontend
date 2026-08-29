@@ -21,12 +21,6 @@ const defaultButtons = [
     glowingDot: true,
     showArrow: true,
   },
-  {
-    label: "Contact Our Experts",
-    href: "/contact",
-    variant: "secondary",
-    className: "",
-  },
 ];
 
 /** Outline is authored for dark heroes; on light CTA sections use outline-light. */
@@ -47,7 +41,8 @@ const MainCTA = ({
   buttons = defaultButtons,
   className,
 }) => {
-  const mappedButtons = buttons.map(mapButtonForLightCta);
+  // The Main CTA renders a single (primary) button only — any secondary CTA is ignored.
+  const mappedButtons = buttons.slice(0, 1).map(mapButtonForLightCta);
 
   return (
     <SectionReveal

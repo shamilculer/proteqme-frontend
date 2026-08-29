@@ -7,7 +7,15 @@ export const ProteqMapEmbed: Block = {
   interfaceName: 'ProteqMapEmbedBlock',
   labels: { singular: 'Map embed', plural: 'Map embeds' },
   fields: [
-    { name: 'embedUrl', type: 'text', label: 'Google Maps embed URL', required: true },
+    {
+      name: 'embedUrl',
+      type: 'text',
+      label: 'Google Maps embed URL',
+      admin: {
+        description:
+          'Optional override. Leave blank to use the Google Maps embed URL from Site Settings → Contact.',
+      },
+    },
     sectionIdField,
   ],
 }

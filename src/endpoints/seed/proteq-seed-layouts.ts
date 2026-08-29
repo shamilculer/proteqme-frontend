@@ -150,28 +150,28 @@ export const consultancyLayout = [
     imageAlt: 'Regulated business environment for compliance advisory',
     points: [
       {
-        title: 'Practical, Not Theoretical',
+        title: 'Regulatory Compliance Accuracy',
         description:
-          'Every engagement is built around usable documentation, clear findings, and implementation steps your team can act on.',
-        icon: 'clipboardCheck',
-      },
-      {
-        title: 'Regulatory Depth',
-        description:
-          'Advisory is grounded in AML, anti-fraud, digital asset, and regulatory control expectations across demanding environments.',
+          'Precise interpretation and application of regulatory requirements, ensuring organisations meet statutory, supervisory, and reporting obligations with clarity and consistency.',
         icon: 'shieldCheck',
       },
       {
-        title: 'Tailored Risk Lens',
+        title: 'Accounting Standards Alignment',
         description:
-          'We shape recommendations around your actual exposure, customer base, products, systems, and operating model.',
-        icon: 'target',
+          'Rigorous adherence to recognised financial reporting frameworks, supporting transparent, consistent, and audit-ready accounting treatments across all reporting cycles.',
+        icon: 'fileCheck',
       },
       {
-        title: 'Audit-Ready Outputs',
+        title: 'Controls & Documentation Integrity',
         description:
-          'Policies, procedures, assessments, and remediation plans are structured for internal use and external examination.',
-        icon: 'fileCheck',
+          'Robust internal controls and evidence-based documentation practices designed to withstand regulatory examination, audit scrutiny, and compliance testing.',
+        icon: 'clipboardCheck',
+      },
+      {
+        title: 'Compliance-Driven Decision Support',
+        description:
+          'Actionable guidance that integrates regulatory obligations with accounting impacts, enabling informed, compliant, and strategically aligned decision-making.',
+        icon: 'target',
       },
     ],
   },
@@ -263,7 +263,6 @@ export const consultancyLayout = [
     imagePath: '/implementation.webp',
     buttons: [
       { label: 'Book a Free Consultation', href: '/contact', variant: 'white', glowingDot: true, showArrow: true },
-      { label: 'Request a Quote', href: '/contact', variant: 'outline', showArrow: true },
     ],
   },
 ]
@@ -521,7 +520,6 @@ export const learningLayout = [
     imagePath: '/trainer.webp',
     buttons: [
       { label: 'Browse Courses', href: '#training-programmes', variant: 'white', glowingDot: true, showArrow: true },
-      { label: 'View Webinars', href: '#training-programmes', variant: 'outline', showArrow: true },
     ],
   },
 ]
@@ -767,7 +765,6 @@ export const systemsLayout = [
     imagePath: '/systems.webp',
     buttons: [
       { label: 'Request a Systems Assessment', href: '/contact', variant: 'white', glowingDot: true, showArrow: true },
-      { label: 'Talk to an Expert', href: '/contact', variant: 'outline', showArrow: true },
     ],
   },
 ]
@@ -912,7 +909,6 @@ export const aiInvestmentsLayout = [
     imagePath: '/ai-investment.webp',
     buttons: [
       { label: 'Get started', href: '#aurum-register', variant: 'white', glowingDot: true, showArrow: true },
-      { label: 'Speak with Proteq', href: '/contact', variant: 'outline', showArrow: true },
     ],
   },
 ]
@@ -1055,7 +1051,6 @@ export const partnerLayout = [
     imagePath: '/partner.webp',
     buttons: [
       { label: 'Contact Us', href: '/contact', variant: 'white', glowingDot: true, showArrow: true },
-      { label: 'Email Our Team', href: 'mailto:partners@proteqme.com', variant: 'outline', showArrow: true },
     ],
   },
 ]
@@ -1070,9 +1065,8 @@ export const contactLayout = [
     sectionId: 'contact-main',
   },
   {
+    // No embedUrl — the map falls back to Site Settings → Contact → Google Maps embed URL.
     blockType: 'proteqMapEmbed',
-    embedUrl:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.887623456789!2d-0.0195!3d51.5074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48760349331d0c5d%3A0xef9344b9b6e4c8f1!2sOne%20Canada%20Square%2C%20London%20E14%205AB!5e0!3m2!1sen!2suk!4v1700000000000!5m2!1sen!2suk',
     sectionId: 'contact-map',
   },
   {

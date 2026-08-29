@@ -71,6 +71,7 @@ function FooterColumn({ title, children, className }) {
 
 const Footer = ({
   logo = { src: "/proteq-white.png", alt: "Proteq Logo" },
+  description = "Regulatory, Accounting, and AML Compliance Advisory — delivering professional learning and RegTech-enabled governance solutions for regulated and supervised organisations",
   navLinks = [],
   socialLinks = [],
   contact = {},
@@ -152,10 +153,11 @@ const Footer = ({
               />
             </Link>
 
-            <p className="max-w-sm text-sm leading-relaxed text-zinc-400">
-              AML compliance advisory, professional learning, and RegTech
-              systems for regulated organisations.
-            </p>
+            {description ? (
+              <p className="max-w-sm text-sm leading-relaxed text-zinc-400">
+                {description}
+              </p>
+            ) : null}
 
             {socialLinks.length > 0 ? (
               <div className="mt-6 flex flex-wrap items-center gap-2.5">

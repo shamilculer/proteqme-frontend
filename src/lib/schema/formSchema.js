@@ -26,6 +26,7 @@ export const heroLeadFormSchema = heroLeadStep1Schema.merge(heroLeadStep2Schema)
 export const contactFormSchema = z.object({
   "full-name": z.string().min(1, "Name is required"),
   email: z.string().email("Please enter a valid email"),
+  service: z.string().min(1, "Please select a service"),
   message: z.string().min(1, "Please enter your message"),
 });
 

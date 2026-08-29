@@ -30,7 +30,7 @@ export default function CmsOverviewSection({
   return (
     <SectionReveal
       id={sectionId}
-      className="relative w-full overflow-hidden bg-[#f6f4f8] py-18 md:py-24"
+      className="relative w-full overflow-hidden bg-[#f6f4f8] py-18 md:py-20"
     >
       <ParticleNetwork variant="light" id={`${sectionId || "cms"}-particles`} />
       <div className="container">

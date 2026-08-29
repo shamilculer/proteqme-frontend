@@ -62,6 +62,16 @@ export const proteqButtonsField: Field = {
   ),
 }
 
+/** Main CTA supports a single button only — no secondary CTA. */
+export const proteqSingleButtonField: Field = {
+  ...proteqButtonsField,
+  label: 'Button',
+  maxRows: 1,
+  admin: {
+    description: 'The Main CTA supports one button only.',
+  },
+}
+
 export const highlightsField: Field = {
   name: 'highlights',
   type: 'array',

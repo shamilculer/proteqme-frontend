@@ -1,6 +1,6 @@
 import type { Block, Field } from 'payload'
 
-import { ctaActionField, sectionHeaderFields, sectionIdField } from '../fields'
+import { sectionHeaderFields, sectionIdField } from '../fields'
 
 type ConditionContext = {
   blockData?: { variant?: string }
@@ -86,13 +86,13 @@ export const ProteqTrustStrip: Block = {
           value: 'stats-row',
         },
         {
-          label: 'Impact panel — heading, stat descriptions, and CTA',
+          label: 'Impact panel — heading and stat descriptions',
           value: 'impact-panel',
         },
       ],
       admin: {
         description:
-          'Stats row is the simple pink counter strip. Impact panel adds a header, per-stat copy, and a button.',
+          'Stats row is the simple pink counter strip. Impact panel adds a header and per-stat copy.',
       },
     },
     ...sectionHeaderFields.map((field) => ({
@@ -104,13 +104,6 @@ export const ProteqTrustStrip: Block = {
       },
     })),
     trustStatsFields,
-    {
-      ...ctaActionField,
-      admin: {
-        condition: (data: Record<string, unknown>, siblingData?: { variant?: string }, ctx?: ConditionContext) =>
-          isImpactPanel(data, siblingData, ctx),
-      },
-    },
     {
       name: 'animate',
       type: 'checkbox',

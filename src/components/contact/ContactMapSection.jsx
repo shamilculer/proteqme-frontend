@@ -21,7 +21,7 @@ export default function ContactMapSection({
         <div className="relative aspect-[4/3] w-full sm:aspect-[21/9] md:aspect-[2.4/1]">
           <iframe
             src={embedUrl}
-            title="Proteq office location — London"
+            title="Proteq office location — Dubai"
             className="absolute inset-0 h-full w-full border-0"
             allowFullScreen
             loading="lazy"

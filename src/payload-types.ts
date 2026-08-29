@@ -1159,7 +1159,7 @@ export interface ProteqModuleCarouselBlock {
  */
 export interface ProteqTrustStripBlock {
   /**
-   * Stats row is the simple pink counter strip. Impact panel adds a header, per-stat copy, and a button.
+   * Stats row is the simple pink counter strip. Impact panel adds a header and per-stat copy.
    */
   variant: 'stats-row' | 'impact-panel';
   eyebrow?: string | null;
@@ -1189,28 +1189,6 @@ export interface ProteqTrustStripBlock {
     description?: string | null;
     id?: string | null;
   }[];
-  cta?: {
-    label?: string | null;
-    actionType?: ('link' | 'popup') | null;
-    link?: {
-      type?: ('reference' | 'custom') | null;
-      newTab?: boolean | null;
-      reference?:
-        | ({
-            relationTo: 'pages';
-            value: string | Page;
-          } | null)
-        | ({
-            relationTo: 'posts';
-            value: string | Post;
-          } | null);
-      url?: string | null;
-    };
-    popup?: (string | null) | Popup;
-    variant?: ('default' | 'white' | 'outline' | 'secondary') | null;
-    glowingDot?: boolean | null;
-    showArrow?: boolean | null;
-  };
   animate?: boolean | null;
   sectionId?: string | null;
   id?: string | null;
@@ -1673,7 +1651,10 @@ export interface ProteqNewsletterBlock {
  * via the `definition` "ProteqMapEmbedBlock".
  */
 export interface ProteqMapEmbedBlock {
-  embedUrl: string;
+  /**
+   * Optional override. Leave blank to use the Google Maps embed URL from Site Settings → Contact.
+   */
+  embedUrl?: string | null;
   sectionId?: string | null;
   id?: string | null;
   blockName?: string | null;
@@ -2033,6 +2014,9 @@ export interface ProteqMainCtaBlock {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * The Main CTA supports one button only.
+   */
   buttons?:
     | {
         label: string;
@@ -2578,12 +2562,16 @@ export interface Lead {
    * Service / enquiry label shown in CRM (e.g. Proteq Learning).
    */
   leadType?: string | null;
-  bookingStatus?: ('booked' | 'skipped' | 'no_calendar') | null;
+  bookingStatus?: ('booked' | 'completed' | 'rescheduled' | 'cancelled' | 'no_show' | 'skipped' | 'no_calendar') | null;
   /**
    * Page path where the form was submitted.
    */
   source?: string | null;
   popupSlug?: string | null;
+  /**
+   * Auto-generated enquiry reference shown in the Sequence 2 auto-responder.
+   */
+  referenceNumber?: string | null;
   message?: string | null;
   /**
    * Extra fields from the form (name, email, phone, company, and message are shown above).
@@ -2653,6 +2641,10 @@ export interface Lead {
     | boolean
     | null;
   calendarSkipped?: boolean | null;
+  /**
+   * Rep-entered recap of the demo call — synced to Brevo as DEMO_RECAP_NOTES for Sequence 1's Day 1 thank-you email. Fill in after the call.
+   */
+  demoRecapNotes?: string | null;
   booking?: {
     uid?: string | null;
     title?: string | null;
@@ -3329,24 +3321,6 @@ export interface ProteqTrustStripBlockSelect<T extends boolean = true> {
         label?: T;
         description?: T;
         id?: T;
-      };
-  cta?:
-    | T
-    | {
-        label?: T;
-        actionType?: T;
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-            };
-        popup?: T;
-        variant?: T;
-        glowingDot?: T;
-        showArrow?: T;
       };
   animate?: T;
   sectionId?: T;
@@ -4143,6 +4117,7 @@ export interface LeadsSelect<T extends boolean = true> {
   bookingStatus?: T;
   source?: T;
   popupSlug?: T;
+  referenceNumber?: T;
   message?: T;
   formFields?:
     | T
@@ -4159,6 +4134,7 @@ export interface LeadsSelect<T extends boolean = true> {
   brevoAttributes?: T;
   payloadSnapshot?: T;
   calendarSkipped?: T;
+  demoRecapNotes?: T;
   booking?:
     | T
     | {
@@ -4600,6 +4576,10 @@ export interface Header {
 export interface Footer {
   id: string;
   /**
+   * Short paragraph shown under the logo in the footer.
+   */
+  description?: string | null;
+  /**
    * Add links here. Nothing appears until you add items.
    */
   navLinks?:
@@ -4768,6 +4748,7 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  description?: T;
   navLinks?:
     | T
     | {

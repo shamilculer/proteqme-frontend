@@ -2,6 +2,14 @@
  * Normalises Cal.com embed bookingSuccessfulV2 / bookingSuccessful payloads.
  */
 import { resolvePhoneValue, toE164Phone } from "@/lib/phone";
+import {
+  getCalBookingLink,
+  getQuoteRequestLink,
+  getRescheduleLink,
+  getResponseSlaHours,
+  getServicePageLinks,
+  resolveCrmLifecycleStage,
+} from "@/lib/leads/serviceContent";
 
 function pickFirst(...values) {
   for (const value of values) {
@@ -95,6 +103,7 @@ export function formatBookingForBrevo(startTime, endTime) {
       BOOKING_DATETIME: "",
       BOOKING_TIMEZONE: "",
       BOOKING_DURATION_MINUTES: "",
+      DEMO_DATE_ISO: "",
     };
   }
 
@@ -110,6 +119,7 @@ export function formatBookingForBrevo(startTime, endTime) {
       BOOKING_DATETIME: "",
       BOOKING_TIMEZONE: "",
       BOOKING_DURATION_MINUTES: "",
+      DEMO_DATE_ISO: "",
     };
   }
 
@@ -157,6 +167,10 @@ export function formatBookingForBrevo(startTime, endTime) {
     BOOKING_DATETIME: `${date} at ${startClock} (${timezone})`,
     BOOKING_TIMEZONE: timezone,
     BOOKING_DURATION_MINUTES: durationMinutes,
+    // Machine-readable date (YYYY-MM-DD) for Brevo's date-attribute automation
+    // triggers (e.g. "send 24h before this date") — BOOKING_DATE above is a
+    // formatted string and can't be used for that.
+    DEMO_DATE_ISO: start.toISOString().slice(0, 10),
   };
 }
 
@@ -369,6 +383,20 @@ export function buildLeadPayload({
     data,
   });
 
+  const calBookingLink = getCalBookingLink();
+
+  // Enquiry auto-responder fields (Sequence 2) — only meaningful for the
+  // general contact/enquiry funnel.
+  const enquiryAttributes =
+    funnelType === "contact"
+      ? {
+          ENQUIRY_SERVICE_INTEREST: enquiry.label || "",
+          ...getServicePageLinks(data.service || enquiry.value),
+          RESPONSE_SLA_HOURS: getResponseSlaHours(),
+          QUOTE_REQUEST_LINK: getQuoteRequestLink(),
+        }
+      : {};
+
   const hasBooking = Boolean(normalizedBooking?.startTime || normalizedBooking?.uid);
   const bookingStatus = hasBooking
     ? "booked"
@@ -384,6 +412,10 @@ export function buildLeadPayload({
         BOOKING_VIDEO_URL: normalizedBooking?.videoCallUrl || "",
         BOOKING_STATUS: bookingStatus,
         CALENDAR_SKIPPED: false,
+        // Exact-value status for Brevo automation branching (unlike
+        // BOOKING_STATUS, which accumulates history on repeat submits).
+        ...(funnelType === "demo" ? { DEMO_STATUS: "Booked" } : {}),
+        RESCHEDULE_LINK: getRescheduleLink(normalizedBooking?.uid),
         ...bookingFormats,
       }
     : calendarSkipped
@@ -419,6 +451,11 @@ export function buildLeadPayload({
         LEAD_TYPE: leadTypeLabel,
         LEAD_FUNNEL: funnelType,
         POPUP_SLUG: popup?.slug || "",
+        CRM_LIFECYCLE_STAGE: resolveCrmLifecycleStage({ funnelType, hasBooking }),
+        ...(calBookingLink
+          ? { SALES_REP_CALENDAR_LINK: calBookingLink, CONSULTATION_LINK: calBookingLink }
+          : {}),
+        ...enquiryAttributes,
         ...bookingAttributes,
       },
       tags: [tag, subTag].filter(Boolean),

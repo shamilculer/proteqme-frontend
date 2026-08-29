@@ -11,6 +11,14 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
+      name: 'description',
+      type: 'textarea',
+      label: 'Brand description',
+      admin: {
+        description: 'Short paragraph shown under the logo in the footer.',
+      },
+    },
+    {
       name: 'navLinks',
       type: 'array',
       label: 'Footer navigation links',

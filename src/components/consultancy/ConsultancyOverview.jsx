@@ -50,7 +50,7 @@ export default function ConsultancyOverview({
       <ParticleNetwork variant="light" id={particleId} />
       <div className="container">
         <div className="relative grid gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:gap-18">
-          <ScrollReveal xOffset={-16} delay={0.08} className="relative min-h-0 lg:min-h-[600px]">
+          <ScrollReveal xOffset={-16} delay={0.08} className="relative min-h-0 lg:min-h-[500px]">
             <div className="max-w-md lg:max-w-none">
               <SplitSectionMedia
                 frame="default"
@@ -62,7 +62,7 @@ export default function ConsultancyOverview({
             </div>
           </ScrollReveal>
 
-          <ScrollReveal xOffset={16} className="relative z-10">
+          <ScrollReveal xOffset={16} className="relative z-10 flex flex-col justify-center">
             <div className="relative">
               <div className="inline-flex items-center gap-2 mb-4 bg-zinc-100 border border-zinc-200 rounded-full px-4 py-1.5">
                 <span className="relative flex h-2 w-2">

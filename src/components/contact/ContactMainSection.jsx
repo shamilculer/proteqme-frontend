@@ -19,42 +19,52 @@ import {
   OFFICE_MAP_URL,
   PHONE_PRIMARY,
   PHONE_PRIMARY_DISPLAY,
-  PHONE_SECONDARY,
-  PHONE_SECONDARY_DISPLAY,
   SITE_EMAIL,
 } from "@/data/siteContact";
 
-const contactInfo = [
-  {
-    id: "phone-primary",
-    title: "Phone",
-    info: PHONE_PRIMARY_DISPLAY,
-    icon: Phone,
-    link: `tel:${PHONE_PRIMARY}`,
-  },
-  {
-    id: "phone-secondary",
-    title: "Phone",
-    info: PHONE_SECONDARY_DISPLAY,
-    icon: Phone,
-    link: `tel:${PHONE_SECONDARY}`,
-  },
-  {
-    id: "email",
-    title: "Email",
-    info: SITE_EMAIL,
-    icon: Mail,
-    link: `mailto:${SITE_EMAIL}`,
-  },
-  {
-    id: "location",
-    title: "Location",
-    info: OFFICE_ADDRESS,
-    icon: MapPin,
-    link: OFFICE_MAP_URL,
-    external: true,
-  },
-];
+/** Build the info cards from the `siteSettings`-derived contact prop. */
+function buildContactInfo(contact = {}) {
+  const phone = contact.phonePrimary || PHONE_PRIMARY;
+  const phoneDisplay = contact.phonePrimaryDisplay || phone || PHONE_PRIMARY_DISPLAY;
+  const phoneSecondary = contact.phoneSecondary || "";
+  const phoneSecondaryDisplay =
+    contact.phoneSecondaryDisplay || phoneSecondary || "";
+  const email = contact.email || SITE_EMAIL;
+  const address = contact.address || OFFICE_ADDRESS;
+  const mapUrl = contact.mapUrl || OFFICE_MAP_URL;
+
+  return [
+    phone && {
+      id: "phone-primary",
+      title: "Phone",
+      info: phoneDisplay,
+      icon: Phone,
+      link: `tel:${phone}`,
+    },
+    phoneSecondary && {
+      id: "phone-secondary",
+      title: "Phone",
+      info: phoneSecondaryDisplay,
+      icon: Phone,
+      link: `tel:${phoneSecondary}`,
+    },
+    email && {
+      id: "email",
+      title: "Email",
+      info: email,
+      icon: Mail,
+      link: `mailto:${email}`,
+    },
+    address && {
+      id: "location",
+      title: "Location",
+      info: address,
+      icon: MapPin,
+      link: mapUrl,
+      external: true,
+    },
+  ].filter(Boolean);
+}
 
 const DEFAULTS = {
   eyebrow: "Let\u2019s Talk",
@@ -69,9 +79,11 @@ export default function ContactMainSection({
   heading = DEFAULTS.heading,
   description = DEFAULTS.description,
   sectionId = DEFAULTS.sectionId,
+  contact,
 }) {
   const reduceMotion = useReducedMotion();
   const particleId = sectionId ? `${sectionId}-particles` : "contact-main-particles";
+  const contactInfo = buildContactInfo(contact);
 
   return (
     <SectionReveal

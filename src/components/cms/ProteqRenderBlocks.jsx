@@ -265,15 +265,19 @@ const blockComponents = {
       sectionId={block.sectionId}
     />
   ),
-  proteqMapEmbed: ({ block }) => (
-    <ContactMapSection embedUrl={block.embedUrl} sectionId={block.sectionId} />
+  proteqMapEmbed: ({ block, contact }) => (
+    <ContactMapSection
+      embedUrl={block.embedUrl || contact?.mapEmbed}
+      sectionId={block.sectionId}
+    />
   ),
-  proteqContactBlock: ({ block }) => (
+  proteqContactBlock: ({ block, contact }) => (
     <ContactMainSection
       eyebrow={block.eyebrow}
       heading={block.heading}
       description={block.description}
       sectionId={block.sectionId}
+      contact={contact}
     />
   ),
   proteqContentSection: ({ block }) => {
@@ -291,7 +295,7 @@ const blockComponents = {
   },
 };
 
-export default function ProteqRenderBlocks({ blocks = [] }) {
+export default function ProteqRenderBlocks({ blocks = [], contact }) {
   if (!blocks?.length) return null;
 
   return (
@@ -299,7 +303,13 @@ export default function ProteqRenderBlocks({ blocks = [] }) {
       {blocks.map((block, index) => {
         const Renderer = blockComponents[block.blockType];
         if (!Renderer) return null;
-        return <Renderer key={block.id ? String(block.id) : `block-${index}`} block={block} />;
+        return (
+          <Renderer
+            key={block.id ? String(block.id) : `block-${index}`}
+            block={block}
+            contact={contact}
+          />
+        );
       })}
     </>
   );
